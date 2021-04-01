@@ -22,6 +22,19 @@ class User(db.Model):
             "organization_id": self.organization_id
         }
 
+    @classmethod
+    def find_by_email(cls, email):
+        return cls.query.filter_by(email= email).first()
+
+    @classmethod
+    def find_by_id(cls, id):
+        return cls.query.filter_by(id = id)
+
+    @classmethod
+    def get_all(cls):
+        return cls.query.all()
+        
+
 class Organization(db.Model):
     __tablename__ = "organizations"
     id = db.Column(db.Integer, primary_key=True)

@@ -62,3 +62,8 @@ It is recomended to install the backend first, make sure you have Python 3.8, Pi
 ## Publish your website!
 
 This boilerplate it's 100% integrate with Herkou, just by pushing your changes to the heroku repository it will deploy: `$ git push heroku main`
+
+## Recomendaciones para la instalación
+
+Para trabajar con JWT el .encode no funciona con versiones superiores a pyjwt = "==1.7.1"
+

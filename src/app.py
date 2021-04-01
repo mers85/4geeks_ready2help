@@ -16,6 +16,7 @@ ENV = os.getenv("FLASK_ENV")
 static_file_dir = os.path.join(os.path.dirname(os.path.realpath(__file__)), '../public/')
 app = Flask(__name__)
 app.url_map.strict_slashes = False
+app.config['SECRET_KEY'] = os.environ.get("FLASK_APP_KEY")
 
 # database condiguration
 if os.getenv("DATABASE_URL") is not None:
@@ -34,7 +35,7 @@ CORS(app)
 setup_admin(app)
 
 # Add all endpoints form the API with a "api" prefix
-app.register_blueprint(api, url_prefix='/api')
+app.register_blueprint(api, url_prefix='/api/v1')
 
 # Handle/serialize errors like a JSON object
 @app.errorhandler(APIException)
