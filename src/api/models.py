@@ -34,7 +34,7 @@ class User(db.Model):
     def get_all(cls):
         return cls.query.all()
         
-
+ 
 class Organization(db.Model):
     __tablename__ = "organizations"
     id = db.Column(db.Integer, primary_key=True)
