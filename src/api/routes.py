@@ -33,13 +33,18 @@ def handle_hello():
 def authentication_required(f):
     @wraps(f)
     def decorated(*args, **kwargs):
-        token = None
         # jwt is passed in the request header
-        if 'x-access-token' in request.headers:
-            token = request.headers['x-access-token']
-        # return 401 if token is not passed
-        if not token:
-            return jsonify({'message' : 'Token is missing !!'}), 401
+        auth_header = request.headers.get("Authorization", None)
+
+        if not auth_header:
+            return jsonify({'message' : 'Missing Authorization Header'}), 401
+        #check if header contains type and token
+        parts = auth_header.split()
+
+        if len(parts) != 2:
+             return jsonify({'message': "Bad Authorization Header. Expected value 'Bearer <Token>' "}), 401
+
+        token = parts[1]
    
         try:
             # decoding the payload to fetch the stored details
@@ -59,22 +64,23 @@ def authentication_required(f):
 def signup():
      # creates data
     body = request.get_json()
+
+    if not body or not body["email"] or not body["password"]:
+        # returns 401 if any email or / and password is missing
+        return make_response('Bad request missing required params', 400)
    
     # gets email and password
     email = body["email"]
     hashed_password = generate_password_hash(body["password"], "sha256")
 
+
      # checking for existing user
     user = User.find_by_email(email)
     if not user:
-        # database ORM object
-        user = User(
-            email = email,
-            password = hashed_password
-        )
-        # insert user
-        db.session.add(user)
-        db.session.commit()
+        try:
+            User.create_user(email, hashed_password)
+        except:
+            raise APIException("Something went wrong during user registration", 401)
    
         return make_response('Successfully registered.', 201)
     else:
@@ -96,7 +102,6 @@ def login():
         )
    
     user = User.find_by_email(auth["email"])
-   
     if not user:
         # returns 401 if user does not exist
         return make_response(

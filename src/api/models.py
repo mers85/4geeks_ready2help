@@ -19,7 +19,8 @@ class User(db.Model):
         return {
             "id": self.id,
             "email": self.email,
-            "organization_id": self.organization_id
+            "organization_id": self.organization_id,
+            "is_admin": self.is_admin
         }
 
     @classmethod
@@ -33,7 +34,16 @@ class User(db.Model):
     @classmethod
     def get_all(cls):
         return cls.query.all()
-        
+
+    @classmethod
+    def create_user(cls, email, hashed_password):
+        user = cls()
+        user.email = email
+        user.password = hashed_password
+
+        db.session.add(user)
+        db.session.commit()
+
  
 class Organization(db.Model):
     __tablename__ = "organizations"
