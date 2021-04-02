@@ -12,6 +12,15 @@ class User(db.Model):
     organization_id = db.Column(db.Integer, db.ForeignKey('organizations.id'), nullable=True)
     organization = db.relationship("Organization", back_populates="users")
 
+
+    def __init__(self, email, password):
+        if email == "" or password == "":
+            raise Exception("Email and password required")
+
+        self.email = email
+        self.password = password
+
+
     def __repr__(self):
         return '<User %r>' % self.id
 
