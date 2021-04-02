@@ -5,7 +5,6 @@ from flask import Flask, request, jsonify, make_response, url_for, Blueprint
 from api.models import db, User, Organization
 from api.utils import generate_sitemap, APIException
 
-
 #import for authentication
 from  werkzeug.security import generate_password_hash, check_password_hash
 
@@ -13,10 +12,10 @@ from  werkzeug.security import generate_password_hash, check_password_hash
 import jwt
 from datetime import datetime, timedelta
 from functools import wraps
+from flask import current_app as app
 
 
 api = Blueprint('api', __name__)
-
 
 
 @api.route('/hello', methods=['POST', 'GET'])
