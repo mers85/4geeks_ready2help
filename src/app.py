@@ -16,7 +16,7 @@ ENV = os.getenv("FLASK_ENV")
 static_file_dir = os.path.join(os.path.dirname(os.path.realpath(__file__)), '../public/')
 app = Flask(__name__)
 app.url_map.strict_slashes = False
-app.config['SECRET_KEY'] = os.environ.get("FLASK_APP_KEY")
+
 
 # database condiguration
 if os.getenv("DATABASE_URL") is not None:
@@ -25,6 +25,8 @@ else:
     app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:////tmp/test.db"
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['SECRET_KEY'] = os.environ.get("FLASK_APP_KEY")
+
 MIGRATE = Migrate(app, db)
 db.init_app(app)
 
