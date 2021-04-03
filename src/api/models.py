@@ -13,12 +13,12 @@ class User(db.Model):
     organization = db.relationship("Organization", back_populates="users")
 
 
-    def __init__(self, email, password):
-        if email == "" or password == "":
-            raise Exception("Email and password required")
+    # def __init__(self, email, password):
+    #     if email == "" or password == "":
+    #         raise Exception("Email and password required")
 
-        self.email = email
-        self.password = password
+    #     self.email = email
+    #     self.password = password
 
 
     def __repr__(self):
@@ -38,7 +38,7 @@ class User(db.Model):
 
     @classmethod
     def find_by_id(cls, id):
-        return cls.query.filter_by(id = id)
+        return cls.query.get(id)
 
     @classmethod
     def get_all(cls):

@@ -1,19 +1,21 @@
 import React, { useState, useContext } from "react";
 import { Context } from "../store/appContext";
+import { useHistory } from "react-router-dom";
 
 export const LogIn = () => {
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 	const [error, setError] = useState("");
 	const { actions } = useContext(Context);
+	const history = useHistory();
 
-	function login() {
+	function login(event) {
 		event.preventDefault();
 		setError("");
-		// if (password != confirmPassword) {
-		// 	setError("Las contraseñas no coinciden");
-		// 	return;
-		// }
+		if (email == "") {
+			setError("Email obligatorio");
+			return;
+		}
 
 		let responseOk = false;
 		fetch("https://3001-sapphire-rook-0fjgt9ia.ws-eu03.gitpod.io/api/v1/login", {
@@ -33,7 +35,8 @@ export const LogIn = () => {
 			.then(responseJson => {
 				console.log(responseJson);
 				if (responseOk) {
-					actions.saveAccessToken(responseJson.message);
+					actions.saveAccessToken(responseJson.token);
+					history.push("/profile");
 				} else {
 					setError(responseJson.message);
 				}
@@ -61,13 +64,6 @@ export const LogIn = () => {
 					placeholder="Enter password"
 					onChange={event => {
 						setPassword(event.target.value);
-					}}
-				/>
-				<input
-					type="password"
-					placeholder="Confirm password"
-					onChange={event => {
-						setConfirmPassword(event.target.value);
 					}}
 				/>
 				<input type="submit" value="acceder" />

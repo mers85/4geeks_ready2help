@@ -13,6 +13,9 @@ export const Navbar = () => {
 			<Link to="/login">
 				<span className="navbar-brand mb-0 h1">Log In</span>
 			</Link>
+			<Link to="/profile">
+				<span className="navbar-brand mb-0 h1">Profile</span>
+			</Link>
 			<div className="ml-auto">
 				<Link to="/demo">
 					<button className="btn btn-primary">Check the Context in action</button>

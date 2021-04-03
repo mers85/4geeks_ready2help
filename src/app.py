@@ -31,8 +31,8 @@ MIGRATE = Migrate(app, db)
 db.init_app(app)
 
 # Allow CORS requests to this API
-#CORS(app)
-CORS(app, resources={r"/api/*": {"origins": "*"}})
+CORS(app)
+#CORS(app, resources={r"/api/*": {"origins": "*"}})
 
 # add the admin
 setup_admin(app)
