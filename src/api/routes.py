@@ -37,13 +37,11 @@ def authentication_required(f):
         auth_header = request.headers.get("Authorization", None)
 
         if not auth_header:
-            return jsonify({'message' : 'Missing Authorization Header'}), 401
+            raise APIException("Missing Authorization Header", 401)
         #check if header contains type and token
         parts = auth_header.split()
-
         if len(parts) != 2:
-             return jsonify({'message': "Bad Authorization Header. Expected value 'Bearer <Token>' "}), 401
-
+            raise APIException("Bad Authorization Header. Expected value 'Bearer <Token>' ", 401)
         token = parts[1]
    
         try:
@@ -51,9 +49,7 @@ def authentication_required(f):
             data = jwt.decode(token, app.config['SECRET_KEY'])
             current_user = User.find_by_id(data["id"])
         except:
-            return jsonify({
-                'message' : 'Token is invalid !!'
-            }), 401
+            raise APIException("Token is invalid !!", 401)
         # returns the current logged in users contex to the routes
         return  f(current_user, *args, **kwargs)
    
@@ -67,7 +63,7 @@ def signup():
 
     if not body or not body["email"] or not body["password"]:
         # returns 401 if any email or / and password is missing
-        return make_response('Bad request missing required params', 400)
+        raise APIException("Bad request missing required params", 400)
    
     # gets email and password
     email = body["email"]
@@ -82,10 +78,10 @@ def signup():
         except:
             raise APIException("Something went wrong during user registration", 401)
    
-        return make_response('Successfully registered.', 201)
+        return jsonify({"message" :" Successfully registered."}), 201
     else:
         # returns 202 if user already exists
-        return make_response('User already exists. Please Log in.', 202)
+        return jsonify({"message" :"User already exists. Please Log in."}), 202
 
 # route for loging user in
 @api.route('/login', methods =['POST'])
@@ -95,20 +91,12 @@ def login():
    
     if not auth or not auth["email"] or not auth["password"]:
         # returns 401 if any email or / and password is missing
-        return make_response(
-            'Could not verify',
-            401,
-            {'WWW-Authenticate' : 'Basic realm ="Login required !!"'}
-        )
+        raise APIException("Login required !!", 401)
    
     user = User.find_by_email(auth["email"])
     if not user:
         # returns 401 if user does not exist
-        return make_response(
-            'Could not verify',
-            401,
-            {'WWW-Authenticate' : 'Basic realm ="User does not exist !!"'}
-        )
+         raise APIException("User does not exist !!", 401)
    
     if check_password_hash(user.password, auth["password"]):
         # generates the JWT Token
@@ -117,13 +105,9 @@ def login():
             'exp' : datetime.utcnow() + timedelta(minutes = 30)
         }, app.config['SECRET_KEY'])
    
-        return make_response(jsonify({'token' : token.decode('UTF-8')}), 201)
+        return jsonify({'token' : token.decode('UTF-8')}), 201
     # returns 403 if password is wrong
-    return make_response(
-        'Could not verify',
-        403,
-        {'WWW-Authenticate' : 'Basic realm ="Wrong Password !!"'}
-    )
+    raise APIException("Wrong Password !!", 403)
 
 @api.route('/users', methods =['GET'])
 @authentication_required
@@ -140,3 +124,8 @@ def get_all_users(current_user):
         all_users.append(user.serialize())
    
     return jsonify({'users': all_users})
+
+@api.route('/profile', methods =['GET'])
+@authentication_required
+def get_user(current_user):
+    return jsonify({'user': current_user.serialize()})
