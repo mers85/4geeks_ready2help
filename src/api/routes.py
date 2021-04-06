@@ -127,5 +127,38 @@ def get_all_users(current_user):
 
 @api.route('/profile', methods =['GET'])
 @authentication_required
-def get_user(current_user):
+def profile(current_user):
     return jsonify({'user': current_user.serialize()})
+
+
+@api.route('/register_org', methods =['POST'])
+@authentication_required
+def register_org(current_user):
+    org = request.get_json()
+    id_user = current_user.id
+    name = org["name"] 
+    email = org["email"] 
+    address = org["address"] 
+    zipcode = org["zipcode"] 
+    phone = org["phone"]
+
+    organization = Organization.find_by_name(name)
+    if not organization:
+        try:
+            organization = Organization.create_organization(name, email, address, zipcode, phone)
+
+        except:
+            raise APIException("Something went wrong during organization registration", 401)
+
+        user = User.find_by_id(id_user)
+        
+        if not user.update_user(organization):
+            raise APIException("Something went wrong during user update-organization", 401)
+        
+        return jsonify({"message" :" Successfully registered."}), 201
+    else:
+        # returns 202 if user already exists
+        return jsonify({"message" :"Organization already exists. Please Log in."}), 202
+
+    
+
