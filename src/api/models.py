@@ -32,6 +32,14 @@ class User(db.Model):
             "is_admin": self.is_admin
         }
 
+    def update_user(self, organization=None, email=None, password=None):
+        self.email = email if email is not None else self.email
+        self.organization = organization if organization is not None else self.organization
+        self.password = password if password is not None else self.password
+
+        db.session.commit()
+        return True
+
     @classmethod
     def find_by_email(cls, email):
         return cls.query.filter_by(email= email).first()
@@ -53,7 +61,6 @@ class User(db.Model):
         db.session.add(user)
         db.session.commit()
 
- 
 class Organization(db.Model):
     __tablename__ = "organizations"
     id = db.Column(db.Integer, primary_key=True)
@@ -64,6 +71,16 @@ class Organization(db.Model):
     phone = db.Column(db.String(256), unique=False, nullable=True)
 
     users = db.relationship("User", back_populates="organization")
+
+    def __init__(self, name, email, address, zipcode, phone):
+        if name == "" or email == "" or address == "" or zipcode == "" or phone == "":
+            raise Exception("Fields requiered !!", 401)
+
+        self.name = name
+        self.email = email
+        self.address = address
+        self.zipcode = zipcode
+        self.phone = phone
 
     def __repr__(self):
         return '<Organization %r>' % self.id
@@ -77,6 +94,18 @@ class Organization(db.Model):
             "zipcode": self.zipcode,
             "phone": self.phone
         }
+    @classmethod
+    def find_by_name(cls, name):
+        return cls.query.filter_by(name = name).first()
+
+    @classmethod
+    def create_organization(cls, name, email, address, zipcode, phone):
+        organization = cls(name, email, address, zipcode, phone)
+
+        db.session.add(organization)
+        db.session.commit()
+
+        return organization
 
 # class Person(db.Model):
 #     __tablename__ = "persons"

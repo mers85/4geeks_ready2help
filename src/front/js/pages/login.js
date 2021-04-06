@@ -18,7 +18,7 @@ export const LogIn = () => {
 		}
 
 		let responseOk = false;
-		fetch("https://3001-sapphire-rook-0fjgt9ia.ws-eu03.gitpod.io/api/v1/login", {
+		fetch(process.env.BACKEND_URL + "/api/v1/login", {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json"
