@@ -13,6 +13,8 @@ import { Navbar } from "./component/navbar";
 import { Footer } from "./component/footer";
 import { Profile } from "./pages/profile";
 import { RegisterOrganization } from "./pages/registerOrganization";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 //create your first component
 const Layout = () => {
@@ -25,6 +27,7 @@ const Layout = () => {
 			<BrowserRouter basename={basename}>
 				<ScrollToTop>
 					<Navbar />
+					<ToastContainer />
 					<Switch>
 						<Route exact path="/">
 							<Home />
