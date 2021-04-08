@@ -12,6 +12,7 @@ class User(db.Model):
     organization_id = db.Column(db.Integer, db.ForeignKey('organizations.id'), nullable=True)
     organization = db.relationship("Organization", back_populates="users")
 
+    person = db.relationship("Person", uselist=False, back_populates="user")
 
     # def __init__(self, email, password):
     #     if email == "" or password == "":
@@ -94,6 +95,7 @@ class Organization(db.Model):
             "zipcode": self.zipcode,
             "phone": self.phone
         }
+        
     @classmethod
     def find_by_name(cls, name):
         return cls.query.filter_by(name = name).first()
@@ -107,30 +109,54 @@ class Organization(db.Model):
 
         return organization
 
-# class Person(db.Model):
-#     __tablename__ = "persons"
-#     id = db.Column(db.Integer, primary_key=True)
-#     id_user = db.Column(db.Integer, primary_key=True)
-#     name = db.Column(db.String(40), unique=False, nullable=False)
-#     lastname = db.Column(db.String(40), unique=False, nullable=False)
-#     email = db.Column(db.String(120), unique=False, nullable=False)
-#     address = db.Column(db.String(120), unique=False, nullable=False)
-#     zipcode = db.Column(db.String(8), unique=False, nullable=False)
-#     phone = db.Column(db.String(15), unique=False, nullable=False)
+class Person(db.Model):
+    __tablename__ = "persons"
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(256), unique=False, nullable=False)
+    lastname = db.Column(db.String(256), unique=False, nullable=False)
+    email = db.Column(db.String(256), unique=False, nullable=False)
+    address = db.Column(db.String(256), unique=False, nullable=False)
+    zipcode = db.Column(db.String(256), unique=False, nullable=False)
+    phone = db.Column(db.String(256), unique=False, nullable=False)
 
-#     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
-#     user = db.relationship("User", back_populates="person")
+    id_user = db.Column(db.Integer, db.ForeignKey('users.id'))
+    user = db.relationship("User", back_populates="person")
 
-#     def __repr__(self):
-#         return '<Person %r>' % self.id
+    def __init__(self, id_user, name, lastname, email, address, zipcode, phone):
+        if name == "" or lastname == "" or email == "" or address == "" or zipcode == "" or phone == "":
+            raise Exception("Fields requiered !!", 401)
 
-#     def serialize(self):
-#         return {
-#             "id": self.id,
-#             "name": self.name,
-#             "lastname": self.lastname,
-#             "email": self.email,
-#             "address": self.address,
-#             "zipcode": self.zipcode,
-#             "phone": self.phone
-#         }
+        self.id_user = id_user
+        self.name = name
+        self.lastname = lastname
+        self.email = email
+        self.address = address
+        self.zipcode = zipcode
+        self.phone = phone
+
+    def __repr__(self):
+        return '<Person %r>' % self.id
+
+    def serialize(self):
+        return {
+            "id": self.id,
+            "name": self.name,
+            "lastname": self.lastname,
+            "email": self.email,
+            "address": self.address,
+            "zipcode": self.zipcode,
+            "phone": self.phone
+        }
+
+    @classmethod
+    def find_by_name(cls, name):
+        return cls.query.filter_by(name = name).first()
+    
+    @classmethod
+    def create_person(cls, id_user, name, lastname, email, address, zipcode, phone):
+        person = cls(id_user, name, lastname, email, address, zipcode, phone)
+
+        db.session.add(person)
+        db.session.commit()
+
+        return person
