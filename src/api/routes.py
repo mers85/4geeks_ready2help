@@ -2,7 +2,7 @@
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
 from flask import Flask, request, jsonify, make_response, url_for, Blueprint
-from api.models import db, User, Organization
+from api.models import db, User, Organization, Person
 from api.utils import generate_sitemap, APIException
 
 #import for authentication
@@ -128,8 +128,18 @@ def get_all_users(current_user):
 @api.route('/profile', methods =['GET'])
 @authentication_required
 def profile(current_user):
-    return jsonify({'user': current_user.serialize()})
+    user = current_user
+    dict_user = user.serialize()
 
+    if user.organization:
+        organization = user.organization.serialize()
+        dict_user['organization'] = organization
+    
+    if user.person:
+        person = user.person.serialize()
+        dict_user['person'] = person
+
+    return jsonify({'user': dict_user})
 
 @api.route('/register_org', methods =['POST'])
 @authentication_required
@@ -160,5 +170,28 @@ def register_org(current_user):
         # returns 202 if user already exists
         return jsonify({"message" :"Organization already exists. Please Log in."}), 202
 
+@api.route('/register_pers', methods =['POST'])
+@authentication_required
+def register_pers(current_user):
+    pers = request.get_json()
+    id_user = current_user.id
+    name = pers["name"] 
+    lastname = pers["lastname"] 
+    email = pers["email"] 
+    address = pers["address"] 
+    zipcode = pers["zipcode"]
+    phone = pers["phone"]
     
+    person = Person.find_by_name(name)
+    if not person:
+        try:
+            person = Person.create_person(id_user, name, lastname, email, address, zipcode, phone)
+
+        except:
+            raise APIException("Something went wrong during person registration", 401)
+        
+        return jsonify({"message" :" Successfully registered."}), 201
+    else:
+        # returns 202 if user already exists
+        return jsonify({"message" :"Person already exists. Please Log in."}), 202    
 
