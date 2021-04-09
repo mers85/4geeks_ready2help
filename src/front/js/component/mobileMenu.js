@@ -7,25 +7,25 @@ import "../../styles/mobilemenu.scss";
 const menus = [
 	{
 		id: 1,
-		title: "React Boilerplate",
+		title: "Home",
 		link: "/"
 	},
 
 	{
 		id: 2,
-		title: "Log In",
+		title: "Acerca de nosotros",
 		link: "/login"
 	},
 
 	{
 		id: 3,
-		title: "Sign Up",
-		link: "/signup"
+		title: "Perfil",
+		link: "/"
 	},
 	{
 		id: 4,
-		title: "Contact",
-		link: "/#"
+		title: "Contacto",
+		link: "/"
 	}
 ];
 

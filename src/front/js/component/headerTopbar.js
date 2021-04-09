@@ -26,7 +26,7 @@ export const HeaderTopbar = () => {
 						<div className="contact-info">
 							<ul>
 								<li>
-									<Link to="/login">Login</Link>
+									<Link to="/login">Log In</Link>
 								</li>
 								<li>
 									<Link to="/signup">Sign Up</Link>

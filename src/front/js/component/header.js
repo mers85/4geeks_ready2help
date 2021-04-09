@@ -23,29 +23,29 @@ export const Header = () => {
 							<nav>
 								<ul>
 									<li>
-										<Link className="active" to="/" title="">
-											React Boilerplate
+										<Link className="active" to="/" title="Home">
+											Home
 										</Link>
 									</li>
 									<li>
-										<Link to="/signup" title="">
-											Sign Up
+										<Link to="/" title="Acerca de nosotros">
+											Acerca de nosotros
 										</Link>
 									</li>
 									<li>
-										<Link to="/login" title="">
-											Log In
+										<Link to="/" title="Proyectos">
+											Proyectos
 										</Link>
 									</li>
 									<li>
-										<Link to="/profile" title="">
-											Profile
+										<Link to="/profile" title="Perfil">
+											Perfil
 										</Link>
 									</li>
 
 									<li>
-										<Link to="/#" title="">
-											Contact
+										<Link to="/" title="Contacto">
+											Contacto
 										</Link>
 									</li>
 								</ul>
