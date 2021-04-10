@@ -195,3 +195,9 @@ def register_pers(current_user):
         # returns 202 if user already exists
         return jsonify({"message" :"Person already exists. Please Log in."}), 202    
 
+@api.route('/organizations/<int:id>/projects', methods =['POST'])
+@authentication_required
+def create_project(id, current_user):
+    organization_id = id
+
+    organization = Organization.find_by_id(organization_id)

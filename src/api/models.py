@@ -1,5 +1,15 @@
 from flask_sqlalchemy import SQLAlchemy
 
+from sqlalchemy.dialects.postgresql import ENUM as pgEnum
+from enum import Enum, unique
+
+
+@unique
+class ProjectStatusEnum(Enum):
+    published = 'published'
+    draft = 'draft'
+
+
 db = SQLAlchemy()
 
 class User(db.Model):
@@ -72,6 +82,7 @@ class Organization(db.Model):
     phone = db.Column(db.String(256), unique=False, nullable=True)
 
     users = db.relationship("User", back_populates="organization")
+    projects = db.relationship("Project", back_populates="organization")
 
     def __init__(self, name, email, address, zipcode, phone):
         if name == "" or email == "" or address == "" or zipcode == "" or phone == "":
@@ -99,6 +110,10 @@ class Organization(db.Model):
     @classmethod
     def find_by_name(cls, name):
         return cls.query.filter_by(name = name).first()
+
+    @classmethod
+    def find_by_id(cls, id):
+        return cls.query.get(id)
 
     @classmethod
     def create_organization(cls, name, email, address, zipcode, phone):
@@ -160,3 +175,52 @@ class Person(db.Model):
         db.session.commit()
 
         return person
+
+
+class Project(db.Model):
+    __tablename__ = "projects"
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(256), unique=False, nullable=False)
+    subtitle = db.Column(db.Text(), nullable=True)
+    description = db.Column(db.Text(), nullable=True)
+    money_needed = db.Column(db.Float(), nullable=True)
+    people_needed = db.Column(db.Integer(), nullable=True)
+    status = db.Column(pgEnum(ProjectStatusEnum), unique=False, nullable=False, default=ProjectStatusEnum.draft.value, server_default=ProjectStatusEnum.draft.value)
+    
+    organization_id = db.Column(db.Integer, db.ForeignKey('organizations.id'), nullable=False)
+    organization = db.relationship("Organization", back_populates="projects", uselist=False)
+
+
+    def __repr__(self):
+        return '<Project %r>' % self.title
+
+    def serialize(self):
+        return {
+            "id": self.id,
+            "title": self.title,
+            "subtitle": self.subtitle,
+            "description": self.description,
+            "money_needed": self.money_needed,
+            "people_needed": self.people_needed,
+            "organization_id": self.organization_id,
+            "status": self.status
+        }
+
+    
+    @classmethod
+    def create_project(cls, title, subtitle, description, money_needed, people_needed, status, organization_id):
+        project = cls()
+
+        project.title = title 
+        project.subtitle = subtitle
+        project.description = description
+        project.money_needed = money_needed
+        project.people_needed = people_needed
+        project.status = status
+        project.organization_id = organization_id
+
+
+        db.session.add(project)
+        db.session.commit()
+
+    
