@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 export const Profile = () => {
 	const [email, setEmail] = useState("");
 	const [organization, setOrganization] = useState("");
+	const [person, setPerson] = useState("");
 	const [error, setError] = useState("");
 	const { actions, store } = useContext(Context);
 	const history = useHistory();
@@ -28,7 +29,11 @@ export const Profile = () => {
 			})
 			.then(responseJson => {
 				setEmail(responseJson.user.email);
-				setOrganization(responseJson.user.organization_id);
+				if (responseJson.user.organization) {
+					setOrganization(responseJson.user.organization);
+				} else if (responseJson.user.person) {
+					setPerson(responseJson.user.person);
+				}
 			});
 	}, []);
 
@@ -36,9 +41,13 @@ export const Profile = () => {
 		<div className="jumbotron">
 			{error ? <h3>{error}</h3> : ""}
 			<div>Email: {email}</div>
-			{organization ? <div> Organization: {organization} </div> : ""}
+			{organization ? <div> Organización: {organization.name} </div> : ""}
+			{person ? <div> Voluntario: {person.name} </div> : ""}
 			<Link to="/register_org">
 				<span className="navbar-brand mb-0 h1">Alta por Organización</span>
+			</Link>
+			<Link to="/register_pers">
+				<span className="navbar-brand mb-0 h1">Alta por Voluntario</span>
 			</Link>
 		</div>
 	);

@@ -14,6 +14,7 @@ import { Header } from "./component/header";
 import { Footer } from "./component/footer";
 import { Profile } from "./pages/profile";
 import { RegisterOrganization } from "./pages/registerOrganization";
+import { RegisterPerson } from "./pages/registerPerson";
 import { ToastContainer } from "react-toastify";
 
 import "react-toastify/dist/ReactToastify.css";
@@ -55,6 +56,9 @@ const Layout = () => {
 					</Route>
 					<Route exact path="/register_org">
 						<RegisterOrganization />
+					</Route>
+                    <Route exact path="/register_pers">
+						<RegisterPerson />
 					</Route>
 					<Route exact path="/single/:theid">
 						<Single />
