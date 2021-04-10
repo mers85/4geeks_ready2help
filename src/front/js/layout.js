@@ -9,7 +9,6 @@ import { SignUp } from "./pages/signup";
 import { LogIn } from "./pages/login";
 import injectContext from "./store/appContext";
 
-import { Navbar } from "./component/navbar";
 import { Header } from "./component/header";
 import { Footer } from "./component/footer";
 import { Profile } from "./pages/profile";
