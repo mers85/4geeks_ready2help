@@ -12,11 +12,13 @@ export const HeaderTopbar = () => {
 						<div className="contact-intro">
 							<ul>
 								<li>
-									<i className="fi flaticon-call" />
+									{/* <i className="fi flaticon-call" /> */}
+									<i className="fas fa-phone-volume mr-1" />
 									+34667780442
 								</li>
 								<li>
-									<i className="fi flaticon-envelope" />
+									{/* <i className="fi flaticon-envelope" /> */}
+									<i className="fas fa-envelope mr-1" />
 									mers85@gmail.com
 								</li>
 							</ul>
