@@ -203,14 +203,17 @@ class Project(db.Model):
             "money_needed": self.money_needed,
             "people_needed": self.people_needed,
             "organization_id": self.organization_id,
-            "status": self.status
+            "status": self.status.value
         }
 
-    
     @classmethod
-    def create_project(cls, title, subtitle, description, money_needed, people_needed, status, organization_id):
-        project = cls()
+    def find_by_title(cls, title):
+        return cls.query.filter_by(title = title).first()
 
+    @classmethod
+    def create(cls, title, subtitle, description, money_needed, people_needed, status, organization_id):
+        project = cls()
+        
         project.title = title 
         project.subtitle = subtitle
         project.description = description
@@ -218,9 +221,11 @@ class Project(db.Model):
         project.people_needed = people_needed
         project.status = status
         project.organization_id = organization_id
-
+        
 
         db.session.add(project)
         db.session.commit()
+
+        return project
 
     

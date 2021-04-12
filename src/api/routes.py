@@ -2,8 +2,9 @@
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
 from flask import Flask, request, jsonify, make_response, url_for, Blueprint
-from api.models import db, User, Organization, Person
+from api.models import db, User, Organization, Person, Project
 from api.utils import generate_sitemap, APIException
+from api.forms import ProjectForm
 
 #import for authentication
 from  werkzeug.security import generate_password_hash, check_password_hash
@@ -195,9 +196,31 @@ def register_pers(current_user):
         # returns 202 if user already exists
         return jsonify({"message" :"Person already exists. Please Log in."}), 202    
 
-@api.route('/organizations/<int:id>/projects', methods =['POST'])
+@api.route('/organizations/<int:organization_id>/projects', methods =['POST'])
 @authentication_required
-def create_project(id, current_user):
-    organization_id = id
-
+def create_project(current_user, organization_id):
     organization = Organization.find_by_id(organization_id)
+    organization_user_ids = [user.id for user in organization.users]
+    
+    if current_user.id not in organization_user_ids:
+        raise APIException("User not allowed to administrate this organization", 401)
+
+    form = ProjectForm.from_json(request.get_json())
+    if not form.validate():
+        return jsonify(errors=form.errors), 400
+
+    
+    try:
+        project = Project.create(
+            form.title.data, 
+            form.subtitle.data,
+            form.description.data, 
+            form.money_needed.data, 
+            form.people_needed.data, 
+            form.status.data,
+            organization_id
+        )
+    except:
+        raise APIException("Something went wrong during project creation", 401)
+
+    return jsonify({"message" : "Project created", "project" : project.serialize()}), 201
