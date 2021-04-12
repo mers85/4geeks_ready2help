@@ -7,6 +7,7 @@ import { Demo } from "./pages/demo";
 import { Single } from "./pages/single";
 import { SignUp } from "./pages/signup";
 import { LogIn } from "./pages/login";
+import { CreateProject } from "./pages/createProject";
 import injectContext from "./store/appContext";
 
 import { Header } from "./component/header";
@@ -58,6 +59,9 @@ const Layout = () => {
 					</Route>
 					<Route exact path="/register_pers">
 						<RegisterPerson />
+					</Route>
+					<Route exact path="/organizations/:id/create_project">
+						<CreateProject />
 					</Route>
 					<Route exact path="/single/:theid">
 						<Single />
