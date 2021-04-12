@@ -43,11 +43,6 @@ export const Header = () => {
 										</Link>
 									</li>
 									<li>
-										<Link to="/organizations/:id/create_project" title="proyectos">
-											Crear proyecto
-										</Link>
-									</li>
-									<li>
 										<Link to="/" title="Contacto">
 											Contacto
 										</Link>
