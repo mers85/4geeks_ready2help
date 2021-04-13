@@ -10,7 +10,7 @@ import TextareaAutosize from "@material-ui/core/TextareaAutosize";
 import Button from "@material-ui/core/Button";
 import PropTypes from "prop-types";
 
-import "../../styles/project.scss";
+import "../../styles/formularioBase.scss";
 
 export const CreateProject = props => {
 	const history = useHistory();
