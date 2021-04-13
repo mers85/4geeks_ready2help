@@ -1,9 +1,16 @@
 """
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
+import os
 from flask import Flask, request, jsonify, make_response, url_for, Blueprint
 from api.models import db, User, Organization, Person
 from api.utils import generate_sitemap, APIException
+
+# library for Simple Mail Transfer Protocol
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+import smtplib
+import email.message
 
 #import for authentication
 from  werkzeug.security import generate_password_hash, check_password_hash
@@ -195,3 +202,86 @@ def register_pers(current_user):
         # returns 202 if user already exists
         return jsonify({"message" :"Person already exists. Please Log in."}), 202    
 
+
+@api.route('/request_reset_pass', methods =['POST'])
+def request_reset_pass():
+    body = request.get_json()
+    user_email = body["email"]
+    frontend_URL = os.environ.get('FRONTEND_URL')
+
+    user = User.find_by_email(user_email)
+    
+    if user:
+        try:
+            token = jwt.encode({
+            'id': user.id,
+            'exp' : datetime.utcnow() + timedelta(minutes = 30)
+            }, app.config['SECRET_KEY'])
+
+            short_token = token.decode("utf-8").split(".")[0]
+
+            result_upadte = user.update_user(token=short_token)
+
+            url_reset_email = frontend_URL + "/reset_pass?token=" + short_token
+
+            url_reset_app = "/reset_pass?token=" + short_token
+
+        except:
+            raise APIException("Something went wrong. Your password could not be changed.", 401)
+        
+        message_email=f"Hi {user.email}! As requested, here is your link to reset your password: {url_reset_email}"
+        email = send_email(receiver=user.email, message=message_email)
+        
+        return jsonify({'token' : user.token, 'url_reset':url_reset_app}), 201
+
+    else:
+        raise APIException("This user does not exist", 401)
+
+
+@api.route('/reset_pass', methods =['POST'])
+def reset_pass():
+    body = request.get_json()
+    user_email = body["email"]
+    user_passw = body["password"]
+    user_token = body["token"]  
+
+    user = User.find_by_email(user_email)
+
+    if user:
+        if user.token != user_token:
+            raise APIException("The token of request is not correct.", 401)
+        try:
+            hashed_password = generate_password_hash(user_passw, "sha256")
+
+            result_upadte = user.update_user(password=hashed_password, token="")   
+        except:
+            raise APIException("Something went wrong. Your password could not be changed.", 401)
+        
+        return jsonify({"message" :"Password successfully changed."}), 201
+    else:
+        raise APIException("This user does not exist", 401)
+
+
+def send_email(receiver=None, message=""):
+    if receiver is not None:
+        try:
+            msg = MIMEMultipart()
+            password = os.environ.get('PASS_EMAIL')
+            msg['From'] = "ready2helpemail@gmail.com"
+            msg['To'] = receiver
+            msg['Subject'] = "Ready2Help - Reset Password"
+            # add in the message body
+            msg.attach(MIMEText(message, 'plain'))
+            #create server
+            server = smtplib.SMTP('smtp.gmail.com: 587')
+            server.starttls()
+            # Login Credentials for sending the mail
+            server.login(msg['From'], password)
+            # send the message via the server.
+            server.sendmail(msg['From'], msg['To'], msg.as_string())
+            server.quit()
+            print("successfully sent email to: %s" % (msg['To']))
+        except:
+            raise APIException("Something went wrong. The email was not sending.", 401)
+    else:
+        raise APIException("Something went wrong. The receiver is empty.", 401)

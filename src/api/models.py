@@ -8,6 +8,7 @@ class User(db.Model):
     email = db.Column(db.String(256), unique=True, nullable=False)
     password = db.Column(db.String(256), unique=False, nullable=False)
     is_admin = db.Column(db.Boolean, default=False)
+    token = db.Column(db.String(256), unique=False, nullable=True)
     
     organization_id = db.Column(db.Integer, db.ForeignKey('organizations.id'), nullable=True)
     organization = db.relationship("Organization", back_populates="users")
@@ -33,10 +34,11 @@ class User(db.Model):
             "is_admin": self.is_admin
         }
 
-    def update_user(self, organization=None, email=None, password=None):
+    def update_user(self, organization=None, email=None, password=None, token=None):
         self.email = email if email is not None else self.email
         self.organization = organization if organization is not None else self.organization
         self.password = password if password is not None else self.password
+        self.token = token if token is not None else self.token
 
         db.session.commit()
         return True
