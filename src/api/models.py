@@ -17,12 +17,14 @@ class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(256), unique=True, nullable=False)
     password = db.Column(db.String(256), unique=False, nullable=False)
-    is_admin = db.Column(db.Boolean, default=False)
     
     organization_id = db.Column(db.Integer, db.ForeignKey('organizations.id'), nullable=True)
     organization = db.relationship("Organization", back_populates="users")
 
     person = db.relationship("Person", uselist=False, back_populates="user")
+
+    roles = db.relationship('Role', secondary='user_roles',
+                backref=db.backref('users', lazy='dynamic'))
 
     # def __init__(self, email, password):
     #     if email == "" or password == "":
@@ -40,12 +42,15 @@ class User(db.Model):
             "id": self.id,
             "email": self.email,
             "organization_id": self.organization_id,
-            "is_admin": self.is_admin
+            "roles": [role.name for role in self.roles]
         }
 
     def update_user(self, organization=None, email=None, password=None):
         self.email = email if email is not None else self.email
-        self.organization = organization if organization is not None else self.organization
+        if organization:
+            self.organization = organization
+            self.roles.append(Role.find_by_name("organization"))
+
         self.password = password if password is not None else self.password
 
         db.session.commit()
@@ -59,6 +64,7 @@ class User(db.Model):
     def find_by_id(cls, id):
         return cls.query.get(id)
 
+
     @classmethod
     def get_all(cls):
         return cls.query.all()
@@ -69,8 +75,49 @@ class User(db.Model):
         user.email = email
         user.password = hashed_password
 
+        user.roles.append(Role.find_by_name("basic"))
+
         db.session.add(user)
         db.session.commit()
+        return user
+
+
+class Role(db.Model):
+    __tablename__ = "roles"
+    id = db.Column(db.Integer(), primary_key=True)
+    name = db.Column(db.String(50), unique=True)
+
+    def __init__(self, name):
+        self.name = name
+
+    def serialize(self):
+        return {
+            "name": self.name
+        }
+
+    def __repr__(self):
+        return '<User %r>' % self.name
+
+    @classmethod
+    def create_role(cls, name):
+        role = cls(name)
+
+        db.session.add(role)
+        db.session.commit()
+
+        return role
+
+    @classmethod
+    def find_by_name(cls, name):
+        return cls.query.filter_by(name= name).first()
+
+
+class UserRoles(db.Model):
+    __tablename__ = "user_roles"
+    id = db.Column(db.Integer(), primary_key=True)
+    user_id = db.Column(db.Integer(), db.ForeignKey('users.id', ondelete='CASCADE'))
+    role_id = db.Column(db.Integer(), db.ForeignKey('roles.id', ondelete='CASCADE'))
+
 
 class Organization(db.Model):
     __tablename__ = "organizations"
@@ -168,8 +215,10 @@ class Person(db.Model):
         return cls.query.filter_by(name = name).first()
     
     @classmethod
-    def create_person(cls, id_user, name, lastname, email, address, zipcode, phone):
-        person = cls(id_user, name, lastname, email, address, zipcode, phone)
+    def create_person(cls, user, name, lastname, email, address, zipcode, phone):
+        person = cls(user.id, name, lastname, email, address, zipcode, phone)
+
+        user.roles.append(Role.find_by_name("supporter"))
 
         db.session.add(person)
         db.session.commit()

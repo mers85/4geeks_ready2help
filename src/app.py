@@ -10,6 +10,7 @@ from api.utils import APIException, generate_sitemap
 from api.models import db
 from api.routes import api
 from api.admin import setup_admin
+from init_database import init_db
 #from models import Person
 
 ENV = os.getenv("FLASK_ENV")
@@ -36,6 +37,7 @@ CORS(app)
 
 # add the admin
 setup_admin(app)
+app.cli.add_command(init_db)
 
 # Add all endpoints form the API with a "api" prefix
 app.register_blueprint(api, url_prefix='/api/v1')
