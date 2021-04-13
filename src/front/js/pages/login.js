@@ -71,7 +71,11 @@ export const LogIn = props => {
 						if (responseOk) {
 							actions.saveAccessToken(responseJson.token);
 							toast.success("¡Has iniciado sesión con éxito!");
-							history.push("/profile");
+							if (responseJson.role === "organization") {
+								history.push("/dashboard/organization");
+							} else {
+								history.push("/profile");
+							}
 						} else {
 							toast.error(responseJson.message);
 						}

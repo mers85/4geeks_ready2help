@@ -33,11 +33,6 @@ export const Header = () => {
 										</Link>
 									</li>
 									<li>
-										<Link to="/" title="Proyectos">
-											Proyectos
-										</Link>
-									</li>
-									<li>
 										<Link to="/profile" title="Perfil">
 											Perfil
 										</Link>
