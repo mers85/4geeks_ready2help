@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
 import { Context } from "../store/appContext";
-import { Link, useHistory } from "react-router-dom";
+import { Link, useHistory, useParams } from "react-router-dom";
 
 import SimpleReactValidator from "simple-react-validator";
 import { toast } from "react-toastify";
@@ -12,16 +12,19 @@ import PropTypes from "prop-types";
 
 import "../../styles/formularioBase.scss";
 
-export const RegisterOrganization = props => {
+export const CreateProject = props => {
 	const history = useHistory();
+	let { id } = useParams();
 	const { actions } = useContext(Context);
 
 	const [value, setValue] = useState({
-		email: "",
-		name: "",
-		address: "",
-		zipcode: "",
-		phone: ""
+		title: "",
+		subtitle: "",
+		description: "",
+		money_needed: "",
+		people_needed: "",
+		status: "",
+		organization_id: ""
 	});
 
 	const changeHandler = e => {
@@ -39,49 +42,53 @@ export const RegisterOrganization = props => {
 		e.preventDefault();
 		if (validator.allValid()) {
 			setValue({
-				email: "",
-				name: "",
-				address: "",
-				zipcode: "",
-				phone: ""
+				title: "",
+				subtitle: "",
+				description: "",
+				money_needed: "",
+				people_needed: "",
+				status: "",
+				organization_id: ""
 			});
 			validator.hideMessages();
 
-			let responseOk = false;
-			fetch(process.env.BACKEND_URL + "/api/v1/register_org", {
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
-					Authorization: "Bearer " + actions.getAccessToken()
-				},
-				body: JSON.stringify({
-					email: value.email,
-					name: value.name,
-					address: value.address,
-					zipcode: value.zipcode,
-					phone: value.phone
+			if (value.title) {
+				let responseOk = false;
+				fetch(process.env.BACKEND_URL + "/api/v1/organizations/" + id + "/projects", {
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+						Authorization: "Bearer " + actions.getAccessToken()
+					},
+					body: JSON.stringify({
+						title: value.title,
+						subtitle: value.subtitle,
+						description: value.description,
+						money_needed: parseFloat(value.money_needed),
+						people_needed: parseInt(value.people_needed),
+						status: value.status,
+						organization_id: id
+					})
 				})
-			})
-				.then(response => {
-					responseOk = response.ok;
-					if (response.ok) {
-						if (response.status === 201) {
-							toast.success("¡Organización registrada!");
+					.then(response => {
+						responseOk = response.ok;
+						return response.json();
+					})
+					.then(responseJson => {
+						if (responseOk) {
+							toast.success("Tu proyecto ha sido creado!");
 							history.push("/profile");
+						} else {
+							toast.error(responseJson.message);
 						}
-					}
-					return response.json();
-				})
-				.then(responseJson => {
-					console.log(responseJson);
-					if (!responseOk) {
-						toast.error(responseJson.message);
-					}
-				})
-				.catch(error => {
-					console.log("error", error);
-					toast.error(error.message);
-				});
+					})
+					.catch(error => {
+						toast.error(error.message);
+					});
+			}
+		} else {
+			validator.showMessages();
+			toast.error("¡Es necesario al menos un nombre del proyecto!");
 		}
 		return false;
 	};
@@ -89,103 +96,107 @@ export const RegisterOrganization = props => {
 	return (
 		<Grid className="projectWrapper">
 			<Grid className="projectForm">
-				<h2>Datos de la organización</h2>
-				<p>Crea tu organización para que puedas dar de alta tus proyectos</p>
+				<h2>Crear proyecto</h2>
+				<p>
+					Puedes dar de alta tu proyecto solo con el nombre y luego ir a tu panel de administración y
+					completar los datos antes de hacerlo público
+				</p>
 				<form onSubmit={submitForm}>
 					<Grid container spacing={3}>
 						<Grid item xs={12}>
 							<TextField
 								className="inputOutline"
 								fullWidth
-								placeholder="Nombre"
-								value={value.name}
+								placeholder="Nombre del proyecto"
+								value={value.title}
 								variant="outlined"
-								name="name"
-								type="text"
-								label="Nombre"
+								name="title"
+								label="Nombre del proyecto"
 								InputLabelProps={{
 									shrink: true
 								}}
 								onBlur={e => changeHandler(e)}
 								onChange={e => changeHandler(e)}
 							/>
-							{validator.message("Name", value.name, "required:name")}
+							{validator.message("Nombre del proyecto", value.title, "required:title")}
 						</Grid>
 						<Grid item xs={12}>
 							<TextField
 								className="inputOutline"
 								fullWidth
-								placeholder="Dirección"
-								value={value.address}
+								multiline
+								rows={2}
+								rowsMax={6}
+								placeholder="Subtítulo"
+								value={value.subtitle}
 								variant="outlined"
-								name="address"
+								name="subtitle"
 								type="text"
-								label="Dirección"
+								label="Subtítulo"
 								InputLabelProps={{
 									shrink: true
 								}}
 								onBlur={e => changeHandler(e)}
 								onChange={e => changeHandler(e)}
 							/>
-							{validator.message("address", value.name, "required:address")}
 						</Grid>
 						<Grid item xs={6}>
 							<TextField
 								className="inputOutline"
 								fullWidth
-								placeholder="Código Postal"
-								value={value.zipcode}
+								placeholder="Dinero"
+								value={value.money_needed}
 								variant="outlined"
-								name="zipcode"
+								name="money_needed"
 								type="text"
-								label="Código Postal"
+								label="Dinero"
 								InputLabelProps={{
 									shrink: true
 								}}
 								onBlur={e => changeHandler(e)}
 								onChange={e => changeHandler(e)}
 							/>
-							{validator.message("zipcode", value.name, "required:zipcode")}
 						</Grid>
 						<Grid item xs={6}>
 							<TextField
 								className="inputOutline"
 								fullWidth
-								placeholder="Email de contacto"
-								value={value.email}
+								placeholder="Voluntarios"
+								value={value.people_needed}
 								variant="outlined"
-								name="email"
-								label="Email de contacto"
-								InputLabelProps={{
-									shrink: true
-								}}
-								onBlur={e => changeHandler(e)}
-								onChange={e => changeHandler(e)}
-							/>
-							{validator.message("email", value.name, "required:email")}
-						</Grid>
-						<Grid item xs={6}>
-							<TextField
-								className="inputOutline"
-								fullWidth
-								placeholder="Teléfono"
-								value={value.phone}
-								variant="outlined"
-								name="phone"
+								name="people_needed"
 								type="text"
-								label="Teléfono"
+								label="Voluntarios"
 								InputLabelProps={{
 									shrink: true
 								}}
 								onBlur={e => changeHandler(e)}
 								onChange={e => changeHandler(e)}
 							/>
-							{validator.message("phone", value.name, "required:phone")}
+						</Grid>
+						<Grid item xs={12}>
+							<TextareaAutosize
+								rowsMin={4}
+								className="textAreaOutline"
+								style={{ width: "100%" }}
+								fullWidth
+								placeholder="Descripción"
+								value={value.description}
+								variant="outlined"
+								name="description"
+								type="text"
+								label="Descripción"
+								InputLabelProps={{
+									shrink: true
+								}}
+								onBlur={e => changeHandler(e)}
+								onChange={e => changeHandler(e)}
+							/>
 						</Grid>
 						<Grid item xs={12}>
 							<Grid className="formFooter">
 								<Button fullWidth className="cBtnTheme" type="submit">
-									Crear organización
+									Crear Proyecto
 								</Button>
 							</Grid>
 						</Grid>
@@ -194,4 +205,8 @@ export const RegisterOrganization = props => {
 			</Grid>
 		</Grid>
 	);
+};
+
+CreateProject.propTypes = {
+	id: PropTypes.object
 };

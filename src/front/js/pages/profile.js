@@ -3,6 +3,9 @@ import { Context } from "../store/appContext";
 import { useHistory } from "react-router-dom";
 import { Link } from "react-router-dom";
 
+import { DashboardOrganization } from "./dashboardOrganization";
+import Button from "@material-ui/core/Button";
+
 export const Profile = () => {
 	const [email, setEmail] = useState("");
 	const [organization, setOrganization] = useState("");
@@ -44,17 +47,27 @@ export const Profile = () => {
 	}, []);
 
 	return (
-		<div className="jumbotron">
-			{error ? <h3>{error}</h3> : ""}
-			<div>Email: {email}</div>
-			{organization ? <div> Organización: {organization.name} </div> : ""}
-			{person ? <div> Voluntario: {person.name} </div> : ""}
-			<Link to="/register_org">
-				<span className="navbar-brand mb-0 h1">Alta por Organización</span>
-			</Link>
-			<Link to="/register_pers">
-				<span className="navbar-brand mb-0 h1">Alta por Voluntario</span>
-			</Link>
+		<div>
+			<div className="jumbotron">
+				<h4>Mi perfil</h4>
+				{error ? <h3>{error}</h3> : ""}
+				<div>Email: {email}</div>
+				{organization ? (
+					<div> Organización: {organization.name} </div>
+				) : (
+					<Link to="/register_org">
+						<Button className="cBtnTheme py-1">Añade tu Organización</Button>
+					</Link>
+				)}
+				{person ? (
+					<div> Voluntario: {person.name} </div>
+				) : (
+					<Link to="/register_pers">
+						<Button className="cBtnTheme py-1 mx-1">Añade tus datos personales</Button>
+					</Link>
+				)}
+			</div>
+			{organization ? <DashboardOrganization organization={organization} /> : ""}
 		</div>
 	);
 };

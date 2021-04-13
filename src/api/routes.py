@@ -3,10 +3,10 @@ This module takes care of starting the API Server, Loading the DB and Adding the
 """
 import os
 from flask import Flask, request, jsonify, make_response, url_for, Blueprint
-from api.models import db, User, Organization, Person
+from api.models import db, User, Organization, Person, Project, Role
 from api.utils import generate_sitemap, APIException
 
-# library for Simple Mail Transfer Protocol
+# library for Simple Mail Transfer Protocol# library for Simple Mail Transfer Protocol
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 import smtplib
@@ -81,10 +81,10 @@ def signup():
     user = User.find_by_email(email)
     if not user:
         try:
-            User.create_user(email, hashed_password)
+           user = User.create_user(email, hashed_password)
         except:
             raise APIException("Something went wrong during user registration", 401)
-   
+
         return jsonify({"message" :" Successfully registered."}), 201
     else:
         # returns 202 if user already exists
@@ -109,10 +109,12 @@ def login():
         # generates the JWT Token
         token = jwt.encode({
             'id': user.id,
-            'exp' : datetime.utcnow() + timedelta(minutes = 30)
+            'exp' : datetime.utcnow() + timedelta(minutes = 90)
         }, app.config['SECRET_KEY'])
-   
-        return jsonify({'token' : token.decode('UTF-8')}), 201
+
+        roles = [role.name for role in user.roles]
+
+        return jsonify({'token' : token.decode('UTF-8'), "user_roles": roles }), 201
     # returns 403 if password is wrong
     raise APIException("Wrong Password !!", 403)
 
@@ -146,7 +148,7 @@ def profile(current_user):
         person = user.person.serialize()
         dict_user['person'] = person
 
-    return jsonify({'user': dict_user})
+    return jsonify({'user': dict_user}), 200
 
 @api.route('/register_org', methods =['POST'])
 @authentication_required
@@ -181,7 +183,7 @@ def register_org(current_user):
 @authentication_required
 def register_pers(current_user):
     pers = request.get_json()
-    id_user = current_user.id
+    user = current_user
     name = pers["name"] 
     lastname = pers["lastname"] 
     email = pers["email"] 
@@ -192,7 +194,7 @@ def register_pers(current_user):
     person = Person.find_by_name(name)
     if not person:
         try:
-            person = Person.create_person(id_user, name, lastname, email, address, zipcode, phone)
+            person = Person.create_person(user, name, lastname, email, address, zipcode, phone)
 
         except:
             raise APIException("Something went wrong during person registration", 401)
@@ -285,3 +287,34 @@ def send_email(receiver=None, message=""):
             raise APIException("Something went wrong. The email was not sending.", 401)
     else:
         raise APIException("Something went wrong. The receiver is empty.", 401)
+
+
+@api.route('/organizations/<int:organization_id>/projects', methods =['POST'])
+@authentication_required
+def create_project(current_user, organization_id):
+    organization = Organization.find_by_id(organization_id)
+    organization_user_ids = [user.id for user in organization.users]
+    
+    if current_user.id not in organization_user_ids:
+        raise APIException("User not allowed to administrate this organization", 401)
+
+    form = ProjectForm.from_json(request.get_json())
+    if not form.validate():
+        return jsonify(errors=form.errors), 400
+
+    
+    try:
+        project = Project.create(
+            form.title.data, 
+            form.subtitle.data,
+            form.description.data, 
+            form.money_needed.data, 
+            form.people_needed.data, 
+            form.status.data,
+            organization_id
+        )
+    except:
+        raise APIException("Something went wrong during project creation", 401)
+
+    return jsonify({"message" : "Project created", "project" : project.serialize()}), 201
+
