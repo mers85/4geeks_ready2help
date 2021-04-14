@@ -17,6 +17,7 @@ class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(256), unique=True, nullable=False)
     password = db.Column(db.String(256), unique=False, nullable=False)
+    token = db.Column(db.String(256), unique=False, nullable=True)
     
     organization_id = db.Column(db.Integer, db.ForeignKey('organizations.id'), nullable=True)
     organization = db.relationship("Organization", back_populates="users")
@@ -45,13 +46,14 @@ class User(db.Model):
             "roles": [role.name for role in self.roles]
         }
 
-    def update_user(self, organization=None, email=None, password=None):
+    def update_user(self, organization=None, email=None, password=None, token=None):
         self.email = email if email is not None else self.email
         if organization:
             self.organization = organization
             self.roles.append(Role.find_by_name("organization"))
 
         self.password = password if password is not None else self.password
+        self.token = token if token is not None else self.token
 
         db.session.commit()
         return True

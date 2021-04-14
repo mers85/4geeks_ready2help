@@ -20,6 +20,7 @@ export const Profile = () => {
 			history.push("/login");
 			return;
 		}
+		let responseOk = false;
 		fetch(process.env.BACKEND_URL + "/api/v1/profile", {
 			method: "GET",
 			headers: {
@@ -28,14 +29,19 @@ export const Profile = () => {
 			}
 		})
 			.then(response => {
+				responseOk = response.ok;
 				return response.json();
 			})
 			.then(responseJson => {
-				setEmail(responseJson.user.email);
-				if (responseJson.user.organization) {
-					setOrganization(responseJson.user.organization);
-				} else if (responseJson.user.person) {
-					setPerson(responseJson.user.person);
+				if (responseOk) {
+					if (responseJson.user.email) {
+						setEmail(responseJson.user.email);
+					}
+					if (responseJson.user.organization) {
+						setOrganization(responseJson.user.organization);
+					} else if (responseJson.user.person) {
+						setPerson(responseJson.user.person);
+					}
 				}
 			});
 	}, []);

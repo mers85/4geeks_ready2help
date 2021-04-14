@@ -139,7 +139,7 @@ export const LogIn = props => {
 									control={<Checkbox checked={value.remember} onChange={rememberHandler} />}
 									label="Remember Me"
 								/>
-								<Link to="/">¿Olvidó su contraseña?</Link>
+								<Link to="/request_reset_pass">¿Olvidó su contraseña?</Link>
 							</Grid>
 							<Grid className="formFooter">
 								<Button fullWidth className="cBtnTheme" type="submit">

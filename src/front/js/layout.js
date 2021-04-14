@@ -15,6 +15,8 @@ import { Footer } from "./component/footer";
 import { Profile } from "./pages/profile";
 import { RegisterOrganization } from "./pages/registerOrganization";
 import { RegisterPerson } from "./pages/registerPerson";
+import { RequestResetPass } from "./pages/requestResetPass";
+import { ResetPass } from "./pages/resetPass";
 import { ToastContainer } from "react-toastify";
 
 import "react-toastify/dist/ReactToastify.css";
@@ -62,6 +64,12 @@ const Layout = () => {
 					</Route>
 					<Route exact path="/organizations/:id/create_project">
 						<CreateProject />
+					</Route>
+					<Route exact path="/request_reset_pass">
+						<RequestResetPass />
+					</Route>
+					<Route exact path="/reset_pass">
+						<ResetPass />
 					</Route>
 					<Route exact path="/single/:theid">
 						<Single />
