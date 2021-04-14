@@ -16,6 +16,10 @@ const getState = ({ getStore, getActions, setStore }) => {
 				} else {
 					return localStorage.getItem("token");
 				}
+			},
+			outAccessToken: () => {
+				setStore({ accessToken: "" });
+				localStorage.setItem("token", "");
 			}
 		}
 	};

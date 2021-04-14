@@ -1,9 +1,24 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
+import { Context } from "../store/appContext";
 
 import "../../styles/headertopbar.scss";
 
 export const HeaderTopbar = () => {
+	const { actions, store } = useContext(Context);
+
+	function sessionLinks() {
+		let link = { log: "", signup: "" };
+		let token = actions.getAccessToken();
+		if (token != "") {
+			link.log = <Link to="/logout">Log Out</Link>;
+		} else {
+			link.log = <Link to="/login">Log In</Link>;
+			link.signup = <Link to="/signup">Sign Up</Link>;
+		}
+		return link;
+	}
+
 	return (
 		<div className="topbar">
 			<div className="container">
@@ -19,7 +34,7 @@ export const HeaderTopbar = () => {
 								<li>
 									{/* <i className="fi flaticon-envelope" /> */}
 									<i className="fas fa-envelope mr-1" />
-									mers85@gmail.com
+									ready2helpemail@gmail.com
 								</li>
 							</ul>
 						</div>
@@ -27,12 +42,8 @@ export const HeaderTopbar = () => {
 					<div className="col col-md-6 col-sm-12 col-12">
 						<div className="contact-info">
 							<ul>
-								<li>
-									<Link to="/login">Log In</Link>
-								</li>
-								<li>
-									<Link to="/signup">Sign Up</Link>
-								</li>
+								<li>{sessionLinks().log}</li>
+								<li>{sessionLinks().signup}</li>
 								<li>
 									<Link className="theme-btn" to="/#">
 										Donate Now
