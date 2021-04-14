@@ -1,6 +1,7 @@
 import React, { useState, useContext } from "react";
 import { Context } from "../store/appContext";
 import { Link, useHistory } from "react-router-dom";
+import { toast } from "react-toastify";
 
 export const RequestResetPass = () => {
 	const [email, setEmail] = useState("");
@@ -31,7 +32,9 @@ export const RequestResetPass = () => {
 				responseOk = response.ok;
 				if (responseOk) {
 					if (response.status === 201) {
-						setMessage("The request was generated correctly");
+						toast.success(
+							"¡Le hemos enviado un email. En el caso de que no lo haya recibido, es posible que usted no esté registrado en nuestra plataforma!"
+						);
 					}
 				}
 				return response.json();

@@ -5,6 +5,7 @@ import os
 from flask import Flask, request, jsonify, make_response, url_for, Blueprint
 from api.models import db, User, Organization, Person, Project, Role
 from api.utils import generate_sitemap, APIException
+from api.forms import ProjectForm
 
 # library for Simple Mail Transfer Protocol# library for Simple Mail Transfer Protocol
 from email.mime.multipart import MIMEMultipart

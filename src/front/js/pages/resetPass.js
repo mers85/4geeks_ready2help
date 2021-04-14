@@ -14,6 +14,7 @@ import Button from "@material-ui/core/Button";
 import "../../styles/signup.scss";
 
 export const ResetPass = () => {
+	const history = useHistory();
 	const [value, setValue] = useState({
 		email: "",
 		password: "",
@@ -59,6 +60,7 @@ export const ResetPass = () => {
 								confirm_password: ""
 							});
 							validator.hideMessages();
+							history.push("/login");
 							toast.success("Password changed correctly");
 						}
 					}
