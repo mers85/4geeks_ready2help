@@ -48,9 +48,8 @@ export const LogIn = props => {
 			});
 			validator.hideMessages();
 
-			const userRegex = /^[a-zA-Z0-9]+@(?:[a-zA-Z0-9]+\.)+[A-Za-z]+$/;
+			const userRegex = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 			const email = value.email;
-
 			if (email.match(userRegex)) {
 				let responseOk = false;
 				fetch(process.env.BACKEND_URL + "/api/v1/login", {

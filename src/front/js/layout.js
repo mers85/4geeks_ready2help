@@ -8,6 +8,7 @@ import { Single } from "./pages/single";
 import { SignUp } from "./pages/signup";
 import { LogIn } from "./pages/login";
 import { CreateProject } from "./pages/createProject";
+import { LogOut } from "./pages/logout";
 import injectContext from "./store/appContext";
 
 import { Header } from "./component/header";
@@ -70,6 +71,9 @@ const Layout = () => {
 					</Route>
 					<Route exact path="/reset_pass">
 						<ResetPass />
+					</Route>
+					<Route exact path="/logout">
+						<LogOut />
 					</Route>
 					<Route exact path="/single/:theid">
 						<Single />
