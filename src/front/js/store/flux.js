@@ -1,7 +1,7 @@
 const getState = ({ getStore, getActions, setStore }) => {
 	return {
 		store: {
-			accessToken: ""
+			accessToken: null
 		},
 		actions: {
 			// Use getActions to call a function within a fuction
@@ -18,8 +18,10 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 			},
 			outAccessToken: () => {
-				setStore({ accessToken: "" });
-				localStorage.setItem("token", "");
+				setStore({ accessToken: null });
+				//localStorage.clear();
+				localStorage.removeItem("token");
+				window.location.href = "/";
 			}
 		}
 	};

@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext } from "react";
 import { Context } from "../store/appContext";
 import { Link, useHistory } from "react-router-dom";
 
@@ -13,15 +13,11 @@ import "../../styles/formularioBase.scss";
 
 export const LogOut = () => {
 	const { actions } = useContext(Context);
-	useEffect(() => {
-		actions.outAccessToken();
-	}, []);
 
-	return (
-		<Grid className="projectWrapper">
-			<Grid className="projectForm">
-				<h2> Hasta pronto </h2>
-			</Grid>
-		</Grid>
-	);
+	function handleLogOut() {
+		actions.outAccessToken();
+		toast.success("Sesión finalizada");
+	}
+
+	return <Link onClick={handleLogOut}>Log Out</Link>;
 };

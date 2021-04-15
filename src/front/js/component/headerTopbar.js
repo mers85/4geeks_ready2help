@@ -1,17 +1,20 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Context } from "../store/appContext";
 
+import { toast } from "react-toastify";
+
 import "../../styles/headertopbar.scss";
+import { LogOut } from "../pages/logout";
 
 export const HeaderTopbar = () => {
 	const { actions, store } = useContext(Context);
 
-	function sessionLinks() {
+	function sessionLinks(handleLogOut) {
 		let link = { log: "", signup: "" };
 		let token = actions.getAccessToken();
-		if (token != "") {
-			link.log = <Link to="/logout">Log Out</Link>;
+		if (token) {
+			link.log = <LogOut />;
 		} else {
 			link.log = <Link to="/login">Log In</Link>;
 			link.signup = <Link to="/signup">Sign Up</Link>;
