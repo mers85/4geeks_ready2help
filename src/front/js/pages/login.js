@@ -1,5 +1,6 @@
 import React, { useState, useContext } from "react";
 import { Context } from "../store/appContext";
+import PropTypes from "prop-types";
 
 import Grid from "@material-ui/core/Grid";
 import SimpleReactValidator from "simple-react-validator";
@@ -38,6 +39,18 @@ export const LogIn = props => {
 		})
 	);
 
+	function redirectToMyPath(response_json) {
+		if (props.path) {
+			history.push(props.path);
+		} else {
+			if (response_json.role === "organization") {
+				history.push("/dashboard/organization");
+			} else {
+				history.push("/profile");
+			}
+		}
+	}
+
 	const submitForm = e => {
 		e.preventDefault();
 		if (validator.allValid()) {
@@ -68,13 +81,9 @@ export const LogIn = props => {
 					})
 					.then(responseJson => {
 						if (responseOk) {
-							actions.saveAccessToken(responseJson.token);
+							actions.saveAccessToken(responseJson.token, responseJson.user_roles);
 							toast.success("¡Has iniciado sesión con éxito!");
-							if (responseJson.role === "organization") {
-								history.push("/dashboard/organization");
-							} else {
-								history.push("/profile");
-							}
+							redirectToMyPath(responseJson);
 						} else {
 							toast.error(responseJson.message);
 						}
@@ -157,4 +166,8 @@ export const LogIn = props => {
 			</Grid>
 		</Grid>
 	);
+};
+
+LogIn.propTypes = {
+	path: PropTypes.string
 };

@@ -29,12 +29,9 @@ const Layout = () => {
 	const basename = process.env.BASENAME || "";
 	let location = useLocation();
 
-	useEffect(
-		() => {
-			console.log(location.pathname);
-		},
-		[location]
-	);
+	useEffect(() => {
+		console.log(location.pathname);
+	}, [location]);
 
 	return (
 		<div className="d-flex flex-column h-100">
@@ -63,7 +60,7 @@ const Layout = () => {
 					<Route exact path="/register_pers">
 						<RegisterPerson />
 					</Route>
-					<Route exact path="/organizations/:id/create_project">
+					<Route exact path="/create_project">
 						<CreateProject />
 					</Route>
 					<Route exact path="/request_reset_pass">
