@@ -35,6 +35,73 @@ def handle_hello():
 
     return jsonify(response_body), 200
 
+###################################################################################
+# End-Point para listar datos de tabla User (OJO: No tienen autorizacion)         #
+###################################################################################
+@api.route('/users', methods =['GET'])
+def get_all_users():
+    # querying the database
+    # for all the entries in it
+    users = User.get_all()
+    # converting the query objects
+    # to list of jsons
+    all_users = []
+    for user in users:
+        # appending the user data json 
+        # to the response list
+        all_users.append(user.serialize())
+   
+    return jsonify({'users': all_users})
+
+###################################################################################
+# End-Point para listar datos de tabla Organization (OJO: No tienen autorizacion) #
+###################################################################################
+@api.route('/organizations', methods =['GET'])
+def get_all_organizations():
+    # querying the database
+    # for all the entries in it
+    organizations = Organization.get_all()
+    # converting the query objects
+    # to list of jsons
+    all_organizations = []
+    for organization in organizations:
+        # appending the user data json 
+        # to the response list
+        all_organizations.append(organization.serialize())
+   
+    return jsonify({'organizations': all_organizations})
+
+###################################################################################
+# End-Point para listar datos de tabla Role (OJO: No tienen autorizacion)         #
+###################################################################################
+@api.route('/roles', methods =['GET'])
+def get_all_roles():
+    # querying the database
+    # for all the entries in it
+    roles = Role.get_all()
+    # converting the query objects
+    # to list of jsons
+    all_roles = []
+    for role in roles:
+        # appending the user data json 
+        # to the response list
+        all_roles.append(role.serialize())
+   
+    return jsonify({'roles': all_roles})
+
+###################################################################################
+# End-Point para listar datos de tabla Project (OJO: No tienen autorizacion)      #
+###################################################################################
+@api.route('/projects', methods =['GET'])
+def get_all_projects():
+    projects = Project.get_all()
+    
+    list_projects = []
+    for project in projects:
+        list_projects.append(project.serialize())
+
+    return jsonify(list_projects), 201
+
 #User
 
 # decorator for verifying the JWT
@@ -118,22 +185,6 @@ def login():
         return jsonify({'token' : token.decode('UTF-8'), "user_roles": roles }), 201
     # returns 403 if password is wrong
     raise APIException("Wrong Password !!", 403)
-
-@api.route('/users', methods =['GET'])
-@authentication_required
-def get_all_users(current_user):
-    # querying the database
-    # for all the entries in it
-    users = User.get_all()
-    # converting the query objects
-    # to list of jsons
-    all_users = []
-    for user in users:
-        # appending the user data json 
-        # to the response list
-        all_users.append(user.serialize())
-   
-    return jsonify({'users': all_users})
 
 @api.route('/profile', methods =['GET'])
 @authentication_required
@@ -318,4 +369,3 @@ def create_project(current_user, organization_id):
         raise APIException("Something went wrong during project creation", 401)
 
     return jsonify({"message" : "Project created", "project" : project.serialize()}), 201
-

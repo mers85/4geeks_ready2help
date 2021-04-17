@@ -1,7 +1,8 @@
 const getState = ({ getStore, getActions, setStore }) => {
 	return {
 		store: {
-			accessToken: null
+			accessToken: null,
+			projects: null
 		},
 		actions: {
 			// Use getActions to call a function within a fuction
@@ -22,6 +23,12 @@ const getState = ({ getStore, getActions, setStore }) => {
 				//localStorage.clear();
 				localStorage.removeItem("token");
 				window.location.href = "/";
+			},
+			addProjects: newProjects => {
+				let oldProjects = getStore().projects;
+				let oldProjectsResults = getStore().projects ? getStore().projects : [];
+				// newProjects = [...oldProjectsResults, ...newProjects];
+				setStore({ projects: newProjects });
 			}
 		}
 	};
