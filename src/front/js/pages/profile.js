@@ -2,17 +2,26 @@ import React, { useState, useContext, useEffect } from "react";
 import { Context } from "../store/appContext";
 import { useHistory } from "react-router-dom";
 import { Link } from "react-router-dom";
+import PropTypes from "prop-types";
+
+import { toast } from "react-toastify";
 
 import { DashboardOrganization } from "./dashboardOrganization";
 import Button from "@material-ui/core/Button";
 
-export const Profile = () => {
+export const Profile = props => {
 	const [email, setEmail] = useState("");
 	const [organization, setOrganization] = useState("");
 	const [person, setPerson] = useState("");
 	const [error, setError] = useState("");
 	const { actions, store } = useContext(Context);
 	const history = useHistory();
+
+	function myNotification() {
+		if (props.notification) {
+			return toast.info(props.notification);
+		}
+	}
 
 	useEffect(() => {
 		let accessToken = actions.getAccessToken();
@@ -41,6 +50,7 @@ export const Profile = () => {
 						setOrganization(responseJson.user.organization);
 					} else if (responseJson.user.person) {
 						setPerson(responseJson.user.person);
+						myNotification();
 					}
 				}
 			});
@@ -70,4 +80,7 @@ export const Profile = () => {
 			{organization ? <DashboardOrganization organization={organization} /> : ""}
 		</div>
 	);
+};
+Profile.propTypes = {
+	notification: PropTypes.string
 };

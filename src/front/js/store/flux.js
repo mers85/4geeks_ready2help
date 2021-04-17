@@ -2,18 +2,20 @@ const getState = ({ getStore, getActions, setStore }) => {
 	return {
 		store: {
 			accessToken: null,
-			userRoles: null
+			userRoles: null,
+			userOrganizationId: null
 		},
 		actions: {
 			// Use getActions to call a function within a fuction
-			saveAccessToken: (accessToken, userRoles) => {
+			saveAccessToken: (accessToken, userRoles, userOrganization) => {
 				setStore({ accessToken: accessToken });
 				localStorage.setItem("token", accessToken);
-				getActions().saveUserRoles(userRoles);
-			},
-			saveUserRoles: userRoles => {
+
 				setStore({ userRoles: userRoles });
 				localStorage.setItem("user_roles", userRoles);
+
+				setStore({ userOrganizationId: userOrganization });
+				localStorage.setItem("user_organization_id", userOrganization);
 			},
 			getAccessToken: () => {
 				let store = getStore();
@@ -26,9 +28,11 @@ const getState = ({ getStore, getActions, setStore }) => {
 			outAccessToken: () => {
 				setStore({ accessToken: null });
 				setStore({ userRoles: null });
+				setStore({ userOrganizationId: null });
 				//localStorage.clear();
 				localStorage.removeItem("token");
 				localStorage.removeItem("user_roles");
+				localStorage.removeItem("user_organization_id");
 				window.location.href = "/";
 			},
 			isLogIn: () => {
@@ -40,8 +44,35 @@ const getState = ({ getStore, getActions, setStore }) => {
 					return false;
 				}
 			},
+			addNewUserRole: newRol => {
+				let store = getStore();
+				let roles = store.userRoles;
+
+				let allRoles = [...roles, newRol];
+				setStore({ userRoles: allRoles });
+
+				localStorage.removeItem("user_roles");
+				localStorage.setItem("user_roles", allRoles);
+			},
 			getUserRoles: () => {
-				return getStore().userRoles;
+				let store = getStore();
+				if (store.userRoles) {
+					return store.userRoles;
+					console.log("flux store", store.userRoles);
+				} else {
+					return localStorage.getItem("user_roles");
+					console.log("localstorage flux", localStorage.getItem("user"));
+				}
+			},
+			getUserOrganizationId: () => {
+				let store = getStore();
+				if (store.userOrganizationId) {
+					return store.userOrganizationId;
+					console.log("flux store", store.userOrganizationId);
+				} else {
+					return localStorage.getItem("user_organization_id");
+					console.log("localstorage flux", localStorage.getItem("user_organization_id"));
+				}
 			}
 		}
 	};

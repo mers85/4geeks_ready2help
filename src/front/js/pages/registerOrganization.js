@@ -66,6 +66,7 @@ export const RegisterOrganization = props => {
 					responseOk = response.ok;
 					if (response.ok) {
 						if (response.status === 201) {
+							actions.addNewUserRole("organization");
 							toast.success("¡Organización registrada!");
 							history.push("/profile");
 						}

@@ -39,15 +39,16 @@ export const LogIn = props => {
 		})
 	);
 
-	function redirectToMyPath(response_json) {
-		if (props.path) {
-			history.push(props.path);
-		} else {
-			if (response_json.role === "organization") {
-				history.push("/dashboard/organization");
+	function redirectToMyPath() {
+		if (props.path === "/create_project") {
+			if (actions.getUserRoles().includes("organization")) {
+				history.push(props.path);
 			} else {
 				history.push("/profile");
+				toast.info("Debes registrarte como organización para crear un proyecto");
 			}
+		} else {
+			history.push("/profile");
 		}
 	}
 
@@ -81,9 +82,13 @@ export const LogIn = props => {
 					})
 					.then(responseJson => {
 						if (responseOk) {
-							actions.saveAccessToken(responseJson.token, responseJson.user_roles);
+							actions.saveAccessToken(
+								responseJson.token,
+								responseJson.user["roles"],
+								responseJson.user["organization_id"]
+							);
 							toast.success("¡Has iniciado sesión con éxito!");
-							redirectToMyPath(responseJson);
+							redirectToMyPath();
 						} else {
 							toast.error(responseJson.message);
 						}

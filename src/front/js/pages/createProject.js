@@ -37,21 +37,7 @@ export const CreateProject = props => {
 		new SimpleReactValidator({
 			className: "errorMessage"
 		})
-    );
-
-    function myPath(){
-        user_roles = actions.getUserRoles()
-        isOrganization = user_roles.includes('organization')
-        if (actions.isLogIn() && isOrganization) {
-			return ""
-		} else {
-			if (response_json.role === "organization") {
-				history.push("/dashboard/organization");
-			} else {
-				history.push("/profile");
-			}
-		}
-    }
+	);
 
 	const submitForm = e => {
 		e.preventDefault();
@@ -69,6 +55,7 @@ export const CreateProject = props => {
 
 			if (value.title) {
 				let responseOk = false;
+				id ? id : (id = props.wizardId);
 				fetch(process.env.BACKEND_URL + "/api/v1/organizations/" + id + "/projects", {
 					method: "POST",
 					headers: {
@@ -82,7 +69,7 @@ export const CreateProject = props => {
 						money_needed: parseFloat(value.money_needed),
 						people_needed: parseInt(value.people_needed),
 						status: value.status,
-						organization_id: id
+						organization_id: id ? id : props.wizardId
 					})
 				})
 					.then(response => {
@@ -109,125 +96,120 @@ export const CreateProject = props => {
 	};
 
 	return (
-		<div>
-			{actions.isLogIn() ? (
-				<Grid className="projectWrapper">
-					<Grid className="projectForm">
-						<h2>Crear proyecto</h2>
-						<p>
-							Puedes dar de alta tu proyecto solo con el nombre y luego ir a tu panel de administración y
-							completar los datos antes de hacerlo público
-						</p>
-						<form onSubmit={submitForm}>
-							<Grid container spacing={3}>
-								<Grid item xs={12}>
-									<TextField
-										className="inputOutline"
-										fullWidth
-										placeholder="Nombre del proyecto"
-										value={value.title}
-										variant="outlined"
-										name="title"
-										label="Nombre del proyecto"
-										InputLabelProps={{
-											shrink: true
-										}}
-										onBlur={e => changeHandler(e)}
-										onChange={e => changeHandler(e)}
-									/>
-									{validator.message("Nombre del proyecto", value.title, "required:title")}
-								</Grid>
-								<Grid item xs={12}>
-									<TextField
-										className="inputOutline"
-										fullWidth
-										multiline
-										rows={2}
-										rowsMax={6}
-										placeholder="Subtítulo"
-										value={value.subtitle}
-										variant="outlined"
-										name="subtitle"
-										type="text"
-										label="Subtítulo"
-										InputLabelProps={{
-											shrink: true
-										}}
-										onBlur={e => changeHandler(e)}
-										onChange={e => changeHandler(e)}
-									/>
-								</Grid>
-								<Grid item xs={6}>
-									<TextField
-										className="inputOutline"
-										fullWidth
-										placeholder="Dinero"
-										value={value.money_needed}
-										variant="outlined"
-										name="money_needed"
-										type="text"
-										label="Dinero"
-										InputLabelProps={{
-											shrink: true
-										}}
-										onBlur={e => changeHandler(e)}
-										onChange={e => changeHandler(e)}
-									/>
-								</Grid>
-								<Grid item xs={6}>
-									<TextField
-										className="inputOutline"
-										fullWidth
-										placeholder="Voluntarios"
-										value={value.people_needed}
-										variant="outlined"
-										name="people_needed"
-										type="text"
-										label="Voluntarios"
-										InputLabelProps={{
-											shrink: true
-										}}
-										onBlur={e => changeHandler(e)}
-										onChange={e => changeHandler(e)}
-									/>
-								</Grid>
-								<Grid item xs={12}>
-									<TextareaAutosize
-										rowsMin={4}
-										className="textAreaOutline"
-										style={{ width: "100%" }}
-										fullWidth
-										placeholder="Descripción"
-										value={value.description}
-										variant="outlined"
-										name="description"
-										type="text"
-										label="Descripción"
-										InputLabelProps={{
-											shrink: true
-										}}
-										onBlur={e => changeHandler(e)}
-										onChange={e => changeHandler(e)}
-									/>
-								</Grid>
-								<Grid item xs={12}>
-									<Grid className="formFooter">
-										<Button fullWidth className="cBtnTheme" type="submit">
-											Crear Proyecto
-										</Button>
-									</Grid>
-								</Grid>
+		<Grid className="projectWrapper">
+			<Grid className="projectForm">
+				<h2>Crear proyecto</h2>
+				<p>
+					Puedes dar de alta tu proyecto solo con el nombre y luego ir a tu panel de administración y
+					completar los datos antes de hacerlo público
+				</p>
+				<form onSubmit={submitForm}>
+					<Grid container spacing={3}>
+						<Grid item xs={12}>
+							<TextField
+								className="inputOutline"
+								fullWidth
+								placeholder="Nombre del proyecto"
+								value={value.title}
+								variant="outlined"
+								name="title"
+								label="Nombre del proyecto"
+								inputlabelprops={{
+									shrink: true
+								}}
+								onBlur={e => changeHandler(e)}
+								onChange={e => changeHandler(e)}
+							/>
+							{validator.message("Nombre del proyecto", value.title, "required:title")}
+						</Grid>
+						<Grid item xs={12}>
+							<TextField
+								className="inputOutline"
+								fullWidth
+								multiline
+								rows={2}
+								rowsMax={6}
+								placeholder="Subtítulo"
+								value={value.subtitle}
+								variant="outlined"
+								name="subtitle"
+								type="text"
+								label="Subtítulo"
+								inputlabelprops={{
+									shrink: true
+								}}
+								onBlur={e => changeHandler(e)}
+								onChange={e => changeHandler(e)}
+							/>
+						</Grid>
+						<Grid item xs={6}>
+							<TextField
+								className="inputOutline"
+								fullWidth
+								placeholder="Dinero"
+								value={value.money_needed}
+								variant="outlined"
+								name="money_needed"
+								type="text"
+								label="Dinero"
+								inputlabelprops={{
+									shrink: true
+								}}
+								onBlur={e => changeHandler(e)}
+								onChange={e => changeHandler(e)}
+							/>
+						</Grid>
+						<Grid item xs={6}>
+							<TextField
+								className="inputOutline"
+								fullWidth
+								placeholder="Voluntarios"
+								value={value.people_needed}
+								variant="outlined"
+								name="people_needed"
+								type="text"
+								label="Voluntarios"
+								inputlabelprops={{
+									shrink: true
+								}}
+								onBlur={e => changeHandler(e)}
+								onChange={e => changeHandler(e)}
+							/>
+						</Grid>
+						<Grid item xs={12}>
+							<TextareaAutosize
+								rowsMin={4}
+								className="textAreaOutline"
+								style={{ width: "100%" }}
+								fullWidth
+								placeholder="Descripción"
+								value={value.description}
+								variant="outlined"
+								name="description"
+								type="text"
+								label="Descripción"
+								inputlabelprops={{
+									shrink: true
+								}}
+								onBlur={e => changeHandler(e)}
+								onChange={e => changeHandler(e)}
+							/>
+						</Grid>
+						<Grid item xs={12}>
+							<Grid className="formFooter">
+								<Button fullwidth="true" className="cBtnTheme" type="submit">
+									Crear Proyecto
+								</Button>
 							</Grid>
-						</form>
+						</Grid>
 					</Grid>
-				</Grid>
-			) : (
-				<LogIn path={myPath} />
-			)}
-		</div>
+				</form>
+			</Grid>
+		</Grid>
 	);
 };
 
 CreateProject.propTypes = {
-	id: PropTypes.object
+	id: PropTypes.object,
+	wizardId: PropTypes.string
 };
