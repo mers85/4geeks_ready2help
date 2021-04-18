@@ -19,6 +19,7 @@ import { RegisterOrganization } from "./pages/registerOrganization";
 import { RegisterPerson } from "./pages/registerPerson";
 import { RequestResetPass } from "./pages/requestResetPass";
 import { ResetPass } from "./pages/resetPass";
+import { Projects } from "./pages/projects";
 import { ToastContainer } from "react-toastify";
 
 import "react-toastify/dist/ReactToastify.css";
@@ -37,7 +38,11 @@ const Layout = () => {
 	return (
 		<div className="d-flex flex-column h-100">
 			<ScrollToTop>
-				{location.pathname !== "/login" && location.pathname !== "/signup" ? <Header /> : null}
+				{location.pathname !== "/login" &&
+				location.pathname !== "/signup" &&
+				location.pathname !== "/reset_pass" ? (
+					<Header />
+				) : null}
 				<ToastContainer />
 				<Switch>
 					<Route exact path="/">
@@ -78,6 +83,9 @@ const Layout = () => {
 					</Route>
 					<Route exact path="/logout">
 						<LogOut />
+					</Route>
+					<Route exact path="/projects">
+						<Projects />
 					</Route>
 					<Route exact path="/single/:theid">
 						<Single />

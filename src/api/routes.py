@@ -35,6 +35,73 @@ def handle_hello():
 
     return jsonify(response_body), 200
 
+###################################################################################
+# End-Point para listar datos de tabla User (OJO: No tienen autorizacion)         #
+###################################################################################
+@api.route('/users', methods =['GET'])
+def get_all_users():
+    # querying the database
+    # for all the entries in it
+    users = User.get_all()
+    # converting the query objects
+    # to list of jsons
+    all_users = []
+    for user in users:
+        # appending the user data json
+        # to the response list
+        all_users.append(user.serialize())
+
+    return jsonify({'users': all_users})
+
+###################################################################################
+# End-Point para listar datos de tabla Organization (OJO: No tienen autorizacion) #
+###################################################################################
+@api.route('/organizations', methods =['GET'])
+def get_all_organizations():
+    # querying the database
+    # for all the entries in it
+    organizations = Organization.get_all()
+    # converting the query objects
+    # to list of jsons
+    all_organizations = []
+    for organization in organizations:
+        # appending the user data json
+        # to the response list
+        all_organizations.append(organization.serialize())
+
+    return jsonify({'organizations': all_organizations})
+
+###################################################################################
+# End-Point para listar datos de tabla Role (OJO: No tienen autorizacion)         #
+###################################################################################
+@api.route('/roles', methods =['GET'])
+def get_all_roles():
+    # querying the database
+    # for all the entries in it
+    roles = Role.get_all()
+    # converting the query objects
+    # to list of jsons
+    all_roles = []
+    for role in roles:
+        # appending the user data json
+        # to the response list
+        all_roles.append(role.serialize())
+
+    return jsonify({'roles': all_roles})
+
+###################################################################################
+# End-Point para listar datos de tabla Project (OJO: No tienen autorizacion)      #
+###################################################################################
+@api.route('/projects', methods =['GET'])
+def get_all_projects():
+    projects = Project.get_all()
+
+    list_projects = []
+    for project in projects:
+        list_projects.append(project.serialize())
+
+    return jsonify(list_projects), 201
+
 #User
 
 # decorator for verifying the JWT
@@ -51,7 +118,7 @@ def authentication_required(f):
         if len(parts) != 2:
             raise APIException("Bad Authorization Header. Expected value 'Bearer <Token>' ", 401)
         token = parts[1]
-   
+
         try:
             # decoding the payload to fetch the stored details
             data = jwt.decode(token, app.config['SECRET_KEY'])
@@ -60,7 +127,7 @@ def authentication_required(f):
             raise APIException("Token is invalid !!", 401)
         # returns the current logged in users contex to the routes
         return  f(current_user, *args, **kwargs)
-   
+
     return decorated
 
 # signup route
@@ -72,7 +139,7 @@ def signup():
     if not body or not body["email"] or not body["password"]:
         # returns 401 if any email or / and password is missing
         raise APIException("Bad request missing required params", 400)
-   
+
     # gets email and password
     email = body["email"]
     hashed_password = generate_password_hash(body["password"], "sha256")
@@ -96,16 +163,16 @@ def signup():
 def login():
     # creates data
     auth = request.get_json()
-   
+
     if not auth or not auth["email"] or not auth["password"]:
         # returns 401 if any email or / and password is missing
         raise APIException("Login required !!", 401)
-   
+
     user = User.find_by_email(auth["email"])
     if not user:
         # returns 401 if user does not exist
          raise APIException("User does not exist !!", 401)
-   
+
     if check_password_hash(user.password, auth["password"]):
         # generates the JWT Token
         token = jwt.encode({
@@ -114,27 +181,11 @@ def login():
         }, app.config['SECRET_KEY'])
 
         #roles = [role.name for role in user.roles]
-        
+
 
         return jsonify({'token' : token.decode('UTF-8'), "user": user.serialize() }), 201
     # returns 403 if password is wrong
     raise APIException("Wrong Password !!", 403)
-
-@api.route('/users', methods =['GET'])
-@authentication_required
-def get_all_users(current_user):
-    # querying the database
-    # for all the entries in it
-    users = User.get_all()
-    # converting the query objects
-    # to list of jsons
-    all_users = []
-    for user in users:
-        # appending the user data json 
-        # to the response list
-        all_users.append(user.serialize())
-   
-    return jsonify({'users': all_users})
 
 @api.route('/profile', methods =['GET'])
 @authentication_required
@@ -145,7 +196,7 @@ def profile(current_user):
     if user.organization:
         organization = user.organization.serialize()
         dict_user['organization'] = organization
-    
+
     if user.person:
         person = user.person.serialize()
         dict_user['person'] = person
@@ -157,10 +208,10 @@ def profile(current_user):
 def register_org(current_user):
     org = request.get_json()
     id_user = current_user.id
-    name = org["name"] 
-    email = org["email"] 
-    address = org["address"] 
-    zipcode = org["zipcode"] 
+    name = org["name"]
+    email = org["email"]
+    address = org["address"]
+    zipcode = org["zipcode"]
     phone = org["phone"]
 
     organization = Organization.find_by_name(name)
@@ -172,11 +223,11 @@ def register_org(current_user):
             raise APIException("Something went wrong during organization registration", 401)
 
         user = User.find_by_id(id_user)
-        
+
         if not user.update_user(organization):
             raise APIException("Something went wrong during user update-organization", 401)
-        
-        return jsonify({"message" :" Successfully registered."}), 201
+
+        return jsonify({"message" : "Successfully registered.", "organization" : organization.serialize()}), 201
     else:
         # returns 202 if user already exists
         return jsonify({"message" :"Organization already exists. Please Log in."}), 202
@@ -186,13 +237,13 @@ def register_org(current_user):
 def register_pers(current_user):
     pers = request.get_json()
     user = current_user
-    name = pers["name"] 
-    lastname = pers["lastname"] 
-    email = pers["email"] 
-    address = pers["address"] 
+    name = pers["name"]
+    lastname = pers["lastname"]
+    email = pers["email"]
+    address = pers["address"]
     zipcode = pers["zipcode"]
     phone = pers["phone"]
-    
+
     person = Person.find_by_name(name)
     if not person:
         try:
@@ -200,11 +251,11 @@ def register_pers(current_user):
 
         except:
             raise APIException("Something went wrong during person registration", 401)
-        
+
         return jsonify({"message" :" Successfully registered."}), 201
     else:
         # returns 202 if user already exists
-        return jsonify({"message" :"Person already exists. Please Log in."}), 202    
+        return jsonify({"message" :"Person already exists. Please Log in."}), 202
 
 
 @api.route('/request_reset_pass', methods =['POST'])
@@ -214,7 +265,7 @@ def request_reset_pass():
     frontend_URL = os.environ.get('FRONTEND_URL')
 
     user = User.find_by_email(user_email)
-    
+
     if user:
         try:
             token = jwt.encode({
@@ -232,10 +283,10 @@ def request_reset_pass():
 
         except:
             raise APIException("Something went wrong. Your password could not be changed.", 401)
-        
+
         message_email=f"Hi {user.email}! As requested, here is your link to reset your password: {url_reset_email}"
         email = send_email(receiver=user.email, message=message_email)
-        
+
         return jsonify({'token' : user.token, 'url_reset':url_reset_app}), 201
 
     else:
@@ -247,7 +298,7 @@ def reset_pass():
     body = request.get_json()
     user_email = body["email"]
     user_passw = body["password"]
-    user_token = body["token"]  
+    user_token = body["token"]
 
     user = User.find_by_email(user_email)
 
@@ -257,10 +308,10 @@ def reset_pass():
         try:
             hashed_password = generate_password_hash(user_passw, "sha256")
 
-            result_upadte = user.update_user(password=hashed_password, token="")   
+            result_upadte = user.update_user(password=hashed_password, token="")
         except:
             raise APIException("Something went wrong. Your password could not be changed.", 401)
-        
+
         return jsonify({"message" :"Password successfully changed."}), 201
     else:
         raise APIException("This user does not exist", 401)
@@ -296,7 +347,7 @@ def send_email(receiver=None, message=""):
 def create_project(current_user, organization_id):
     organization = Organization.find_by_id(organization_id)
     organization_user_ids = [user.id for user in organization.users]
-    
+
     if current_user.id not in organization_user_ids:
         raise APIException("User not allowed to administrate this organization", 401)
 
@@ -304,14 +355,14 @@ def create_project(current_user, organization_id):
     if not form.validate():
         return jsonify(errors=form.errors), 400
 
-    
+
     try:
         project = Project.create(
-            form.title.data, 
+            form.title.data,
             form.subtitle.data,
-            form.description.data, 
-            form.money_needed.data, 
-            form.people_needed.data, 
+            form.description.data,
+            form.money_needed.data,
+            form.people_needed.data,
             form.status.data,
             organization_id
         )
@@ -319,4 +370,3 @@ def create_project(current_user, organization_id):
         raise APIException("Something went wrong during project creation", 401)
 
     return jsonify({"message" : "Project created", "project" : project.serialize()}), 201
-

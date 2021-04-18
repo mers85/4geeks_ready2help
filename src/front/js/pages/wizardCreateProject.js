@@ -17,7 +17,7 @@ export const WizardCreateProject = props => {
 
 	if (actions.isLogIn()) {
 		if (isOrganization) {
-			return <CreateProject wizardId={actions.getUserOrganizationId()} />;
+			return <CreateProject wizardId={actions.getOrganizationId()} />;
 		} else if (!isOrganization) {
 			return <RegisterOrganization notification={"Debes registrarte como organización para crear un proyecto"} />;
 		}

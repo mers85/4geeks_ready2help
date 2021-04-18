@@ -77,7 +77,7 @@ class User(db.Model):
         user.email = email
         user.password = hashed_password
 
-        user.roles.append(Role.find_by_name("basic"))
+        user.roles.append(Role.find_by_name("member"))
 
         db.session.add(user)
         db.session.commit()
@@ -89,7 +89,7 @@ class Role(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
     name = db.Column(db.String(50), unique=True)
 
-    def __init__(self, name):
+    def __init__(self, name, id=None):
         self.name = name
 
     def serialize(self):
@@ -108,6 +108,10 @@ class Role(db.Model):
         db.session.commit()
 
         return role
+
+    @classmethod
+    def get_all(cls):
+        return cls.query.all()
 
     @classmethod
     def find_by_name(cls, name):
@@ -133,7 +137,7 @@ class Organization(db.Model):
     users = db.relationship("User", back_populates="organization")
     projects = db.relationship("Project", back_populates="organization")
 
-    def __init__(self, name, email, address, zipcode, phone):
+    def __init__(self, name, email, address, zipcode, phone, id=None):
         if name == "" or email == "" or address == "" or zipcode == "" or phone == "":
             raise Exception("Fields requiered !!", 401)
 
@@ -163,6 +167,10 @@ class Organization(db.Model):
     @classmethod
     def find_by_id(cls, id):
         return cls.query.get(id)
+    
+    @classmethod
+    def get_all(cls):
+        return cls.query.all()
 
     @classmethod
     def create_organization(cls, name, email, address, zipcode, phone):
@@ -262,9 +270,13 @@ class Project(db.Model):
         return cls.query.filter_by(title = title).first()
 
     @classmethod
+    def get_all(cls):
+        return cls.query.all()
+        
+    @classmethod
     def create(cls, title, subtitle, description, money_needed, people_needed, status, organization_id):
         project = cls()
-        
+
         project.title = title 
         project.subtitle = subtitle
         project.description = description
@@ -272,7 +284,6 @@ class Project(db.Model):
         project.people_needed = people_needed
         project.status = status
         project.organization_id = organization_id
-        
 
         db.session.add(project)
         db.session.commit()
