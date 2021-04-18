@@ -1,5 +1,6 @@
 import React, { useState, useContext } from "react";
 import { Context } from "../store/appContext";
+import PropTypes from "prop-types";
 
 import Grid from "@material-ui/core/Grid";
 import SimpleReactValidator from "simple-react-validator";
@@ -38,6 +39,19 @@ export const LogIn = props => {
 		})
 	);
 
+	function redirectToMyPath() {
+		if (props.path === "/create_project") {
+			if (actions.getUserRoles().includes("organization")) {
+				history.push(props.path);
+			} else {
+				history.push("/register_org");
+				toast.info("Debes registrarte como organización para crear un proyecto");
+			}
+		} else {
+			history.push("/profile");
+		}
+	}
+
 	const submitForm = e => {
 		e.preventDefault();
 		if (validator.allValid()) {
@@ -68,13 +82,13 @@ export const LogIn = props => {
 					})
 					.then(responseJson => {
 						if (responseOk) {
-							actions.saveAccessToken(responseJson.token);
+							actions.saveAccessToken(
+								responseJson.token,
+								responseJson.user["roles"],
+								responseJson.user["organization_id"]
+							);
 							toast.success("¡Has iniciado sesión con éxito!");
-							if (responseJson.role === "organization") {
-								history.push("/dashboard/organization");
-							} else {
-								history.push("/profile");
-							}
+							redirectToMyPath();
 						} else {
 							toast.error(responseJson.message);
 						}
@@ -146,7 +160,12 @@ export const LogIn = props => {
 								</Button>
 							</Grid>
 							<p className="noteHelp">
-								¿Ya tienes un usuario? <Link to="/signup">Sign Up</Link>
+								¿Ya tienes un usuario?{" "}
+								{props.path == "/create_project" ? (
+									<Link to="/signup/create_project">Sign Up</Link>
+								) : (
+									<Link to="/signup">Sign Up</Link>
+								)}
 							</p>
 						</Grid>
 					</Grid>
@@ -157,4 +176,8 @@ export const LogIn = props => {
 			</Grid>
 		</Grid>
 	);
+};
+
+LogIn.propTypes = {
+	path: PropTypes.string
 };

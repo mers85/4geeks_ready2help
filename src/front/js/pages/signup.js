@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link, useHistory } from "react-router-dom";
+import { Link, useHistory, useParams } from "react-router-dom";
 import PropTypes from "prop-types";
 
 //validacines y notificaciones
@@ -15,6 +15,7 @@ import "../../styles/signup.scss";
 
 export const SignUp = props => {
 	const history = useHistory();
+	const { successpath } = useParams();
 	const [value, setValue] = useState({
 		email: "",
 		password: "",
@@ -30,6 +31,14 @@ export const SignUp = props => {
 			className: "errorMessage"
 		})
 	);
+
+	function redirectToMyPath() {
+		if (successpath) {
+			history.push("/" + successpath);
+		} else {
+			history.push("/login");
+		}
+	}
 
 	const submitForm = e => {
 		e.preventDefault();
@@ -56,7 +65,7 @@ export const SignUp = props => {
 							});
 							validator.hideMessages();
 							toast.success("Usuario registrado correctamente");
-							history.push("/login");
+							redirectToMyPath();
 						} else if (response.status === 202) {
 							toast.warn("Este usuario ya se encuentra registrado");
 						}

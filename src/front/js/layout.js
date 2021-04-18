@@ -8,6 +8,7 @@ import { Single } from "./pages/single";
 import { SignUp } from "./pages/signup";
 import { LogIn } from "./pages/login";
 import { CreateProject } from "./pages/createProject";
+import { WizardCreateProject } from "./pages/wizardCreateProject";
 import { LogOut } from "./pages/logout";
 import injectContext from "./store/appContext";
 
@@ -29,12 +30,9 @@ const Layout = () => {
 	const basename = process.env.BASENAME || "";
 	let location = useLocation();
 
-	useEffect(
-		() => {
-			console.log(location.pathname);
-		},
-		[location]
-	);
+	useEffect(() => {
+		console.log(location.pathname);
+	}, [location]);
 
 	return (
 		<div className="d-flex flex-column h-100">
@@ -51,6 +49,9 @@ const Layout = () => {
 					<Route exact path="/signup">
 						<SignUp />
 					</Route>
+					<Route exact path="/signup/:successpath">
+						<SignUp />
+					</Route>
 					<Route exact path="/login">
 						<LogIn />
 					</Route>
@@ -65,6 +66,9 @@ const Layout = () => {
 					</Route>
 					<Route exact path="/organizations/:id/create_project">
 						<CreateProject />
+					</Route>
+					<Route exact path="/create_project">
+						<WizardCreateProject />
 					</Route>
 					<Route exact path="/request_reset_pass">
 						<RequestResetPass />
