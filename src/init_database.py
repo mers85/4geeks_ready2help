@@ -15,6 +15,9 @@ models = api.models
 @click.command()
 @with_appcontext
 def init_db():
+    # role_admin = Role.create_role("admin")
+    # role_basic = Role.create_role("member")
+    # role_organization = Role.create_role("organization")
     load_seed_data(data)
 
 def load_seed_data(data):
@@ -25,6 +28,7 @@ def load_seed_data(data):
             if isinstance(ModelClass, Table):
                 insert = ModelClass.insert().values(**row)
                 try:
+                    print("principal", row)
                     models.db.session.execute(insert)
                     models.db.session.commit()
                 except IntegrityError as e:
@@ -32,7 +36,7 @@ def load_seed_data(data):
                     print(e)
 
             else:
-                print(row)
+                print("else", row)
                 new_row = ModelClass(**row)
                 models.db.session.merge(new_row)
                 models.db.session.commit()

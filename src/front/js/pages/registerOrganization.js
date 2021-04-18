@@ -65,18 +65,18 @@ export const RegisterOrganization = props => {
 			})
 				.then(response => {
 					responseOk = response.ok;
-					if (response.ok) {
-						if (response.status === 201) {
-							actions.addNewUserRole("organization");
-							toast.success("¡Organización registrada!");
-							history.push("/profile");
-						}
-					}
 					return response.json();
 				})
 				.then(responseJson => {
 					console.log(responseJson);
-					if (!responseOk) {
+
+					if (responseOk) {
+						console.log("mi respuesta", responseJson);
+						actions.addNewUserRole("organization");
+						actions.addOrganizationId(responseJson["organization"]["id"]);
+						toast.success("¡Organización registrada!");
+						history.push("/profile");
+					} else {
 						toast.error(responseJson.message);
 					}
 				})

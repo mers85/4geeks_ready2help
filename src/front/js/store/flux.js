@@ -4,19 +4,19 @@ const getState = ({ getStore, getActions, setStore }) => {
 			accessToken: null,
 			projects: null,
 			userRoles: null,
-			userOrganizationId: null
+			organizationId: null
 		},
 		actions: {
 			// Use getActions to call a function within a fuction
-			saveAccessToken: (accessToken, userRoles, userOrganization) => {
+			saveAccessToken: (accessToken, userRoles, organizationId) => {
 				setStore({ accessToken: accessToken });
 				localStorage.setItem("token", accessToken);
 
 				setStore({ userRoles: userRoles });
 				localStorage.setItem("user_roles", userRoles);
 
-				setStore({ userOrganizationId: userOrganization });
-				localStorage.setItem("user_organization_id", userOrganization);
+				setStore({ organizationId: organizationId });
+				localStorage.setItem("organization_id", organizationId);
 			},
 			getAccessToken: () => {
 				let store = getStore();
@@ -33,7 +33,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				//localStorage.clear();
 				localStorage.removeItem("token");
 				localStorage.removeItem("user_roles");
-				localStorage.removeItem("user_organization_id");
+				localStorage.removeItem("organization_id");
 				window.location.href = "/";
 			},
 			addProjects: newProjects => {
@@ -41,7 +41,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				let oldProjectsResults = getStore().projects ? getStore().projects : [];
 				// newProjects = [...oldProjectsResults, ...newProjects];
 				setStore({ projects: newProjects });
-            },
+			},
 			isLogIn: () => {
 				let token = getActions().getAccessToken();
 
@@ -69,12 +69,18 @@ const getState = ({ getStore, getActions, setStore }) => {
 					return localStorage.getItem("user_roles");
 				}
 			},
-			getUserOrganizationId: () => {
+			addOrganizationId: organizationId => {
+				setStore({ organizationId: organizationId });
+
+				localStorage.removeItem("organization_id");
+				localStorage.setItem("organization_id", organizationId);
+			},
+			getOrganizationId: () => {
 				let store = getStore();
-				if (store.userOrganizationId) {
-					return store.userOrganizationId;
+				if (store.organizationId) {
+					return store.organizationId;
 				} else {
-					return localStorage.getItem("user_organization_id");
+					return localStorage.getItem("organization_id");
 				}
 			}
 		}

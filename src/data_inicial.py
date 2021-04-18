@@ -50,7 +50,6 @@ data = {
     "Project": [
         {
             "description": "Proyecto 1",
-            "id": 1,
             "money_needed": 70000,
             "organization_id": 1,
             "people_needed": 70,
@@ -60,7 +59,6 @@ data = {
         },
         {
             "description": "Proyecto 2",
-            "id": 2,
             "money_needed": 60000,
             "organization_id": 1,
             "people_needed": 60,
@@ -70,7 +68,6 @@ data = {
         },
         {
             "description": "Proyecto 3",
-            "id": 3,
             "money_needed": 50000,
             "organization_id": 1,
             "people_needed": 50,
@@ -80,7 +77,6 @@ data = {
         },
         {
             "description": "Proyecto 4",
-            "id": 4,
             "money_needed": 20000,
             "organization_id": 1,
             "people_needed": 20,
