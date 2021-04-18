@@ -10,7 +10,7 @@ import { LogOut } from "../pages/logout";
 export const HeaderTopbar = () => {
 	const { actions, store } = useContext(Context);
 
-	function sessionLinks(handleLogOut) {
+	function sessionLinks() {
 		let link = { log: "", signup: "" };
 		let token = actions.getAccessToken();
 		if (token) {
@@ -48,8 +48,8 @@ export const HeaderTopbar = () => {
 								<li>{sessionLinks().log}</li>
 								<li>{sessionLinks().signup}</li>
 								<li>
-									<Link className="theme-btn" to="/#">
-										Donate Now
+									<Link className="theme-btn" to="/create_project">
+										Crear proyecto
 									</Link>
 								</li>
 							</ul>

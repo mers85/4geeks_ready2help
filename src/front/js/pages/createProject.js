@@ -11,6 +11,7 @@ import Button from "@material-ui/core/Button";
 import PropTypes from "prop-types";
 
 import "../../styles/formularioBase.scss";
+import { LogIn } from "./login";
 
 export const CreateProject = props => {
 	const history = useHistory();
@@ -54,6 +55,7 @@ export const CreateProject = props => {
 
 			if (value.title) {
 				let responseOk = false;
+				id ? id : (id = props.wizardId);
 				fetch(process.env.BACKEND_URL + "/api/v1/organizations/" + id + "/projects", {
 					method: "POST",
 					headers: {
@@ -67,7 +69,7 @@ export const CreateProject = props => {
 						money_needed: parseFloat(value.money_needed),
 						people_needed: parseInt(value.people_needed),
 						status: value.status,
-						organization_id: id
+						organization_id: id ? id : props.wizardId
 					})
 				})
 					.then(response => {
@@ -112,7 +114,7 @@ export const CreateProject = props => {
 								variant="outlined"
 								name="title"
 								label="Nombre del proyecto"
-								InputLabelProps={{
+								inputlabelprops={{
 									shrink: true
 								}}
 								onBlur={e => changeHandler(e)}
@@ -133,7 +135,7 @@ export const CreateProject = props => {
 								name="subtitle"
 								type="text"
 								label="Subtítulo"
-								InputLabelProps={{
+								inputlabelprops={{
 									shrink: true
 								}}
 								onBlur={e => changeHandler(e)}
@@ -150,7 +152,7 @@ export const CreateProject = props => {
 								name="money_needed"
 								type="text"
 								label="Dinero"
-								InputLabelProps={{
+								inputlabelprops={{
 									shrink: true
 								}}
 								onBlur={e => changeHandler(e)}
@@ -167,7 +169,7 @@ export const CreateProject = props => {
 								name="people_needed"
 								type="text"
 								label="Voluntarios"
-								InputLabelProps={{
+								inputlabelprops={{
 									shrink: true
 								}}
 								onBlur={e => changeHandler(e)}
@@ -186,7 +188,7 @@ export const CreateProject = props => {
 								name="description"
 								type="text"
 								label="Descripción"
-								InputLabelProps={{
+								inputlabelprops={{
 									shrink: true
 								}}
 								onBlur={e => changeHandler(e)}
@@ -195,7 +197,7 @@ export const CreateProject = props => {
 						</Grid>
 						<Grid item xs={12}>
 							<Grid className="formFooter">
-								<Button fullWidth className="cBtnTheme" type="submit">
+								<Button fullwidth="true" className="cBtnTheme" type="submit">
 									Crear Proyecto
 								</Button>
 							</Grid>
@@ -208,5 +210,6 @@ export const CreateProject = props => {
 };
 
 CreateProject.propTypes = {
-	id: PropTypes.object
+	id: PropTypes.object,
+	wizardId: PropTypes.string
 };

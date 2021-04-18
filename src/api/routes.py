@@ -180,9 +180,10 @@ def login():
             'exp' : datetime.utcnow() + timedelta(minutes = 90)
         }, app.config['SECRET_KEY'])
 
-        roles = [role.name for role in user.roles]
+        #roles = [role.name for role in user.roles]
+        
 
-        return jsonify({'token' : token.decode('UTF-8'), "user_roles": roles }), 201
+        return jsonify({'token' : token.decode('UTF-8'), "user": user.serialize() }), 201
     # returns 403 if password is wrong
     raise APIException("Wrong Password !!", 403)
 
