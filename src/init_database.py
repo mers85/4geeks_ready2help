@@ -32,6 +32,7 @@ def load_seed_data(data):
                     print(e)
 
             else:
+                print(row)
                 new_row = ModelClass(**row)
                 models.db.session.merge(new_row)
                 models.db.session.commit()

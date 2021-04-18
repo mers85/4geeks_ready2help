@@ -1,18 +1,4 @@
 data = {
-    "Role": [
-        {
-            "name": "admin"
-        },
-        {
-            "name": "basic"
-        },
-        {
-            "name": "organization"
-        },
-        {
-            "name": "supporter"
-        }
-    ],
     "Organization": [
         {
             "address": "Calle de Camarena XX",
@@ -30,12 +16,37 @@ data = {
             "organization_id": 1,
             "password": "sha256$mWTKixVn$eff48ebddcbfe4938d070f2eeff41109a2610180f121d222f0601114c65bfd29",
             # "roles": [
-            #     "basic",
+            #     "member",
             #     "organization"
-            # ]
+            # ],
             "token": ""
         }
     ],
+    "Role": [
+        {
+            "id": 1,
+            "name": "admin"
+        },
+        {
+            "id": 2,
+            "name": "member"
+        },
+        {
+            "id": 3,
+            "name": "organization"
+        }
+    ],
+    "UserRoles": [
+        {
+            "user_id": 1,
+            "role_id": 2
+        },
+        {
+            "user_id": 1,
+            "role_id": 3
+        }
+    ],
+    
     "Project": [
         {
             "description": "Proyecto 1",

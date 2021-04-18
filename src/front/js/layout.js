@@ -30,12 +30,9 @@ const Layout = () => {
 	const basename = process.env.BASENAME || "";
 	let location = useLocation();
 
-	useEffect(
-		() => {
-			console.log(location.pathname);
-		},
-		[location]
-	);
+	useEffect(() => {
+		console.log(location.pathname);
+	}, [location]);
 
 	return (
 		<div className="d-flex flex-column h-100">

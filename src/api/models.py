@@ -77,7 +77,7 @@ class User(db.Model):
         user.email = email
         user.password = hashed_password
 
-        user.roles.append(Role.find_by_name("basic"))
+        user.roles.append(Role.find_by_name("member"))
 
         db.session.add(user)
         db.session.commit()
@@ -89,7 +89,7 @@ class Role(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
     name = db.Column(db.String(50), unique=True)
 
-    def __init__(self, name):
+    def __init__(self, name, id=None):
         self.name = name
 
     def serialize(self):
