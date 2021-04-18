@@ -11,6 +11,7 @@ import Button from "@material-ui/core/Button";
 import PropTypes from "prop-types";
 
 import "../../styles/formularioBase.scss";
+import FixedAlert from "../component/fixedAlert";
 
 export const RegisterOrganization = props => {
 	const history = useHistory();
@@ -89,110 +90,118 @@ export const RegisterOrganization = props => {
 
 	return (
 		<Grid className="projectWrapper">
-			<Grid className="projectForm">
-				<h2>Datos de la organización</h2>
-				<p>Crea tu organización para que puedas dar de alta tus proyectos</p>
-				<form onSubmit={submitForm}>
-					<Grid container spacing={3}>
-						<Grid item xs={12}>
-							<TextField
-								className="inputOutline"
-								fullWidth
-								placeholder="Nombre"
-								value={value.name}
-								variant="outlined"
-								name="name"
-								type="text"
-								label="Nombre"
-								InputLabelProps={{
-									shrink: true
-								}}
-								onBlur={e => changeHandler(e)}
-								onChange={e => changeHandler(e)}
-							/>
-							{validator.message("Name", value.name, "required:name")}
-						</Grid>
-						<Grid item xs={12}>
-							<TextField
-								className="inputOutline"
-								fullWidth
-								placeholder="Dirección"
-								value={value.address}
-								variant="outlined"
-								name="address"
-								type="text"
-								label="Dirección"
-								InputLabelProps={{
-									shrink: true
-								}}
-								onBlur={e => changeHandler(e)}
-								onChange={e => changeHandler(e)}
-							/>
-							{validator.message("address", value.name, "required:address")}
-						</Grid>
-						<Grid item xs={6}>
-							<TextField
-								className="inputOutline"
-								fullWidth
-								placeholder="Código Postal"
-								value={value.zipcode}
-								variant="outlined"
-								name="zipcode"
-								type="text"
-								label="Código Postal"
-								InputLabelProps={{
-									shrink: true
-								}}
-								onBlur={e => changeHandler(e)}
-								onChange={e => changeHandler(e)}
-							/>
-							{validator.message("zipcode", value.name, "required:zipcode")}
-						</Grid>
-						<Grid item xs={6}>
-							<TextField
-								className="inputOutline"
-								fullWidth
-								placeholder="Email de contacto"
-								value={value.email}
-								variant="outlined"
-								name="email"
-								label="Email de contacto"
-								InputLabelProps={{
-									shrink: true
-								}}
-								onBlur={e => changeHandler(e)}
-								onChange={e => changeHandler(e)}
-							/>
-							{validator.message("email", value.name, "required:email")}
-						</Grid>
-						<Grid item xs={6}>
-							<TextField
-								className="inputOutline"
-								fullWidth
-								placeholder="Teléfono"
-								value={value.phone}
-								variant="outlined"
-								name="phone"
-								type="text"
-								label="Teléfono"
-								InputLabelProps={{
-									shrink: true
-								}}
-								onBlur={e => changeHandler(e)}
-								onChange={e => changeHandler(e)}
-							/>
-							{validator.message("phone", value.name, "required:phone")}
-						</Grid>
-						<Grid item xs={12}>
-							<Grid className="formFooter">
-								<Button fullWidth className="cBtnTheme" type="submit">
-									Crear organización
-								</Button>
+			<div className="row mx-auto">
+				<div className="col-8 mx-auto">
+					{props.notification ? <FixedAlert color="info" message={props.notification} /> : ""}
+				</div>
+				<Grid className="projectForm">
+					<h2>Datos de la organización</h2>
+					<p>Crea tu organización para que puedas dar de alta tus proyectos</p>
+					<form onSubmit={submitForm}>
+						<Grid container spacing={3}>
+							<Grid item xs={12}>
+								<TextField
+									className="inputOutline"
+									fullWidth
+									placeholder="Nombre"
+									value={value.name}
+									variant="outlined"
+									name="name"
+									type="text"
+									label="Nombre"
+									InputLabelProps={{
+										shrink: true
+									}}
+									onBlur={e => changeHandler(e)}
+									onChange={e => changeHandler(e)}
+								/>
+								{validator.message("Name", value.name, "required:name")}
+							</Grid>
+							<Grid item xs={12}>
+								<TextField
+									className="inputOutline"
+									fullWidth
+									placeholder="Dirección"
+									value={value.address}
+									variant="outlined"
+									name="address"
+									type="text"
+									label="Dirección"
+									InputLabelProps={{
+										shrink: true
+									}}
+									onBlur={e => changeHandler(e)}
+									onChange={e => changeHandler(e)}
+								/>
+								{validator.message("address", value.name, "required:address")}
+							</Grid>
+							<Grid item xs={6}>
+								<TextField
+									className="inputOutline"
+									fullWidth
+									placeholder="Código Postal"
+									value={value.zipcode}
+									variant="outlined"
+									name="zipcode"
+									type="text"
+									label="Código Postal"
+									InputLabelProps={{
+										shrink: true
+									}}
+									onBlur={e => changeHandler(e)}
+									onChange={e => changeHandler(e)}
+								/>
+								{validator.message("zipcode", value.name, "required:zipcode")}
+							</Grid>
+							<Grid item xs={6}>
+								<TextField
+									className="inputOutline"
+									fullWidth
+									placeholder="Email de contacto"
+									value={value.email}
+									variant="outlined"
+									name="email"
+									label="Email de contacto"
+									InputLabelProps={{
+										shrink: true
+									}}
+									onBlur={e => changeHandler(e)}
+									onChange={e => changeHandler(e)}
+								/>
+								{validator.message("email", value.name, "required:email")}
+							</Grid>
+							<Grid item xs={6}>
+								<TextField
+									className="inputOutline"
+									fullWidth
+									placeholder="Teléfono"
+									value={value.phone}
+									variant="outlined"
+									name="phone"
+									type="text"
+									label="Teléfono"
+									InputLabelProps={{
+										shrink: true
+									}}
+									onBlur={e => changeHandler(e)}
+									onChange={e => changeHandler(e)}
+								/>
+								{validator.message("phone", value.name, "required:phone")}
+							</Grid>
+							<Grid item xs={12}>
+								<Grid className="formFooter">
+									<Button fullWidth className="cBtnTheme" type="submit">
+										Crear organización
+									</Button>
+								</Grid>
 							</Grid>
 						</Grid>
-					</Grid>
-				</form>
-			</Grid>
+					</form>
+				</Grid>
+			</div>
 		</Grid>
 	);
+};
+RegisterOrganization.propTypes = {
+	notification: PropTypes.string
 };

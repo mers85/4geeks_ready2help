@@ -49,7 +49,7 @@ export const HeaderTopbar = () => {
 								<li>{sessionLinks().signup}</li>
 								<li>
 									<Link className="theme-btn" to="/create_project">
-										Crea un proyecto
+										Crear proyecto
 									</Link>
 								</li>
 							</ul>

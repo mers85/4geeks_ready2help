@@ -44,7 +44,7 @@ export const LogIn = props => {
 			if (actions.getUserRoles().includes("organization")) {
 				history.push(props.path);
 			} else {
-				history.push("/profile");
+				history.push("/register_org");
 				toast.info("Debes registrarte como organización para crear un proyecto");
 			}
 		} else {
@@ -160,7 +160,12 @@ export const LogIn = props => {
 								</Button>
 							</Grid>
 							<p className="noteHelp">
-								¿Ya tienes un usuario? <Link to="/signup">Sign Up</Link>
+								¿Ya tienes un usuario?{" "}
+								{props.path == "/create_project" ? (
+									<Link to="/signup/create_project">Sign Up</Link>
+								) : (
+									<Link to="/signup">Sign Up</Link>
+								)}
 							</p>
 						</Grid>
 					</Grid>
