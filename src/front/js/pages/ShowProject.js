@@ -35,7 +35,7 @@ export const ShowProject = props => {
 												onClick={() => {
 													toggle("1");
 												}}>
-												Description
+												Descripción
 											</NavLink>
 										</NavItem>
 										<NavItem>
@@ -44,7 +44,7 @@ export const ShowProject = props => {
 												onClick={() => {
 													toggle("2");
 												}}>
-												Donations
+												Donar
 											</NavLink>
 										</NavItem>
 									</Nav>
@@ -68,45 +68,17 @@ export const ShowProject = props => {
 																	</div>
 																</div>
 															</div>
-															<ul>
+															<ul className="mb-3">
 																<li>
-																	<span>Raised:</span> $7,000.00
+																	<span>Recaudado:</span> 7,000.00{" "}
+																	<i className="fas fa-euro-sign text-secondary fa-1x"></i>
 																</li>
 																<li>
-																	<span>Goal:</span> $8,000.00
-																</li>
-																<li>
-																	<span>Donar:</span> 380
+																	<span>Objetivo:</span> 8,000.00{" "}
+																	<i className="fas fa-euro-sign text-secondary fa-1x"></i>
 																</li>
 															</ul>
-															<div className="case-b-text">
-																<p>
-																	On the other hand, we denounce with righteous
-																	indignation and dislike men who are so beguiled and
-																	demoralized by the charms of pleasure of the moment,
-																	so blinded by desire, that they cannot foresee the
-																	pain and trouble that are bound to ensue and equal
-																	blame belongs to those who fail in their duty
-																	through weakness of will, which is the same as
-																	saying through shrinking from toil and pain.
-																</p>
-																<p>
-																	These cases are perfectly simple and easy to
-																	distinguish. In a free hour, when our power of
-																	choice is untrammelled and when nothing prevents our
-																	being able to do what we like best, every pleasure
-																	is to be welcomed and every pain avoided.
-																</p>
-																<p>
-																	But in certain circumstances and owing to the claims
-																	of duty or the obligations of business it will
-																	frequently occur that pleasures have to be
-																	repudiated and annoyances accepted. The wise man
-																	therefore always holds in these matters to this
-																	principle of selection: he rejects pleasures.
-																</p>
-															</div>
-															<div className="case-bb-text">
+															<div className="case-bb-text py-3">
 																<h3>We want to ensure the education for the kids.</h3>
 																<p>
 																	These cases are perfectly simple and easy to
@@ -114,22 +86,6 @@ export const ShowProject = props => {
 																	choice is untrammelled and when nothing prevents our
 																	being able to do what we like best, every pleasure.
 																</p>
-																<ul>
-																	<li>
-																		The wise man therefore always holds in these
-																		matters.
-																	</li>
-																	<li>
-																		In a free hour, when our power of choice and
-																		when nothing.
-																	</li>
-																	<li>Else he endures pains to avoid worse pains.</li>
-																	<li>
-																		We denounce with righteous indignation and
-																		dislike men.{" "}
-																	</li>
-																	<li>Which is the same as saying through.</li>
-																</ul>
 															</div>
 														</div>
 													</div>
