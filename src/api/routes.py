@@ -231,6 +231,7 @@ def register_org(current_user):
         user = User.find_by_id(id_user)
 
         if not user.update_user(organization):
+            print("Unexpected error:", sys.exc_info())
             raise APIException("Something went wrong during user update-organization", 401)
 
         return jsonify({"message" : "Successfully registered.", "organization" : organization.serialize()}), 201
@@ -383,5 +384,13 @@ def create_project(current_user, organization_id):
     return jsonify({"message" : "Project created", "project" : project.serialize()}), 201
 
 @api.route('/projects/<int:id>', methods =['GET'])
-def create_project():
-    s
+def show_project(id):
+    project = Project.find_by_id(id)
+    
+    if not project:
+        print("Unexpected error:", sys.exc_info())
+        raise APIException("Project not found", 401)
+
+    
+    return jsonify({"project": project.serialize()}), 200
+
