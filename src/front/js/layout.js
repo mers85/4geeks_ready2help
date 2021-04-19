@@ -20,6 +20,7 @@ import { RegisterPerson } from "./pages/registerPerson";
 import { RequestResetPass } from "./pages/requestResetPass";
 import { ResetPass } from "./pages/resetPass";
 import { Projects } from "./pages/projects";
+import { ShowProject } from "./pages/ShowProject";
 import { ToastContainer } from "react-toastify";
 
 import "react-toastify/dist/ReactToastify.css";
@@ -75,6 +76,12 @@ const Layout = () => {
 					<Route exact path="/create_project">
 						<WizardCreateProject />
 					</Route>
+					<Route exact path="/projects">
+						<Projects />
+					</Route>
+					<Route exact path="/projects/:id">
+						<ShowProject />
+					</Route>
 					<Route exact path="/request_reset_pass">
 						<RequestResetPass />
 					</Route>
@@ -83,9 +90,6 @@ const Layout = () => {
 					</Route>
 					<Route exact path="/logout">
 						<LogOut />
-					</Route>
-					<Route exact path="/projects">
-						<Projects />
 					</Route>
 					<Route exact path="/single/:theid">
 						<Single />
