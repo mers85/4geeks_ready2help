@@ -127,6 +127,7 @@ def authentication_required(f):
             data = jwt.decode(token, app.config['SECRET_KEY'])
             current_user = User.find_by_id(data["id"])
         except:
+            print("Unexpected error:", sys.exc_info())
             raise APIException("Token is invalid !!", 401)
         # returns the current logged in users contex to the routes
         return  f(current_user, *args, **kwargs)
