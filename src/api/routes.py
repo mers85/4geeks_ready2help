@@ -54,7 +54,7 @@ def get_all_users():
         # to the response list
         all_users.append(user.serialize())
 
-    return jsonify({'users': all_users})
+    return jsonify({'users': all_users}), 200
 
 ###################################################################################
 # End-Point para listar datos de tabla Organization (OJO: No tienen autorizacion) #
@@ -72,7 +72,7 @@ def get_all_organizations():
         # to the response list
         all_organizations.append(organization.serialize())
 
-    return jsonify({'organizations': all_organizations})
+    return jsonify({'organizations': all_organizations}), 200
 
 ###################################################################################
 # End-Point para listar datos de tabla Role (OJO: No tienen autorizacion)         #
@@ -90,7 +90,7 @@ def get_all_roles():
         # to the response list
         all_roles.append(role.serialize())
 
-    return jsonify({'roles': all_roles})
+    return jsonify({'roles': all_roles}), 200
 
 ###################################################################################
 # End-Point para listar datos de tabla Project (OJO: No tienen autorizacion)      #
@@ -103,7 +103,7 @@ def get_all_projects():
     for project in projects:
         list_projects.append(project.serialize())
 
-    return jsonify(list_projects), 201
+    return jsonify(list_projects), 200
 
 #User
 
@@ -381,3 +381,7 @@ def create_project(current_user, organization_id):
         raise APIException("Something went wrong during project creation", 401)
 
     return jsonify({"message" : "Project created", "project" : project.serialize()}), 201
+
+@api.route('/projects/<int:id>', methods =['GET'])
+def create_project():
+    s
