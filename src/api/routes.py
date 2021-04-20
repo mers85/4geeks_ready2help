@@ -7,6 +7,9 @@ from api.models import db, User, Organization, Person, Project, Role
 from api.utils import generate_sitemap, APIException
 from api.forms import ProjectForm
 
+#Para imprimir errores
+import sys
+
 # library for Simple Mail Transfer Protocol# library for Simple Mail Transfer Protocol
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
@@ -51,7 +54,7 @@ def get_all_users():
         # to the response list
         all_users.append(user.serialize())
 
-    return jsonify({'users': all_users})
+    return jsonify({'users': all_users}), 200
 
 ###################################################################################
 # End-Point para listar datos de tabla Organization (OJO: No tienen autorizacion) #
@@ -69,7 +72,7 @@ def get_all_organizations():
         # to the response list
         all_organizations.append(organization.serialize())
 
-    return jsonify({'organizations': all_organizations})
+    return jsonify({'organizations': all_organizations}), 200
 
 ###################################################################################
 # End-Point para listar datos de tabla Role (OJO: No tienen autorizacion)         #
@@ -87,7 +90,7 @@ def get_all_roles():
         # to the response list
         all_roles.append(role.serialize())
 
-    return jsonify({'roles': all_roles})
+    return jsonify({'roles': all_roles}), 200
 
 ###################################################################################
 # End-Point para listar datos de tabla Project (OJO: No tienen autorizacion)      #
@@ -100,7 +103,7 @@ def get_all_projects():
     for project in projects:
         list_projects.append(project.serialize())
 
-    return jsonify(list_projects), 201
+    return jsonify(list_projects), 200
 
 #User
 
@@ -124,6 +127,7 @@ def authentication_required(f):
             data = jwt.decode(token, app.config['SECRET_KEY'])
             current_user = User.find_by_id(data["id"])
         except:
+            print("Unexpected error:", sys.exc_info())
             raise APIException("Token is invalid !!", 401)
         # returns the current logged in users contex to the routes
         return  f(current_user, *args, **kwargs)
@@ -151,6 +155,7 @@ def signup():
         try:
            user = User.create_user(email, hashed_password)
         except:
+            print("Unexpected error:", sys.exc_info())
             raise APIException("Something went wrong during user registration", 401)
 
         return jsonify({"message" :" Successfully registered."}), 201
@@ -220,11 +225,13 @@ def register_org(current_user):
             organization = Organization.create_organization(name, email, address, zipcode, phone)
 
         except:
+            print("Unexpected error:", sys.exc_info())
             raise APIException("Something went wrong during organization registration", 401)
 
         user = User.find_by_id(id_user)
 
         if not user.update_user(organization):
+            print("Unexpected error:", sys.exc_info())
             raise APIException("Something went wrong during user update-organization", 401)
 
         return jsonify({"message" : "Successfully registered.", "organization" : organization.serialize()}), 201
@@ -250,6 +257,7 @@ def register_pers(current_user):
             person = Person.create_person(user, name, lastname, email, address, zipcode, phone)
 
         except:
+            print("Unexpected error:", sys.exc_info())
             raise APIException("Something went wrong during person registration", 401)
 
         return jsonify({"message" :" Successfully registered."}), 201
@@ -282,6 +290,7 @@ def request_reset_pass():
             url_reset_app = "/reset_pass?token=" + short_token
 
         except:
+            print("Unexpected error:", sys.exc_info())
             raise APIException("Something went wrong. Your password could not be changed.", 401)
 
         message_email=f"Hi {user.email}! As requested, here is your link to reset your password: {url_reset_email}"
@@ -310,6 +319,7 @@ def reset_pass():
 
             result_upadte = user.update_user(password=hashed_password, token="")
         except:
+            print("Unexpected error:", sys.exc_info())
             raise APIException("Something went wrong. Your password could not be changed.", 401)
 
         return jsonify({"message" :"Password successfully changed."}), 201
@@ -337,6 +347,7 @@ def send_email(receiver=None, message=""):
             server.quit()
             print("successfully sent email to: %s" % (msg['To']))
         except:
+            print("Unexpected error:", sys.exc_info())
             raise APIException("Something went wrong. The email was not sending.", 401)
     else:
         raise APIException("Something went wrong. The receiver is empty.", 401)
@@ -367,6 +378,19 @@ def create_project(current_user, organization_id):
             organization_id
         )
     except:
+        print("Unexpected error:", sys.exc_info())
         raise APIException("Something went wrong during project creation", 401)
 
     return jsonify({"message" : "Project created", "project" : project.serialize()}), 201
+
+@api.route('/projects/<int:id>', methods =['GET'])
+def show_project(id):
+    project = Project.find_by_id(id)
+    
+    if not project:
+        print("Unexpected error:", sys.exc_info())
+        raise APIException("Project not found", 401)
+
+    
+    return jsonify({"project": project.serialize()}), 200
+
