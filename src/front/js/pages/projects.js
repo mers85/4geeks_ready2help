@@ -44,7 +44,14 @@ export const Projects = () => {
 					{store.projects ? (
 						store.projects.map(project => {
 							// return <h1 key={project.id}>{project.description}</h1>;
-							return <CardProject key={project.id} title={project.title} />;
+							return (
+								<CardProject
+									key={project.id}
+									title={project.title}
+									money_needed={project.money_needed}
+									total_donated={project.total_donated}
+								/>
+							);
 						})
 					) : (
 						<h1>CARGANDO...</h1>

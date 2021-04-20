@@ -55,7 +55,8 @@ data = {
             "people_needed": 70,
             "status": "draft",
             "subtitle": "Proyecto 1",
-            "title": "Proyecto 1"
+            "title": "Proyecto 1",
+            "total_donated":0
         },
         {
             "description": "Proyecto 2",
@@ -64,7 +65,8 @@ data = {
             "people_needed": 60,
             "status": "draft",
             "subtitle": "Proyecto 2",
-            "title": "Proyecto 2"
+            "title": "Proyecto 2",
+            "total_donated":0
         },
         {
             "description": "Proyecto 3",
@@ -73,7 +75,8 @@ data = {
             "people_needed": 50,
             "status": "draft",
             "subtitle": "Proyecto 3",
-            "title": "Proyecto 3"
+            "title": "Proyecto 3",
+            "total_donated":0
         },
         {
             "description": "Proyecto 4",
@@ -82,7 +85,8 @@ data = {
             "people_needed": 20,
             "status": "draft",
             "subtitle": "Proyecto 4",
-            "title": "Proyecto 4"
+            "title": "Proyecto 4",
+            "total_donated":0
         }
     ]
 }
