@@ -50,6 +50,7 @@ export const Projects = () => {
 									title={project.title}
 									money_needed={project.money_needed}
 									total_donated={project.total_donated}
+									id={project.id}
 								/>
 							);
 						})

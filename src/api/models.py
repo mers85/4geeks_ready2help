@@ -297,6 +297,10 @@ class Project(db.Model):
         return cls.query.get(id)
 
     @classmethod
+    def find_by_id(cls, id):
+        return cls.query.get(id)
+
+    @classmethod
     def get_all(cls):
         return cls.query.all()
         
