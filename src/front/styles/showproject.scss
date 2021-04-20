@@ -100,8 +100,8 @@
     }
 
     .progress {
-        height: 5px!important;
-        overflow: unset!important;
+        height: 5px;
+        overflow: unset;
     }
 
     .progress .progress-bar {
@@ -109,7 +109,6 @@
         box-shadow: none;
         position: relative;
         animation: animate-positive 4s;
-        width: 65%;
         background: #08cc7f;
         height: 5px;
     }
@@ -121,6 +120,7 @@
         flex-direction: column;
         -ms-flex-pack: center;
         justify-content: center;
+        overflow: visible;
         color: #fff;
         text-align: center;
         white-space: nowrap;
@@ -147,7 +147,7 @@
     }
 
     .progress .progress-value:before {
-        
+        content: "";
         border-color: #08cc7f transparent transparent transparent;
         border-style: solid;
         border-width: 5px;
@@ -157,6 +157,28 @@
         bottom: -10px;
         left: 50%;
         margin-left: -5px;
+    }
+
+    .wpo-case-text-top {
+        padding: 30px;
+    }
+
+    .wpo-case-content ul {
+        list-style: none;
+    }
+
+    .wpo-case-text-top ul {
+        list-style: none;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .wpo-case-text-top ul li {
+        font-size: 14px;
+    }
+
+    .wpo-case-text-top ul li span {
+        font-weight: 700;
     }
 
 

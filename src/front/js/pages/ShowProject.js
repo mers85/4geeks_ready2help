@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import { Context } from "../store/appContext";
 import { Link } from "react-router-dom";
 import { useParams } from "react-router-dom";
+import { toast } from "react-toastify";
 
 import { TabContent, TabPane, Nav, NavItem, NavLink } from "reactstrap";
 import classnames from "classnames";
@@ -12,11 +13,24 @@ import "../../styles/showproject.scss";
 export const ShowProject = props => {
 	let { id } = useParams();
 	const [project, setProject] = useState("");
+	const [recaudado, setRecaudado] = useState("");
+	const [progressbarMoney, setProgressBarMoney] = useState("");
 
 	const [activeTab, setActiveTab] = useState("1");
 	const toggle = tab => {
 		if (activeTab !== tab) setActiveTab(tab);
 	};
+
+	function myProgressBar() {
+		if (project) {
+			let money_obj = project.money_needed;
+			let money_recaudado = 10000;
+			let percent = (money_recaudado * 100) / money_obj;
+			Math.round(percent);
+			setProgressBarMoney(percent);
+			console.log(percent);
+		}
+	}
 
 	useEffect(() => {
 		let responseOk = false;
@@ -33,6 +47,7 @@ export const ShowProject = props => {
 			.then(responseJson => {
 				if (responseOk) {
 					setProject(responseJson.project);
+					myProgressBar();
 				} else {
 					toast.error(responseJson.message);
 				}
@@ -88,7 +103,7 @@ export const ShowProject = props => {
 																		<div className="progress">
 																			<div className="progress-bar">
 																				<div className="progress-value">
-																					<span>65.5</span>%
+																					<span>{progressbarMoney}</span>%
 																				</div>
 																			</div>
 																		</div>
@@ -96,11 +111,11 @@ export const ShowProject = props => {
 																</div>
 																<ul className="mb-3">
 																	<li>
-																		<span>Recaudado:</span> {project.money_needed}{" "}
+																		<span>Recaudado:</span> {10000}{" "}
 																		<i className="fas fa-euro-sign text-secondary fa-1x"></i>
 																	</li>
 																	<li>
-																		<span>Objetivo:</span> {10}{" "}
+																		<span>Objetivo:</span> {project.money_needed}{" "}
 																		<i className="fas fa-euro-sign text-secondary fa-1x"></i>
 																	</li>
 																</ul>
