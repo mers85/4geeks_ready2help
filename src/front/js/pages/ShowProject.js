@@ -15,21 +15,21 @@ export const ShowProject = props => {
 	const [project, setProject] = useState("");
 	const [recaudado, setRecaudado] = useState("");
 	const [progressbarMoney, setProgressBarMoney] = useState("");
+	const [progressBarColor, setProgressBarColor] = useState("");
 
 	const [activeTab, setActiveTab] = useState("1");
 	const toggle = tab => {
 		if (activeTab !== tab) setActiveTab(tab);
 	};
 
-	function myProgressBar() {
-		if (project) {
-			let money_obj = project.money_needed;
-			let money_recaudado = 10000;
-			let percent = (money_recaudado * 100) / money_obj;
-			Math.round(percent);
-			setProgressBarMoney(percent);
-			console.log(percent);
-		}
+	function myProgressBar(money_needed) {
+		let money_recaudado = 35000;
+		let percent = (money_recaudado * 100) / money_needed;
+		Math.round(percent);
+		setProgressBarMoney(percent);
+		let widthPorcentaje = percent + "%";
+		setProgressBarColor(widthPorcentaje);
+		console.log(percent);
 	}
 
 	useEffect(() => {
@@ -47,7 +47,7 @@ export const ShowProject = props => {
 			.then(responseJson => {
 				if (responseOk) {
 					setProject(responseJson.project);
-					myProgressBar();
+					myProgressBar(responseJson.project.money_needed);
 				} else {
 					toast.error(responseJson.message);
 				}
@@ -101,7 +101,9 @@ export const ShowProject = props => {
 																<div className="progress-section">
 																	<div className="process">
 																		<div className="progress">
-																			<div className="progress-bar">
+																			<div
+																				className="progress-bar"
+																				style={{ width: progressBarColor }}>
 																				<div className="progress-value">
 																					<span>{progressbarMoney}</span>%
 																				</div>
@@ -111,7 +113,7 @@ export const ShowProject = props => {
 																</div>
 																<ul className="mb-3">
 																	<li>
-																		<span>Recaudado:</span> {10000}{" "}
+																		<span>Recaudado:</span> {35000}{" "}
 																		<i className="fas fa-euro-sign text-secondary fa-1x"></i>
 																	</li>
 																	<li>
