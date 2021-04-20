@@ -3,6 +3,8 @@ from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.dialects.postgresql import ENUM as pgEnum
 from enum import Enum, unique
 
+# Libreria para obtener la fecha de hoy
+from datetime import datetime
 
 @unique
 class ProjectStatusEnum(Enum):
@@ -194,6 +196,8 @@ class Person(db.Model):
     id_user = db.Column(db.Integer, db.ForeignKey('users.id'))
     user = db.relationship("User", back_populates="person")
 
+    donations = db.relationship("Donation", back_populates="person")
+
     def __init__(self, id_user, name, lastname, email, address, zipcode, phone):
         if name == "" or lastname == "" or email == "" or address == "" or zipcode == "" or phone == "":
             raise Exception("Fields requiered !!", 401)
@@ -223,12 +227,16 @@ class Person(db.Model):
     @classmethod
     def find_by_name(cls, name):
         return cls.query.filter_by(name = name).first()
+
+    @classmethod
+    def find_by_id(cls, id):
+        return cls.query.get(id)
     
     @classmethod
     def create_person(cls, user, name, lastname, email, address, zipcode, phone):
         person = cls(user.id, name, lastname, email, address, zipcode, phone)
 
-        user.roles.append(Role.find_by_name("supporter"))
+        user.roles.append(Role.find_by_name("member"))
 
         db.session.add(person)
         db.session.commit()
@@ -245,10 +253,12 @@ class Project(db.Model):
     money_needed = db.Column(db.Float(), nullable=True)
     people_needed = db.Column(db.Integer(), nullable=True)
     status = db.Column(pgEnum(ProjectStatusEnum), unique=False, nullable=False, default=ProjectStatusEnum.draft.value, server_default=ProjectStatusEnum.draft.value)
-    
+    total_donated = db.Column(db.Float(), nullable=False, default=0)
+
     organization_id = db.Column(db.Integer, db.ForeignKey('organizations.id'), nullable=False)
     organization = db.relationship("Organization", back_populates="projects", uselist=False)
 
+    donations = db.relationship("Donation", back_populates="project")
 
     def __repr__(self):
         return '<Project %r>' % self.title
@@ -262,12 +272,29 @@ class Project(db.Model):
             "money_needed": self.money_needed,
             "people_needed": self.people_needed,
             "organization_id": self.organization_id,
-            "status": self.status.value
+            "status": self.status.value,
+            "total_donated": self.total_donated
         }
+
+    def update_project(self, title=None, subtitle=None, money_needed=None, people_needed=None, status=None, organization_id=None, total_donated=None):
+        self.title = title if title is not None else self.title
+        self.subtitle = subtitle if subtitle is not None else self.subtitle
+        self.money_needed = money_needed if money_needed is not None else self.money_needed
+        self.people_needed = people_needed if people_needed is not None else self.people_needed
+        self.status = status if status is not None else self.status
+        self.organization_id = organization_id if organization_id is not None else self.organization_id
+        self.total_donated = total_donated if total_donated is not None else self.total_donated
+
+        db.session.commit()
+        return True
 
     @classmethod
     def find_by_title(cls, title):
         return cls.query.filter_by(title = title).first()
+    
+    @classmethod
+    def find_by_id(cls, id):
+        return cls.query.get(id)
 
     @classmethod
     def find_by_id(cls, id):
@@ -288,10 +315,48 @@ class Project(db.Model):
         project.people_needed = people_needed
         project.status = status
         project.organization_id = organization_id
+        project.total_donated = 0
 
         db.session.add(project)
         db.session.commit()
 
         return project
 
+class Donation(db.Model):
+    __tablename__ = "donations"
+    id = db.Column(db.Integer, primary_key=True)
+    amount = db.Column(db.Float, nullable=False)
+    payment_type = db.Column(db.String, nullable=False)
+    date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     
+    project_id = db.Column(db.Integer, db.ForeignKey('projects.id'), nullable=False)
+    project = db.relationship("Project", uselist=False, back_populates="donations")
+    person_id = db.Column(db.Integer, db.ForeignKey('persons.id'), nullable=False)
+    person = db.relationship("Person", uselist=False, back_populates="donations")
+
+    def __repr__(self):
+        return '<Donation %r>' % self.id
+
+    def serialize(self):
+        return {
+            "id": self.id,
+            "project_id": self.project_id,
+            "person_id": self.person_id,
+            "amount": self.amount,
+            "payment_type": self.payment_type,
+            "date": self.date
+        }
+    
+    @classmethod
+    def create(cls, project_donate, person_donate, amount, payment_type):
+        donation = cls()
+
+        donation.project = project_donate
+        donation.person = person_donate
+        donation.amount = amount
+        donation.payment_type = payment_type
+        
+        db.session.add(donation)
+        db.session.commit()
+
+        return donation

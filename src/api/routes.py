@@ -2,8 +2,9 @@
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
 import os
+import sys
 from flask import Flask, request, jsonify, make_response, url_for, Blueprint
-from api.models import db, User, Organization, Person, Project, Role
+from api.models import db, User, Organization, Person, Project, Role, Donation
 from api.utils import generate_sitemap, APIException
 from api.forms import ProjectForm
 
@@ -382,6 +383,38 @@ def create_project(current_user, organization_id):
         raise APIException("Something went wrong during project creation", 401)
 
     return jsonify({"message" : "Project created", "project" : project.serialize()}), 201
+
+
+@api.route('/projects/<int:id>/donation', methods =['POST'])
+@authentication_required
+def create_donation(current_user, id):
+    project_id = id
+    person_donate = current_user.person
+
+    if not person_donate:
+        print("Unexpected error:", sys.exc_info())
+        raise APIException("Please, complete your profile", 401)
+
+    body_donation = request.get_json()
+    amount = body_donation["amount"]
+    payment_type = body_donation["payment_type"]
+
+    try:
+        project_donate = Project.find_by_id(project_id)
+        donation = Donation.create(
+            project_donate,
+            person_donate,
+            amount,
+            payment_type
+        )
+
+        project_donate.update_project(total_donated = project_donate.total_donated + amount)
+    except:
+        print("Unexpected error:", sys.exc_info())
+        raise APIException("Something went wrong during project creation", 401)
+
+    return jsonify({"message" : "Donate maded. Thank you so much!", "donation" : donation.serialize()}), 201
+
 
 @api.route('/projects/<int:id>', methods =['GET'])
 def show_project(id):
