@@ -42,7 +42,7 @@ export const CardProject = props => {
 					<div className="case-btn">
 						<ul>
 							<li>
-								<Link onClick={ClickHandler} to="/">
+								<Link onClick={ClickHandler} to={"/projects/" + props.id}>
 									Learn More
 								</Link>
 							</li>
@@ -63,5 +63,6 @@ CardProject.propTypes = {
 	title: PropTypes.string,
 	description: PropTypes.string,
 	money_needed: PropTypes.number,
-	people_needed: PropTypes.number
+	people_needed: PropTypes.number,
+	id: PropTypes.string
 };
