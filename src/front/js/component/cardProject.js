@@ -71,7 +71,7 @@ export const CardProject = props => {
 						<div className="case-btn">
 							<ul>
 								<li>
-									<Link onClick={ClickHandler} to="/">
+									<Link onClick={ClickHandler} to={"/projects/" + props.id}>
 										Learn More
 									</Link>
 								</li>
