@@ -1,5 +1,4 @@
 from flask_sqlalchemy import SQLAlchemy
-
 from sqlalchemy.dialects.postgresql import ENUM as pgEnum
 from enum import Enum, unique
 
@@ -14,6 +13,8 @@ class ProjectStatusEnum(Enum):
 
 db = SQLAlchemy()
 
+
+#USER & ROL
 class User(db.Model):
     __tablename__ = "users"
     id = db.Column(db.Integer, primary_key=True)
@@ -28,6 +29,9 @@ class User(db.Model):
 
     roles = db.relationship('Role', secondary='user_roles',
                 backref=db.backref('users', lazy='dynamic'))
+
+    volunteering_projects = db.relationship("Project", secondary="project_volunteers", back_populates="volunteers" )
+    
 
     # def __init__(self, email, password):
     #     if email == "" or password == "":
@@ -127,6 +131,7 @@ class UserRoles(db.Model):
     role_id = db.Column(db.Integer(), db.ForeignKey('roles.id', ondelete='CASCADE'))
 
 
+#ORGANIZACION
 class Organization(db.Model):
     __tablename__ = "organizations"
     id = db.Column(db.Integer, primary_key=True)
@@ -183,6 +188,7 @@ class Organization(db.Model):
 
         return organization
 
+#PERSON PERFIL COMPLETO DEL USUARIO
 class Person(db.Model):
     __tablename__ = "persons"
     id = db.Column(db.Integer, primary_key=True)
@@ -243,7 +249,7 @@ class Person(db.Model):
 
         return person
 
-
+#PROJECT
 class Project(db.Model):
     __tablename__ = "projects"
     id = db.Column(db.Integer, primary_key=True)
@@ -260,6 +266,8 @@ class Project(db.Model):
 
     donations = db.relationship("Donation", back_populates="project")
 
+    volunteers = db.relationship("User", secondary="project_volunteers", back_populates="volunteering_projects")
+
     def __repr__(self):
         return '<Project %r>' % self.title
 
@@ -273,10 +281,11 @@ class Project(db.Model):
             "people_needed": self.people_needed,
             "organization_id": self.organization_id,
             "status": self.status.value,
-            "total_donated": self.total_donated
+            "total_donated": self.total_donated,
+            "volunteers": [volunteer.serialize() for volunteer in self.volunteers]
         }
 
-    def update_project(self, title=None, subtitle=None, money_needed=None, people_needed=None, status=None, organization_id=None, total_donated=None):
+    def update_project(self, title=None, subtitle=None, money_needed=None, people_needed=None, status=None, organization_id=None, total_donated=None, ):
         self.title = title if title is not None else self.title
         self.subtitle = subtitle if subtitle is not None else self.subtitle
         self.money_needed = money_needed if money_needed is not None else self.money_needed
@@ -287,6 +296,10 @@ class Project(db.Model):
 
         db.session.commit()
         return True
+
+    def update_project_volunteer(self, current_user):
+        self.volunteers.append(current_user)
+        db.session.commit()
 
     @classmethod
     def find_by_title(cls, title):
@@ -322,6 +335,7 @@ class Project(db.Model):
 
         return project
 
+#DONACIONES
 class Donation(db.Model):
     __tablename__ = "donations"
     id = db.Column(db.Integer, primary_key=True)
@@ -360,3 +374,9 @@ class Donation(db.Model):
         db.session.commit()
 
         return donation
+
+#ASOCIACIONES 
+project_volunteers = db.Table('project_volunteers', db.Model.metadata,
+    db.Column('user_id', db.Integer, db.ForeignKey('users.id')),
+    db.Column('project_id', db.Integer, db.ForeignKey('projects.id'))
+)

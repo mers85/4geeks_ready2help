@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 
 import { TabContent, TabPane, Nav, NavItem, NavLink } from "reactstrap";
 import classnames from "classnames";
+import { Volunteer } from "../component/volunteer";
 
 import imgPrincipal from "../../img/hands_01.jpg";
 import "../../styles/showproject.scss";
@@ -87,6 +88,15 @@ export const ShowProject = props => {
 												Donar
 											</NavLink>
 										</NavItem>
+										<NavItem>
+											<NavLink
+												className={classnames({ active: activeTab === "3" })}
+												onClick={() => {
+													toggle("3");
+												}}>
+												Voluntario
+											</NavLink>
+										</NavItem>
 									</Nav>
 								</div>
 								<div className="wpo-case-details-text">
@@ -135,6 +145,11 @@ export const ShowProject = props => {
 										</TabPane>
 										<TabPane tabId="2">
 											<div className="text-center display-4 bg-light">coming soon...</div>
+										</TabPane>
+										<TabPane tabId="3">
+											<div className="text-center display-4 bg-light">
+												<Volunteer />
+											</div>
 										</TabPane>
 									</TabContent>
 								</div>
