@@ -4,16 +4,20 @@ const getState = ({ getStore, getActions, setStore }) => {
 			accessToken: null,
 			projects: null,
 			userRoles: null,
+			userId: null,
 			organizationId: null
 		},
 		actions: {
 			// Use getActions to call a function within a fuction
-			saveAccessToken: (accessToken, userRoles, organizationId) => {
+			saveAccessToken: (accessToken, userRoles, userId, organizationId) => {
 				setStore({ accessToken: accessToken });
 				localStorage.setItem("token", accessToken);
 
 				setStore({ userRoles: userRoles });
 				localStorage.setItem("user_roles", userRoles);
+
+				setStore({ userId: userId });
+				localStorage.setItem("user_id", userId);
 
 				setStore({ organizationId: organizationId });
 				localStorage.setItem("organization_id", organizationId);
@@ -29,10 +33,12 @@ const getState = ({ getStore, getActions, setStore }) => {
 			outAccessToken: () => {
 				setStore({ accessToken: null });
 				setStore({ userRoles: null });
+				setStore({ userId: null });
 				setStore({ userOrganizationId: null });
 				//localStorage.clear();
 				localStorage.removeItem("token");
 				localStorage.removeItem("user_roles");
+				localStorage.removeItem("user_id");
 				localStorage.removeItem("organization_id");
 				window.location.href = "/";
 			},
@@ -67,6 +73,14 @@ const getState = ({ getStore, getActions, setStore }) => {
 					return store.userRoles;
 				} else {
 					return localStorage.getItem("user_roles");
+				}
+			},
+			getUserId: () => {
+				let store = getStore();
+				if (store.userId) {
+					return store.userId;
+				} else {
+					return localStorage.getItem("user_id");
 				}
 			},
 			addOrganizationId: organizationId => {

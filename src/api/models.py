@@ -49,6 +49,15 @@ class User(db.Model):
             "id": self.id,
             "email": self.email,
             "organization_id": self.organization_id,
+            "roles": [role.name for role in self.roles],
+            "volunteering_projects": [volunteering_project.serialize_volunteer() for volunteering_project in self.volunteering_projects]
+        }
+        
+    def serialize_user(self):
+        return {
+            "id": self.id,
+            "email": self.email,
+            "organization_id": self.organization_id,
             "roles": [role.name for role in self.roles]
         }
 
@@ -282,7 +291,13 @@ class Project(db.Model):
             "organization_id": self.organization_id,
             "status": self.status.value,
             "total_donated": self.total_donated,
-            "volunteers": [volunteer.serialize() for volunteer in self.volunteers]
+            "volunteers": [volunteer.serialize_user() for volunteer in self.volunteers]
+        }
+
+    def serialize_volunteer(self):
+        return {
+            "id": self.id,
+            "title": self.title,
         }
 
     def update_project(self, title=None, subtitle=None, money_needed=None, people_needed=None, status=None, organization_id=None, total_donated=None, ):
