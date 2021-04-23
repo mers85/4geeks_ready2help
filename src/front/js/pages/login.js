@@ -47,6 +47,8 @@ export const LogIn = props => {
 				history.push("/register_org");
 				toast.info("Debes registrarte como organización para crear un proyecto");
 			}
+		} else if (props.path && props.path.includes("/projects/")) {
+			history.push(props.path);
 		} else {
 			history.push("/profile");
 		}
@@ -85,7 +87,10 @@ export const LogIn = props => {
 							let orgID = responseJson.user["organization_id"]
 								? responseJson.user["organization_id"]
 								: null;
-							actions.saveAccessToken(responseJson.token, responseJson.user["roles"], orgID);
+							console.log(responseJson.person);
+							let personId = responseJson.person ? responseJson.person["id"] : null;
+							console.log(typeof personId);
+							actions.saveAccessToken(responseJson.token, responseJson.user["roles"], orgID, personId);
 
 							toast.success("¡Has iniciado sesión con éxito!");
 							redirectToMyPath();

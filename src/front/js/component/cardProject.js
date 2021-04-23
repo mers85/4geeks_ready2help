@@ -76,7 +76,7 @@ export const CardProject = props => {
 									</Link>
 								</li>
 								<li>
-									<Link onClick={ClickHandler} to="/">
+									<Link onClick={ClickHandler} to={"/projects/" + props.id + "/donate"}>
 										Donate Now
 									</Link>
 								</li>

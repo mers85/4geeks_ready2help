@@ -188,8 +188,10 @@ def login():
 
         #roles = [role.name for role in user.roles]
 
+        # Comprobamos si el usuario tiene el perfil person dado de alta
+        person = user.person.serialize() if user.person is not None else None 
 
-        return jsonify({'token' : token.decode('UTF-8'), "user": user.serialize() }), 201
+        return jsonify({'token' : token.decode('UTF-8'), "user": user.serialize(), "person": person}), 201
     # returns 403 if password is wrong
     raise APIException("Wrong Password !!", 403)
 
@@ -261,7 +263,7 @@ def register_pers(current_user):
             print("Unexpected error:", sys.exc_info())
             raise APIException("Something went wrong during person registration", 401)
 
-        return jsonify({"message" :" Successfully registered."}), 201
+        return jsonify({"message" :" Successfully registered.", "person" : person.serialize()}), 201
     else:
         # returns 202 if user already exists
         return jsonify({"message" :"Person already exists. Please Log in."}), 202
@@ -411,7 +413,7 @@ def create_donation(current_user, id):
         project_donate.update_project(total_donated = project_donate.total_donated + amount)
     except:
         print("Unexpected error:", sys.exc_info())
-        raise APIException("Something went wrong during project creation", 401)
+        raise APIException("Something went wrong. The donation was not complete", 401)
 
     return jsonify({"message" : "Donate maded. Thank you so much!", "donation" : donation.serialize()}), 201
 
@@ -427,3 +429,18 @@ def show_project(id):
     
     return jsonify({"project": project.serialize()}), 200
 
+#API para recuperar una persona por su ID
+@api.route('/persons/<int:id_person>', methods =['GET'])
+@authentication_required
+def get_person(current_user, id_person):
+
+    print(id_person)
+
+    try: 
+        #Find person by id
+        person = Person.find_by_id(id_person)
+    except:
+        print("Unexpected error:", sys.exc_info())
+        raise APIException("Something went wrong. Profile volunter was not located", 401)
+    
+    return jsonify({'person': person.serialize()}), 200

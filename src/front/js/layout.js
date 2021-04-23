@@ -9,6 +9,7 @@ import { SignUp } from "./pages/signup";
 import { LogIn } from "./pages/login";
 import { CreateProject } from "./pages/createProject";
 import { WizardCreateProject } from "./pages/wizardCreateProject";
+import { WizardCreateDonation } from "./pages/wizardCreateDonation";
 import { LogOut } from "./pages/logout";
 import injectContext from "./store/appContext";
 
@@ -21,6 +22,7 @@ import { RequestResetPass } from "./pages/requestResetPass";
 import { ResetPass } from "./pages/resetPass";
 import { Projects } from "./pages/projects";
 import { ShowProject } from "./pages/ShowProject";
+import { Donate } from "./pages/donate";
 import { ToastContainer } from "react-toastify";
 
 import "react-toastify/dist/ReactToastify.css";
@@ -87,6 +89,9 @@ const Layout = () => {
 					</Route>
 					<Route exact path="/reset_pass">
 						<ResetPass />
+					</Route>
+					<Route exact path="/projects/:id/donate">
+						<WizardCreateDonation />
 					</Route>
 					<Route exact path="/logout">
 						<LogOut />

@@ -4,11 +4,12 @@ const getState = ({ getStore, getActions, setStore }) => {
 			accessToken: null,
 			projects: null,
 			userRoles: null,
-			organizationId: null
+			organizationId: null,
+			personId: null
 		},
 		actions: {
 			// Use getActions to call a function within a fuction
-			saveAccessToken: (accessToken, userRoles, organizationId) => {
+			saveAccessToken: (accessToken, userRoles, organizationId, personId) => {
 				setStore({ accessToken: accessToken });
 				localStorage.setItem("token", accessToken);
 
@@ -17,6 +18,9 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 				setStore({ organizationId: organizationId });
 				localStorage.setItem("organization_id", organizationId);
+
+				setStore({ personId: personId });
+				localStorage.setItem("person_id", personId);
 			},
 			getAccessToken: () => {
 				let store = getStore();
@@ -30,10 +34,12 @@ const getState = ({ getStore, getActions, setStore }) => {
 				setStore({ accessToken: null });
 				setStore({ userRoles: null });
 				setStore({ userOrganizationId: null });
+				setStore({ personId: null });
 				//localStorage.clear();
 				localStorage.removeItem("token");
 				localStorage.removeItem("user_roles");
 				localStorage.removeItem("organization_id");
+				localStorage.removeItem("person_id");
 				window.location.href = "/";
 			},
 			addProjects: newProjects => {
@@ -81,6 +87,30 @@ const getState = ({ getStore, getActions, setStore }) => {
 					return store.organizationId;
 				} else {
 					return localStorage.getItem("organization_id");
+				}
+			},
+			addPersonId: personId => {
+				setStore({ personId: personId });
+
+				localStorage.removeItem("person_id");
+				localStorage.setItem("person_id", personId);
+			},
+			getPersonId: () => {
+				let store = getStore();
+
+				if (store.personId) {
+					return store.personId;
+				} else {
+					return JSON.parse(localStorage.getItem("person_id"));
+				}
+			},
+			isPerson: () => {
+				let person = getActions().getPersonId();
+
+				if (person) {
+					return true;
+				} else {
+					return false;
 				}
 			}
 		}
