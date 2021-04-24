@@ -7,11 +7,13 @@ import { toast } from "react-toastify";
 import { DashboardOrganization } from "./dashboardOrganization";
 import FixedAlert from "../component/fixedAlert";
 import Button from "@material-ui/core/Button";
+import { MyActivities } from "./myActivities";
 
 export const Profile = () => {
 	const [email, setEmail] = useState("");
 	const [organization, setOrganization] = useState("");
 	const [person, setPerson] = useState("");
+	const [user, setUser] = useState("");
 	const [volunteeringProjects, setVolunteeringProjects] = useState([]);
 	const [error, setError] = useState("");
 	const { actions, store } = useContext(Context);
@@ -38,6 +40,7 @@ export const Profile = () => {
 			.then(responseJson => {
 				if (responseOk) {
 					if (responseJson.user.email) {
+						setUser(responseJson.user);
 						setEmail(responseJson.user.email);
 						setVolunteeringProjects([...responseJson.user.volunteering_projects]);
 					}
@@ -77,6 +80,7 @@ export const Profile = () => {
 				)}
 			</div>
 			{organization ? <DashboardOrganization organization={organization} /> : ""}
+			{user && user.volunteering_projects.length > 0 ? <MyActivities user={user} /> : ""}
 		</div>
 	);
 };
