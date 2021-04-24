@@ -4,13 +4,15 @@ import PropTypes from "prop-types";
 
 import "../../styles/circleProgressBar.scss";
 
-const CircleProgress = props => {
+export const CircleProgress = props => {
+	let projectStats = props.volunteers_stats;
+
 	return (
 		<div className="circle-progress">
 			<div className="container">
 				<div className="row">
 					<div className="col-sm-3 col-md-2">
-						<div className="progress-volunteer" data-percentage="80">
+						<div className="progress-volunteer" data-percentage={projectStats.project_volunteers_percent}>
 							<span className="progress-volunteer-left">
 								<span className="progress-volunteer-bar"></span>
 							</span>
@@ -19,9 +21,8 @@ const CircleProgress = props => {
 							</span>
 							<div className="progress-volunteer-value text-muted">
 								<div>
-									20%
+									{projectStats.total_project_volunteers + "/" + projectStats.total_volunteers_needed}
 									<br />
-									<span>completed</span>
 								</div>
 							</div>
 						</div>
@@ -32,5 +33,6 @@ const CircleProgress = props => {
 	);
 };
 
-export default CircleProgress;
-CircleProgress.propTypes = {};
+CircleProgress.propTypes = {
+	volunteers_stats: PropTypes.object
+};

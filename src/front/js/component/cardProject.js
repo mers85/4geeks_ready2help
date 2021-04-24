@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 
 import { Card, CardDeck } from "reactstrap";
 import image_projects from "../../img/image_projects.png";
-import CircleProgress from "./circleProgress";
+import { CircleProgress } from "./circleProgress";
 
 import "../../styles/projects.scss";
 import "../../styles/circleProgressBar.scss";
@@ -62,7 +62,7 @@ export const CardProject = props => {
 									<div className="col">
 										<div className="">Voluntariado</div>
 										<div className="row justify-content-md-center pt-3">
-											<CircleProgress />
+											<CircleProgress volunteers_stats={props.volunteers_stats} />
 										</div>
 									</div>
 									<div className="col">
@@ -123,5 +123,6 @@ CardProject.propTypes = {
 	money_needed: PropTypes.number,
 	people_needed: PropTypes.number,
 	total_donated: PropTypes.number,
-	id: PropTypes.number
+	id: PropTypes.number,
+	volunteers_stats: PropTypes.object
 };

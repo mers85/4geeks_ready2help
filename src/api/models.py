@@ -291,8 +291,10 @@ class Project(db.Model):
             "organization_id": self.organization_id,
             "status": self.status.value,
             "total_donated": self.total_donated,
-            "volunteers": [volunteer.serialize_user() for volunteer in self.volunteers]
+            "volunteers": [volunteer.serialize_user() for volunteer in self.volunteers],
+            "volunteers_stats": self.serialize_stats_volunteers()
         }
+
 
     def serialize_volunteer(self):
         return {
@@ -315,6 +317,29 @@ class Project(db.Model):
     def update_project_volunteer(self, current_user):
         self.volunteers.append(current_user)
         db.session.commit()
+        return self
+
+    def serialize_stats_volunteers(self):
+        total_volunteers_needed = self.people_needed
+        total_project_volunteers = len(self.volunteers)
+        project_volunteers_left = total_volunteers_needed - total_project_volunteers
+
+        percentage_float = 100 * float(total_project_volunteers)/float(total_volunteers_needed)
+        percentage = round(percentage_float)
+
+        if project_volunteers_left == 0:
+            completed = True
+        else:
+            completed = False
+       
+        return {
+            "total_volunteers_needed": total_volunteers_needed,
+            "total_project_volunteers": total_project_volunteers,
+            "project_volunteers_left": project_volunteers_left,
+            "project_volunteers_percent": percentage,
+            "completed": completed
+        }
+            
 
     @classmethod
     def find_by_title(cls, title):

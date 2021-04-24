@@ -435,20 +435,9 @@ def create_volunteer(current_user, id):
     project = Project.find_by_id(id)
 
     if current_user:
-       project.update_project_volunteer(current_user)
+      project = project.update_project_volunteer(current_user)
     else:
         print("Unexpected error:", sys.exc_info())
         raise APIException("Please, Log In", 401)
 
-    return jsonify({"message" : "Thanks for joining!", "project": project.serialize()}), 201
-
-# @api.route('/projects/<int:id>/volunteers', methods =['GET'])
-# @authentication_required
-# def get_all_volunteers(current_user, id):
-#     users = User.get_all()
-
-#     all_volunteers = []
-#     for volunteer in volunteers:
-#         all_volunteers.append()
-
-#     return jsonify({'volunteers': all_volunteers}), 200
+    return jsonify({"message" : "Thanks for joining!", "project": project.serialize() }), 201
