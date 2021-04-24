@@ -6,16 +6,20 @@ import { toast } from "react-toastify";
 
 import { TabContent, TabPane, Nav, NavItem, NavLink } from "reactstrap";
 import classnames from "classnames";
+import { LogIn } from "./login";
+import { Volunteer } from "../component/volunteer";
 
 import imgPrincipal from "../../img/hands_01.jpg";
 import "../../styles/showproject.scss";
 
 export const ShowProject = props => {
 	let { id } = useParams();
+	const { actions } = useContext(Context);
 	const [project, setProject] = useState("");
 	const [recaudado, setRecaudado] = useState("");
 	const [progressbarMoney, setProgressBarMoney] = useState("");
 	const [progressBarColor, setProgressBarColor] = useState("");
+	const [isVolunteer, setIsVolunteer] = useState("");
 
 	const [activeTab, setActiveTab] = useState("1");
 	const toggle = tab => {
@@ -24,12 +28,23 @@ export const ShowProject = props => {
 
 	function myProgressBar(money_needed) {
 		let money_recaudado = 35000;
-		let percent = (money_recaudado * 100) / money_needed;
-		Math.round(percent);
+		let percent = ((money_recaudado * 100) / money_needed).toFixed(2);
 		setProgressBarMoney(percent);
-		let widthPorcentaje = percent + "%";
+		let widthPorcentaje = percent + " %";
 		setProgressBarColor(widthPorcentaje);
-		console.log(percent);
+	}
+
+	function isVolunteerInThisProject(project) {
+		if (project && project.volunteers) {
+			let volunteers = project.volunteers;
+			for (let i = 0; i < volunteers.length; i++) {
+				if (volunteers[i]["id"] == actions.getUserId()) {
+					setIsVolunteer(true);
+				} else {
+					setIsVolunteer(false);
+				}
+			}
+		}
 	}
 
 	useEffect(() => {
@@ -48,6 +63,7 @@ export const ShowProject = props => {
 				if (responseOk) {
 					setProject(responseJson.project);
 					myProgressBar(responseJson.project.money_needed);
+					isVolunteerInThisProject(responseJson.project);
 				} else {
 					toast.error(responseJson.message);
 				}
@@ -87,12 +103,26 @@ export const ShowProject = props => {
 												Donar
 											</NavLink>
 										</NavItem>
+										<NavItem>
+											{(project && project.people_needed == 0) ||
+											(project && project.volunteers_stats["completed"]) ? (
+												""
+											) : (
+												<NavLink
+													className={classnames({ active: activeTab === "3" })}
+													onClick={() => {
+														toggle("3");
+													}}>
+													Voluntario
+												</NavLink>
+											)}
+										</NavItem>
 									</Nav>
 								</div>
 								<div className="wpo-case-details-text">
-									<TabContent activeTab={activeTab}>
-										<TabPane tabId="1">
-											{project ? (
+									{project ? (
+										<TabContent activeTab={activeTab}>
+											<TabPane tabId="1">
 												<div className="row">
 													<div className="col-12">
 														<div className="wpo-case-content">
@@ -129,14 +159,23 @@ export const ShowProject = props => {
 														</div>
 													</div>
 												</div>
-											) : (
-												<div>Cargando project...</div>
-											)}
-										</TabPane>
-										<TabPane tabId="2">
-											<div className="text-center display-4 bg-light">coming soon...</div>
-										</TabPane>
-									</TabContent>
+											</TabPane>
+											<TabPane tabId="2">
+												<div className="text-center display-4 bg-light">coming soon...</div>
+											</TabPane>
+											<TabPane tabId="3">
+												{actions.isLogIn() ? (
+													<div className="text-center display-4 bg-light">
+														<Volunteer project={project} isVolunteer={isVolunteer} />
+													</div>
+												) : (
+													<LogIn path={"/projects/" + project.id} />
+												)}
+											</TabPane>
+										</TabContent>
+									) : (
+										<div>Cargando project...</div>
+									)}
 								</div>
 							</div>
 						</div>

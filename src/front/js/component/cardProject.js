@@ -1,9 +1,13 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import PropTypes from "prop-types";
+
 import { Card, CardDeck } from "reactstrap";
 import image_projects from "../../img/image_projects.png";
+import { CircleProgress } from "./circleProgress";
+
 import "../../styles/projects.scss";
-import PropTypes from "prop-types";
+import "../../styles/circleProgressBar.scss";
 
 export const CardProject = props => {
 	const ClickHandler = () => {
@@ -48,25 +52,49 @@ export const CardProject = props => {
 					<div className="wpo-case-content">
 						<div className="wpo-case-text-top">
 							<h2>{props.title}</h2>
-							<div className="progress-section">
-								<div className="process">
-									<div className="progress">
-										<div className="progress-bar">
-											<div className="progress-value">
-												<span>{percent(props.total_donated, props.money_needed)}</span>%
+							<div>
+								<p className="text-muted font-italic">{props.subtitle}</p>
+							</div>
+							<div className="container">
+								<div className="row">
+									{props.people_needed > 0 ? (
+										<div className="col">
+											<div className="row justify-content-md-center pt-3">
+												<CircleProgress volunteers_stats={props.volunteers_stats} />
 											</div>
 										</div>
+									) : (
+										""
+									)}
+									<div className="col">
+										<div className="progress-section pt-5 mt-3">
+											<div className="process">
+												<div className="progress">
+													<div className="progress-bar">
+														<div className="progress-value">
+															<span>
+																{percent(props.total_donated, props.money_needed)}
+															</span>
+															%
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+										<ul className="d-flex justify-content-between">
+											<li className="mr-2">
+												<span>Recaudado:</span>
+												<br />${number_format(props.total_donated, 2)}
+											</li>
+
+											<li className="ml-2">
+												<span>Objetivo:</span>
+												<br />${number_format(props.money_needed, 2)}
+											</li>
+										</ul>
 									</div>
 								</div>
 							</div>
-							<ul>
-								<li>
-									<span>Raised:</span> ${number_format(props.total_donated, 2)}
-								</li>
-								<li>
-									<span>Goal:</span> ${number_format(props.money_needed, 2)}
-								</li>
-							</ul>
 						</div>
 						<div className="case-btn">
 							<ul>
@@ -91,9 +119,11 @@ export const CardProject = props => {
 
 CardProject.propTypes = {
 	title: PropTypes.string,
+	subtitle: PropTypes.string,
 	description: PropTypes.string,
 	money_needed: PropTypes.number,
 	people_needed: PropTypes.number,
 	total_donated: PropTypes.number,
-	id: PropTypes.number
+	id: PropTypes.number,
+	volunteers_stats: PropTypes.object
 };
