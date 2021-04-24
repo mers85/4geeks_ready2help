@@ -53,20 +53,20 @@ export const CardProject = props => {
 						<div className="wpo-case-text-top">
 							<h2>{props.title}</h2>
 							<div>
-								<p className="text-muted font-italic">
-									{"Aqui debería ir una frase que descria el objetivo del proyecto"}
-								</p>
+								<p className="text-muted font-italic">{props.subtitle}</p>
 							</div>
 							<div className="container">
 								<div className="row">
-									<div className="col">
-										<div className="">Voluntariado</div>
-										<div className="row justify-content-md-center pt-3">
-											<CircleProgress volunteers_stats={props.volunteers_stats} />
+									{props.people_needed > 0 ? (
+										<div className="col">
+											<div className="row justify-content-md-center pt-3">
+												<CircleProgress volunteers_stats={props.volunteers_stats} />
+											</div>
 										</div>
-									</div>
+									) : (
+										""
+									)}
 									<div className="col">
-										<div className="">Dinero</div>
 										<div className="progress-section pt-5 mt-3">
 											<div className="process">
 												<div className="progress">
@@ -119,6 +119,7 @@ export const CardProject = props => {
 
 CardProject.propTypes = {
 	title: PropTypes.string,
+	subtitle: PropTypes.string,
 	description: PropTypes.string,
 	money_needed: PropTypes.number,
 	people_needed: PropTypes.number,

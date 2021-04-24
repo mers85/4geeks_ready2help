@@ -48,8 +48,10 @@ export const Projects = () => {
 								<CardProject
 									key={project.id}
 									title={project.title}
+									subtitle={project.subtitle}
 									money_needed={project.money_needed}
 									total_donated={project.total_donated}
+									people_needed={project.people_needed}
 									id={project.id}
 									volunteers_stats={project.volunteers_stats}
 								/>

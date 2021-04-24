@@ -23,6 +23,7 @@ export const CircleProgress = props => {
 								<div>
 									{projectStats.total_project_volunteers + "/" + projectStats.total_volunteers_needed}
 									<br />
+									<span>Voluntarios</span>
 								</div>
 							</div>
 						</div>

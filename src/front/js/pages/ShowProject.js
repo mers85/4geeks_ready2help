@@ -28,10 +28,9 @@ export const ShowProject = props => {
 
 	function myProgressBar(money_needed) {
 		let money_recaudado = 35000;
-		let percent = (money_recaudado * 100) / money_needed;
-		Math.round(percent);
+		let percent = ((money_recaudado * 100) / money_needed).toFixed(2);
 		setProgressBarMoney(percent);
-		let widthPorcentaje = percent + "%";
+		let widthPorcentaje = percent + " %";
 		setProgressBarColor(widthPorcentaje);
 	}
 
@@ -105,13 +104,17 @@ export const ShowProject = props => {
 											</NavLink>
 										</NavItem>
 										<NavItem>
-											<NavLink
-												className={classnames({ active: activeTab === "3" })}
-												onClick={() => {
-													toggle("3");
-												}}>
-												Voluntario
-											</NavLink>
+											{project && project.people_needed > 0 ? (
+												<NavLink
+													className={classnames({ active: activeTab === "3" })}
+													onClick={() => {
+														toggle("3");
+													}}>
+													Voluntario
+												</NavLink>
+											) : (
+												""
+											)}
 										</NavItem>
 									</Nav>
 								</div>

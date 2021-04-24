@@ -266,7 +266,7 @@ class Project(db.Model):
     subtitle = db.Column(db.Text(), nullable=True)
     description = db.Column(db.Text(), nullable=True)
     money_needed = db.Column(db.Float(), nullable=True)
-    people_needed = db.Column(db.Integer(), nullable=True)
+    people_needed = db.Column(db.Integer(), nullable=False, default="0", server_default="0")
     status = db.Column(pgEnum(ProjectStatusEnum), unique=False, nullable=False, default=ProjectStatusEnum.draft.value, server_default=ProjectStatusEnum.draft.value)
     total_donated = db.Column(db.Float(), nullable=False, default=0)
 
@@ -324,8 +324,10 @@ class Project(db.Model):
         total_project_volunteers = len(self.volunteers)
         project_volunteers_left = total_volunteers_needed - total_project_volunteers
 
-        percentage_float = 100 * float(total_project_volunteers)/float(total_volunteers_needed)
-        percentage = round(percentage_float)
+        if total_volunteers_needed == 0:
+            percentage = 0
+        else:
+            percentage = round(100 * float(total_project_volunteers)/float(total_volunteers_needed))
 
         if project_volunteers_left == 0:
             completed = True
