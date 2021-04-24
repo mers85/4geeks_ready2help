@@ -104,7 +104,10 @@ export const ShowProject = props => {
 											</NavLink>
 										</NavItem>
 										<NavItem>
-											{project && project.people_needed > 0 ? (
+											{(project && project.people_needed == 0) ||
+											(project && project.volunteers_stats["completed"]) ? (
+												""
+											) : (
 												<NavLink
 													className={classnames({ active: activeTab === "3" })}
 													onClick={() => {
@@ -112,8 +115,6 @@ export const ShowProject = props => {
 													}}>
 													Voluntario
 												</NavLink>
-											) : (
-												""
 											)}
 										</NavItem>
 									</Nav>

@@ -9,6 +9,7 @@ import { toast } from "react-toastify";
 import PropTypes from "prop-types";
 
 import "../../styles/volunteer.scss";
+import { Projects } from "../pages/projects";
 
 export const Volunteer = props => {
 	const history = useHistory();
