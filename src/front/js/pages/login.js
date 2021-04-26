@@ -84,15 +84,10 @@ export const LogIn = props => {
 					})
 					.then(responseJson => {
 						if (responseOk) {
-							let orgID = responseJson.user["organization_id"]
-								? responseJson.user["organization_id"]
-								: null;
-							actions.saveAccessToken(
-								responseJson.token,
-								responseJson.user["roles"],
-								responseJson.user["id"],
-								orgID
-							);
+							let orgID = responseJson.user["organization_id"] ? responseJson.user["organization_id"] : null;
+							let personId = responseJson.person ? responseJson.person["id"] : null;
+							
+							actions.saveAccessToken(responseJson.token, responseJson.user["roles"], responseJson.user["id"], orgID, personId);
 
 							toast.success("¡Has iniciado sesión con éxito!");
 							redirectToMyPath();

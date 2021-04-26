@@ -1,8 +1,10 @@
 import React, { useState, useContext } from "react";
 import { Context } from "../store/appContext";
 import { useHistory } from "react-router-dom";
+import PropTypes from "prop-types";
+import FixedAlert from "../component/fixedAlert";
 
-export const RegisterPerson = () => {
+export const RegisterPerson = props => {
 	const [name, setName] = useState("");
 	const [lastname, setLastName] = useState("");
 	const [email, setEmail] = useState("");
@@ -67,6 +69,9 @@ export const RegisterPerson = () => {
 			.then(responseJson => {
 				if (!responseOk) {
 					setError(responseJson.message);
+				} else {
+					console.log("responseJson.person.id", responseJson.person.id);
+					actions.addPersonId(responseJson.person.id);
 				}
 			})
 			.catch(error => {
@@ -75,8 +80,15 @@ export const RegisterPerson = () => {
 			});
 	}
 
+	if (props.notification) {
+		console.log(props.notification);
+	}
+
 	return (
 		<div className="jumbotron">
+			<div className="col-8 mx-auto">
+				{props.notification ? <FixedAlert color="info" message={props.notification} /> : ""}
+			</div>
 			{error ? <h3>{error}</h3> : ""}
 			{message ? <h3>{message}</h3> : ""}
 			<input
@@ -124,4 +136,7 @@ export const RegisterPerson = () => {
 			<input type="button" value="Guardar" onClick={registerPerson} />
 		</div>
 	);
+};
+RegisterPerson.propTypes = {
+	notification: PropTypes.string
 };
