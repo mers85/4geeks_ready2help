@@ -8,7 +8,7 @@ export const LogOut = () => {
 	const { actions } = useContext(Context);
 
 	function handleLogOut() {
-		actions.outAccessToken();
+		actions.outUserDetails();
 		toast.success("Sesión finalizada");
 	}
 

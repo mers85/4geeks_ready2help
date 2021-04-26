@@ -46,8 +46,8 @@ export const Profile = () => {
 					}
 					if (responseJson.user.organization) {
 						setOrganization(responseJson.user.organization);
-					} else if (responseJson.user.person) {
-						setPerson(responseJson.user.person);
+					} else if (responseJson.user["details"]) {
+						setPerson(responseJson.user["details"]);
 					}
 				}
 			});

@@ -41,7 +41,7 @@ export const LogIn = props => {
 
 	function redirectToMyPath() {
 		if (props.path === "/create_project") {
-			if (actions.getUserRoles().includes("organization")) {
+			if (actions.getUser() && actions.getUser()["roles"].includes("organization")) {
 				history.push(props.path);
 			} else {
 				history.push("/register_org");
@@ -89,9 +89,9 @@ export const LogIn = props => {
 								: null;
 							let personId = responseJson.person ? responseJson.person["id"] : null;
 
-							actions.saveAccessToken(
+							actions.saveUserDetails(
 								responseJson.token,
-								responseJson.user["roles"],
+								responseJson.user,
 								responseJson.user["id"],
 								orgID,
 								personId

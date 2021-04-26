@@ -45,12 +45,13 @@ class User(db.Model):
         return '<User %r>' % self.id
 
     def serialize(self):
+
         return {
             "id": self.id,
             "email": self.email,
             "organization_id": self.organization_id,
             "roles": [role.name for role in self.roles],
-            "details": self.person,
+            "details": self.person.serialize() if self.person is not None else None,
             "volunteering_projects": [volunteering_project.serialize_volunteer() for volunteering_project in self.volunteering_projects]
         }
         

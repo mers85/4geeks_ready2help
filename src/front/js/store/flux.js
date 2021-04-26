@@ -3,19 +3,20 @@ const getState = ({ getStore, getActions, setStore }) => {
 		store: {
 			accessToken: null,
 			projects: null,
-			userRoles: null,
 			userId: null,
+			user: null,
 			organizationId: null,
 			personId: null
 		},
 		actions: {
 			// Use getActions to call a function within a fuction
-			saveAccessToken: (accessToken, userRoles, userId, organizationId, personId) => {
+			//Roles, userId, organizationId, personId
+			saveUserDetails: (accessToken, user, userId, organizationId, personId) => {
 				setStore({ accessToken: accessToken });
 				localStorage.setItem("token", accessToken);
 
-				setStore({ userRoles: userRoles });
-				localStorage.setItem("user_roles", userRoles);
+				setStore({ user: user });
+				localStorage.setItem("user", JSON.stringify(user));
 
 				setStore({ userId: userId });
 				localStorage.setItem("user_id", userId);
@@ -34,14 +35,16 @@ const getState = ({ getStore, getActions, setStore }) => {
 					return localStorage.getItem("token");
 				}
 			},
-			outAccessToken: () => {
+			outUserDetails: () => {
 				setStore({ accessToken: null });
+				setStore({ user: null });
 				setStore({ userRoles: null });
 				setStore({ userId: null });
 				setStore({ userOrganizationId: null });
 				setStore({ personId: null });
 				//localStorage.clear();
 				localStorage.removeItem("token");
+				localStorage.removeItem("user");
 				localStorage.removeItem("user_roles");
 				localStorage.removeItem("user_id");
 				localStorage.removeItem("organization_id");
@@ -63,45 +66,52 @@ const getState = ({ getStore, getActions, setStore }) => {
 					return false;
 				}
 			},
+			// addNewUserRole: newRol => {
+			// 	let store = getStore();
+			// 	let roles = store.userRoles;
+
+			// 	let allRoles = [...roles, newRol];
+			// 	setStore({ userRoles: allRoles });
+
+			// 	localStorage.removeItem("user_roles");
+			// 	localStorage.setItem("user_roles", allRoles);
+			// },
 			addNewUserRole: newRol => {
-				let store = getStore();
-				let roles = store.userRoles;
+				let user = getStore().user;
+				let roles = user["roles"];
 
 				let allRoles = [...roles, newRol];
-				setStore({ userRoles: allRoles });
 
-				localStorage.removeItem("user_roles");
-				localStorage.setItem("user_roles", allRoles);
+				user["roles"] = allRoles;
+				setStore({ user: user });
+
+				localStorage.removeItem("user");
+				localStorage.setItem("user", JSON.stringify(user));
 			},
-			getUserRoles: () => {
+			getUser: () => {
 				let store = getStore();
-				if (store.userRoles) {
-					return store.userRoles;
+				if (store.user) {
+					return store.user;
 				} else {
-					return localStorage.getItem("user_roles");
+					return JSON.parse(localStorage.getItem("user"));
 				}
 			},
 			getUserId: () => {
 				let store = getStore();
-				if (store.userId) {
+				if (store.user) {
 					return store.userId;
 				} else {
 					return localStorage.getItem("user_id");
 				}
 			},
 			addOrganizationId: organizationId => {
-				setStore({ organizationId: organizationId });
+				let user = getStore().user;
+				user["organization_id"] = organizationId;
 
-				localStorage.removeItem("organization_id");
-				localStorage.setItem("organization_id", organizationId);
-			},
-			getOrganizationId: () => {
-				let store = getStore();
-				if (store.organizationId) {
-					return store.organizationId;
-				} else {
-					return localStorage.getItem("organization_id");
-				}
+				setStore({ user: user });
+
+				localStorage.removeItem("user");
+				localStorage.setItem("user", JSON.stringify(user));
 			},
 			addPersonId: personId => {
 				setStore({ personId: personId });

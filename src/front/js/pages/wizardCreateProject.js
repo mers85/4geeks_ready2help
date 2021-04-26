@@ -13,11 +13,11 @@ import { RegisterOrganization } from "./registerOrganization";
 export const WizardCreateProject = props => {
 	const history = useHistory();
 	const { actions } = useContext(Context);
-	let isOrganization = actions.getUserRoles() ? actions.getUserRoles().includes("organization") : "";
+	let isOrganization = actions.getUser() ? actions.getUser()["roles"].includes("organization") : "";
 
 	if (actions.isLogIn()) {
 		if (isOrganization) {
-			return <CreateProject wizardId={actions.getOrganizationId()} />;
+			return <CreateProject wizardId={actions.getUser()["organization_id"]} />;
 		} else if (!isOrganization) {
 			return <RegisterOrganization notification={"Debes registrarte como organización para crear un proyecto"} />;
 		}

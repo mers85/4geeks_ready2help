@@ -16,6 +16,20 @@ export const RegisterPerson = props => {
 	const { actions, store } = useContext(Context);
 	const history = useHistory();
 
+	let search = window.location.search;
+	// let params = new URLSearchParams(search);
+	// let token = params.get("token");
+	console.log(typeof search, search);
+
+	function myPath() {
+		console.log("se espera true", search.includes("/donate"));
+		if (window.location.search.includes("/donate")) {
+			history.push(search);
+		} else {
+			history.push("/profile");
+		}
+	}
+
 	function registerPerson() {
 		setError("");
 		switch (true) {
@@ -61,7 +75,7 @@ export const RegisterPerson = props => {
 				if (response.ok) {
 					if (response.status === 201) {
 						setMessage("Person registered correctly");
-						history.push("/profile");
+						myPath();
 					}
 				}
 				return response.json();
