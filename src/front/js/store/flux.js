@@ -4,7 +4,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			accessToken: null,
 			projects: null,
 			userRoles: null,
-            userId: null,
+			userId: null,
 			organizationId: null,
 			personId: null
 		},

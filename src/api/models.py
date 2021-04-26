@@ -50,6 +50,7 @@ class User(db.Model):
             "email": self.email,
             "organization_id": self.organization_id,
             "roles": [role.name for role in self.roles],
+            "details": self.person,
             "volunteering_projects": [volunteering_project.serialize_volunteer() for volunteering_project in self.volunteering_projects]
         }
         
