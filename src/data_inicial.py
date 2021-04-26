@@ -52,7 +52,7 @@ data = {
             "description": "Proyecto 1",
             "money_needed": 70000,
             "organization_id": 1,
-            "people_needed": 70,
+            "people_needed": 2,
             "status": "draft",
             "subtitle": "Proyecto 1",
             "title": "Proyecto 1",

@@ -84,13 +84,10 @@ export const LogIn = props => {
 					})
 					.then(responseJson => {
 						if (responseOk) {
-							let orgID = responseJson.user["organization_id"]
-								? responseJson.user["organization_id"]
-								: null;
-							console.log(responseJson.person);
+							let orgID = responseJson.user["organization_id"] ? responseJson.user["organization_id"] : null;
 							let personId = responseJson.person ? responseJson.person["id"] : null;
-							console.log(typeof personId);
-							actions.saveAccessToken(responseJson.token, responseJson.user["roles"], orgID, personId);
+							
+							actions.saveAccessToken(responseJson.token, responseJson.user["roles"], responseJson.user["id"], orgID, personId);
 
 							toast.success("¡Has iniciado sesión con éxito!");
 							redirectToMyPath();
@@ -168,6 +165,8 @@ export const LogIn = props => {
 								¿Ya tienes un usuario?{" "}
 								{props.path == "/create_project" ? (
 									<Link to="/signup/create_project">Sign Up</Link>
+								) : props.path && props.path.includes("/projects/") ? (
+									<Link to={"/signup/projects"}>Sign Up</Link>
 								) : (
 									<Link to="/signup">Sign Up</Link>
 								)}

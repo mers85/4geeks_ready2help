@@ -421,15 +421,15 @@ def create_donation(current_user, id):
 @api.route('/projects/<int:id>', methods =['GET'])
 def show_project(id):
     project = Project.find_by_id(id)
-    
+
     if not project:
         print("Unexpected error:", sys.exc_info())
         raise APIException("Project not found", 401)
 
-    
     return jsonify({"project": project.serialize()}), 200
+    
 
-#API para recuperar una persona por su ID
+#API para recuperar los datos de una persona (sus datos de perfil) por su ID
 @api.route('/persons/<int:id_person>', methods =['GET'])
 @authentication_required
 def get_person(current_user, id_person):
@@ -444,3 +444,17 @@ def get_person(current_user, id_person):
         raise APIException("Something went wrong. Profile volunter was not located", 401)
     
     return jsonify({'person': person.serialize()}), 200
+
+@api.route('/projects/<int:id>/volunteers', methods =['POST'])
+@authentication_required
+def create_volunteer(current_user, id):
+
+    project = Project.find_by_id(id)
+
+    if current_user:
+      project = project.update_project_volunteer(current_user)
+    else:
+        print("Unexpected error:", sys.exc_info())
+        raise APIException("Please, Log In", 401)
+
+    return jsonify({"message" : "Thanks for joining!", "project": project.serialize() }), 201
