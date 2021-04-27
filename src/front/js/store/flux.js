@@ -85,6 +85,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 			addUserDetails: userDetails => {
 				let user = getStore().user;
+				console.log("store user:", user, typeof user);
 				user["details"] = userDetails;
 				setStore({ user: user });
 

@@ -34,7 +34,7 @@ export const Donate = props => {
 	);
 
 	useEffect(() => {
-		let userDetailsId = actions.getUserDetailsId().id;
+		let userDetailsId = actions.getUserDetails().id;
 
 		let responsePersonOk = false;
 		fetch(process.env.BACKEND_URL + "/api/v1/persons/" + userDetailsId, {
