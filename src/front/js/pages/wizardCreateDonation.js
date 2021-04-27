@@ -21,7 +21,7 @@ export const WizardCreateDonation = props => {
 		if (isUserDetails) {
 			return <Donate />;
 		} else {
-			return <RegisterPerson notification={"Please fill out the following form before making a donation."} />;
+			return <Redirect to={"/register_pers?successpath=/projects/" + id + "/donate"} />;
 		}
 	} else {
 		return <Redirect to={"/login?successpath=/projects/" + id + "/donate"} />;
