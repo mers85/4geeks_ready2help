@@ -11,18 +11,17 @@ import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 
-
 export const RegisterPerson = props => {
-    const[notification, setNotification]= useState("")
-    const { actions, store } = useContext(Context);
-    const history = useHistory();
-    const url = window.location.search;
-	let params = queryString.parse(url);
-    
+	const [notification, setNotification] = useState("");
+	const { actions, store } = useContext(Context);
+	const history = useHistory();
 
-    function redirectToMyPath() {
+	const url = window.location.search;
+	let params = queryString.parse(url);
+
+	function redirectToMyPath() {
 		if (params.successpath) {
-            setNotification("Por favor, completa tus datos antes de realizar la donación.")
+			console.log("path:", params.successpath);
 			history.push(params.successpath);
 		} else {
 			history.push("/profile");
@@ -83,7 +82,8 @@ export const RegisterPerson = props => {
 					if (response.ok) {
 						if (response.status === 201) {
 							toast.success("¡Gracias por completar tu perfil!");
-							history.push("/profile");
+						} else if (response.status === 202) {
+							toast.warn("Ya existe un usuario registardo con estos datos");
 						}
 					}
 					return response.json();
@@ -92,7 +92,8 @@ export const RegisterPerson = props => {
 					console.log(responseJson);
 
 					if (responseOk) {
-                        actions.addUserDetails(responseJson.person)
+						actions.addUserDetails(responseJson.person);
+						redirectToMyPath();
 					} else {
 						toast.error(responseJson.message);
 					}
@@ -108,9 +109,7 @@ export const RegisterPerson = props => {
 	return (
 		<Grid className="projectWrapper">
 			<div className="row mx-auto">
-				<div className="col-8 mx-auto">
-					{notification ? <FixedAlert color="info" message={notification} /> : ""}
-				</div>
+				<div className="col-8 mx-auto">{<FixedAlert color="info" message={notification} />}</div>
 				<Grid className="projectForm">
 					<h2>Datos Complementarios</h2>
 					<p>Completa tu perfil</p>

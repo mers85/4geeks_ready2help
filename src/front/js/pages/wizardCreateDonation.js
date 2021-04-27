@@ -15,10 +15,9 @@ export const WizardCreateDonation = props => {
 	let { id } = useParams();
 	const history = useHistory();
 	const { actions } = useContext(Context);
-	let isUserDetails = actions.isUserDetails();
 
 	if (actions.isLogIn()) {
-		if (isUserDetails) {
+		if (actions.isUserDetails()) {
 			return <Donate />;
 		} else {
 			return <Redirect to={"/register_pers?successpath=/projects/" + id + "/donate"} />;

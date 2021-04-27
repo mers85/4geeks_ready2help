@@ -254,7 +254,7 @@ def register_pers(current_user):
     zipcode = pers["zipcode"]
     phone = pers["phone"]
 
-    person = Person.find_by_name(name)
+    person = user.person
     if not person:
         try:
             person = Person.create_person(user, name, lastname, email, address, zipcode, phone)

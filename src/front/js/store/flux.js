@@ -46,8 +46,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 			},
 			addNewUserRole: newRol => {
-				let store = getStore();
-				let roles = store.user["roles"];
+				let user = getStore().user;
+				let roles = user["roles"];
 
 				let allRoles = [...roles, newRol];
 
@@ -75,8 +75,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 			},
 			addOrganizationId: organizationId => {
-				let store = getStore();
-				store.user["organization_id"] = organizationId;
+				let user = getStore().user;
+				user["organization_id"] = organizationId;
 
 				setStore({ user: user });
 
@@ -84,27 +84,28 @@ const getState = ({ getStore, getActions, setStore }) => {
 				localStorage.setItem("user", JSON.stringify(user));
 			},
 			addUserDetails: userDetails => {
-				let store = getStore();
-				store.user["details"] = userDetails;
+				let user = getStore().user;
+				user["details"] = userDetails;
 				setStore({ user: user });
 
 				localStorage.removeItem("user");
 				localStorage.setItem("user", JSON.stringify(user));
 			},
-			getUserDetailsId: () => {
+			getUserDetails: () => {
 				let store = getStore();
-
-				if (store.user) {
-					return store.user["details"]["id"];
+				console.log("store user:", store.user, typeof store.user);
+				if (store.user && store.user["details"]) {
+					return store.user["details"];
 				} else {
 					let user = JSON.parse(localStorage.getItem("user"));
-					return user["details"]["id"];
+					console.log("localstorage user:", user, typeof user);
+					return user["details"];
 				}
 			},
 			isUserDetails: () => {
-				let store = getStore();
+				let userDetails = getActions().getUserDetails();
 
-				if (store.user && store.user["details"]) {
+				if (userDetails && userDetails["id"]) {
 					return true;
 				} else {
 					return false;

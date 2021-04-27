@@ -18,7 +18,7 @@ export const SignUp = props => {
 	const history = useHistory();
 	const url = window.location.search;
 	let params = queryString.parse(url);
-	console.log("params signup:", params);
+
 	const [value, setValue] = useState({
 		email: "",
 		password: "",
