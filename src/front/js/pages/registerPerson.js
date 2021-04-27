@@ -1,140 +1,224 @@
 import React, { useState, useContext } from "react";
 import { Context } from "../store/appContext";
 import { useHistory } from "react-router-dom";
+import { toast } from "react-toastify";
 import PropTypes from "prop-types";
 import FixedAlert from "../component/fixedAlert";
+import Grid from "@material-ui/core/Grid";
+import TextField from "@material-ui/core/TextField";
+import Button from "@material-ui/core/Button";
+import SimpleReactValidator from "simple-react-validator";
 
 export const RegisterPerson = props => {
-	const [name, setName] = useState("");
-	const [lastname, setLastName] = useState("");
-	const [email, setEmail] = useState("");
-	const [address, setAddress] = useState("");
-	const [zipcode, setZipcode] = useState("");
-	const [phone, setPhone] = useState("");
-	const [error, setError] = useState("");
-	const [message, setMessage] = useState("");
 	const { actions, store } = useContext(Context);
 	const history = useHistory();
 
-	function registerPerson() {
-		setError("");
-		switch (true) {
-			case name == "":
-				setError("Name field must be informed.");
-				return;
-			case lastname == "":
-				setError("Name field must be informed.");
-				return;
-			case email == "":
-				setError("Email field must be informed.");
-				return;
-			case address == "":
-				setError("Address field must be informed.");
-				return;
-			case zipcode == "":
-				setError("Zipcode field must be informed.");
-				return;
-			case phone == "":
-				setError("Phone field must be informed.");
-				return;
-			default:
-				break;
-		}
-		let responseOk = false;
-		fetch(process.env.BACKEND_URL + "/api/v1/register_pers", {
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json",
-				Authorization: "Bearer " + actions.getAccessToken()
-			},
-			body: JSON.stringify({
-				name: name,
-				lastname: lastname,
-				email: email,
-				address: address,
-				zipcode: zipcode,
-				phone: phone
-			})
-		})
-			.then(response => {
-				responseOk = response.ok;
-				if (response.ok) {
-					if (response.status === 201) {
-						setMessage("Person registered correctly");
-						history.push("/profile");
-					}
-				}
-				return response.json();
-			})
-			.then(responseJson => {
-				if (!responseOk) {
-					setError(responseJson.message);
-				} else {
-					console.log("responseJson.person.id", responseJson.person.id);
-					actions.addPersonId(responseJson.person.id);
-				}
-			})
-			.catch(error => {
-				console.log("error", error);
-				setError(error.message);
-			});
-	}
+	const [value, setValue] = useState({
+		name: "",
+		lastname: "",
+		email: "",
+		address: "",
+		zipcode: "",
+		phone: ""
+	});
 
-	if (props.notification) {
-		console.log(props.notification);
-	}
+	const changeHandler = e => {
+		setValue({ ...value, [e.target.name]: e.target.value });
+		validator.showMessages();
+	};
+
+	const [validator] = React.useState(
+		new SimpleReactValidator({
+			className: "errorMessage"
+		})
+	);
+
+	const submitForm = e => {
+		e.preventDefault();
+		if (validator.allValid()) {
+			setValue({
+				name: "",
+				lastname: "",
+				email: "",
+				address: "",
+				zipcode: "",
+				phone: ""
+			});
+			validator.hideMessages();
+
+			let responseOk = false;
+			fetch(process.env.BACKEND_URL + "/api/v1/register_pers", {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+					Authorization: "Bearer " + actions.getAccessToken()
+				},
+				body: JSON.stringify({
+					name: value.name,
+					lastname: value.lastname,
+					email: value.email,
+					address: value.address,
+					zipcode: value.zipcode,
+					phone: value.phone
+				})
+			})
+				.then(response => {
+					responseOk = response.ok;
+					if (response.ok) {
+						if (response.status === 201) {
+							toast.success("¡Datos complementarios registrados!");
+							history.push("/profile");
+						}
+					}
+					return response.json();
+				})
+				.then(responseJson => {
+					console.log(responseJson);
+
+					if (responseOk) {
+						actions.addPersonId(responseJson.person.id);
+					} else {
+						toast.error(responseJson.message);
+					}
+				})
+				.catch(error => {
+					console.log("error", error);
+					toast.error(error.message);
+				});
+		}
+		return false;
+	};
 
 	return (
-		<div className="jumbotron">
-			<div className="col-8 mx-auto">
-				{props.notification ? <FixedAlert color="info" message={props.notification} /> : ""}
+		<Grid className="projectWrapper">
+			<div className="row mx-auto">
+				<div className="col-8 mx-auto">
+					{props.notification ? <FixedAlert color="info" message={props.notification} /> : ""}
+				</div>
+				<Grid className="projectForm">
+					<h2>Datos Complementarios</h2>
+					<p>Completa tu perfil</p>
+					<form onSubmit={submitForm}>
+						<Grid container spacing={3}>
+							<Grid item xs={12}>
+								<TextField
+									className="inputOutline"
+									fullWidth
+									placeholder="Nombre"
+									value={value.name}
+									variant="outlined"
+									name="name"
+									type="text"
+									label="Nombre"
+									InputLabelProps={{
+										shrink: true
+									}}
+									onBlur={e => changeHandler(e)}
+									onChange={e => changeHandler(e)}
+								/>
+								{validator.message("name", value.name, "required:name")}
+							</Grid>
+							<Grid item xs={12}>
+								<TextField
+									className="inputOutline"
+									fullWidth
+									placeholder="Apellidos"
+									value={value.lastname}
+									variant="outlined"
+									name="lastname"
+									type="text"
+									label="Apellidos"
+									InputLabelProps={{
+										shrink: true
+									}}
+									onBlur={e => changeHandler(e)}
+									onChange={e => changeHandler(e)}
+								/>
+								{validator.message("lastname", value.lastname, "required:lastname")}
+							</Grid>
+							<Grid item xs={12}>
+								<TextField
+									className="inputOutline"
+									fullWidth
+									placeholder="Dirección"
+									value={value.address}
+									variant="outlined"
+									name="address"
+									type="text"
+									label="Dirección"
+									InputLabelProps={{
+										shrink: true
+									}}
+									onBlur={e => changeHandler(e)}
+									onChange={e => changeHandler(e)}
+								/>
+								{validator.message("address", value.address, "required:address")}
+							</Grid>
+							<Grid item xs={6}>
+								<TextField
+									className="inputOutline"
+									fullWidth
+									placeholder="Código Postal"
+									value={value.zipcode}
+									variant="outlined"
+									name="zipcode"
+									type="text"
+									label="Código Postal"
+									InputLabelProps={{
+										shrink: true
+									}}
+									onBlur={e => changeHandler(e)}
+									onChange={e => changeHandler(e)}
+								/>
+								{validator.message("zipcode", value.zipcode, "required:zipcode")}
+							</Grid>
+							<Grid item xs={6}>
+								<TextField
+									className="inputOutline"
+									fullWidth
+									placeholder="Email de contacto"
+									value={value.email}
+									variant="outlined"
+									name="email"
+									label="Email de contacto"
+									InputLabelProps={{
+										shrink: true
+									}}
+									onBlur={e => changeHandler(e)}
+									onChange={e => changeHandler(e)}
+								/>
+								{validator.message("email", value.email, "required:email")}
+							</Grid>
+							<Grid item xs={6}>
+								<TextField
+									className="inputOutline"
+									fullWidth
+									placeholder="Teléfono"
+									value={value.phone}
+									variant="outlined"
+									name="phone"
+									type="text"
+									label="Teléfono"
+									InputLabelProps={{
+										shrink: true
+									}}
+									onBlur={e => changeHandler(e)}
+									onChange={e => changeHandler(e)}
+								/>
+								{validator.message("phone", value.phone, "required:phone")}
+							</Grid>
+							<Grid item xs={12}>
+								<Grid className="formFooter">
+									<Button fullWidth className="cBtnTheme" type="submit">
+										Completar Perfil
+									</Button>
+								</Grid>
+							</Grid>
+						</Grid>
+					</form>
+				</Grid>
 			</div>
-			{error ? <h3>{error}</h3> : ""}
-			{message ? <h3>{message}</h3> : ""}
-			<input
-				type="name"
-				placeholder="Enter name"
-				onChange={event => {
-					setName(event.target.value);
-				}}
-			/>
-			<input
-				type="lastname"
-				placeholder="Enter lastname"
-				onChange={event => {
-					setLastName(event.target.value);
-				}}
-			/>
-			<input
-				type="email"
-				placeholder="Enter email"
-				onChange={event => {
-					setEmail(event.target.value);
-				}}
-			/>
-			<input
-				type="address"
-				placeholder="Enter address"
-				onChange={event => {
-					setAddress(event.target.value);
-				}}
-			/>
-			<input
-				type="zipcode"
-				placeholder="Enter zipcode"
-				onChange={event => {
-					setZipcode(event.target.value);
-				}}
-			/>
-			<input
-				type="phone"
-				placeholder="Enter phone"
-				onChange={event => {
-					setPhone(event.target.value);
-				}}
-			/>
-			<input type="button" value="Guardar" onClick={registerPerson} />
-		</div>
+		</Grid>
 	);
 };
 RegisterPerson.propTypes = {
