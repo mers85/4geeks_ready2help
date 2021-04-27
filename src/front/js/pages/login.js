@@ -89,13 +89,7 @@ export const LogIn = props => {
 								: null;
 							let personId = responseJson.person ? responseJson.person["id"] : null;
 
-							actions.saveUserDetails(
-								responseJson.token,
-								responseJson.user,
-								responseJson.user["id"],
-								orgID,
-								personId
-							);
+							actions.saveUserDetails(responseJson.token, responseJson.user, personId);
 
 							toast.success("¡Has iniciado sesión con éxito!");
 							redirectToMyPath();

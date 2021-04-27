@@ -20,10 +20,10 @@ export const Donate = props => {
 	});
 
 	useEffect(() => {
-		let personId = actions.getPersonId();
+		let userDetailsId = actions.getUserDetailsId();
 
 		let responsePersonOk = false;
-		fetch(process.env.BACKEND_URL + "/api/v1/persons/" + personId, {
+		fetch(process.env.BACKEND_URL + "/api/v1/persons/" + userDetailsId, {
 			method: "GET",
 			headers: {
 				"Content-Type": "application/json",

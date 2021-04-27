@@ -85,7 +85,7 @@ export const RegisterPerson = props => {
 					setError(responseJson.message);
 				} else {
 					console.log("responseJson.person.id", responseJson.person.id);
-					actions.addPersonId(responseJson.person.id);
+					actions.addUserDetails(responseJson.person);
 				}
 			})
 			.catch(error => {

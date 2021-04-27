@@ -14,10 +14,10 @@ export const WizardCreateDonation = props => {
 	let { id } = useParams();
 	const history = useHistory();
 	const { actions } = useContext(Context);
-	let isPerson = actions.isPerson();
+	let isUserDetails = actions.isUserDetails();
 
 	if (actions.isLogIn()) {
-		if (isPerson) {
+		if (isUserDetails) {
 			return <Donate />;
 		} else {
 			return <RegisterPerson notification={"Please fill out the following form before making a donation."} />;

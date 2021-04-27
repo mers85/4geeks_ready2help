@@ -39,15 +39,18 @@ export const Profile = () => {
 			})
 			.then(responseJson => {
 				if (responseOk) {
-					if (responseJson.user.email) {
+					if (responseJson.user) {
+						console.log("profile user", responseJson.user);
 						setUser(responseJson.user);
 						setEmail(responseJson.user.email);
 						setVolunteeringProjects([...responseJson.user.volunteering_projects]);
+						if (responseJson.user["details"]) {
+							console.log("profile user details", responseJson.user["details"]);
+							setPerson(responseJson.user["details"]);
+						}
 					}
 					if (responseJson.user.organization) {
 						setOrganization(responseJson.user.organization);
-					} else if (responseJson.user["details"]) {
-						setPerson(responseJson.user["details"]);
 					}
 				}
 			});
