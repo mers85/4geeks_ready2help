@@ -3,6 +3,7 @@ import { Context } from "../store/appContext";
 import { Link } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
+import { Redirect } from "react-router-dom";
 
 import { TabContent, TabPane, Nav, NavItem, NavLink } from "reactstrap";
 import classnames from "classnames";
@@ -164,13 +165,19 @@ export const ShowProject = props => {
 												<div className="text-center display-4 bg-light">coming soon...</div>
 											</TabPane>
 											<TabPane tabId="3">
-												{actions.isLogIn() ? (
-													<div className="text-center display-4 bg-light">
+												<div className="text-center display-4 bg-light">
+													{actions.isLogIn() ? (
 														<Volunteer project={project} isVolunteer={isVolunteer} />
-													</div>
-												) : (
-													<LogIn path={"/projects/" + project.id} />
-												)}
+													) : (
+														<button className="btn my-2 btn-rounded cBtnTheme btn-lg btn-floating">
+															<Link
+																className="text-white"
+																to={"/login?successpath=/projects/" + project.id}>
+																Inicia sesión para poder participar
+															</Link>
+														</button>
+													)}
+												</div>
 											</TabPane>
 										</TabContent>
 									) : (

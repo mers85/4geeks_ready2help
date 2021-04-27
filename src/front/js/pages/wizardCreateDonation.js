@@ -2,6 +2,7 @@ import React, { useState, useContext, useEffect } from "react";
 import { Context } from "../store/appContext";
 import { Link, useHistory, useParams } from "react-router-dom";
 import PropTypes from "prop-types";
+import { Redirect } from "react-router-dom";
 
 import "../../styles/formularioBase.scss";
 import { LogIn } from "./login";
@@ -23,6 +24,6 @@ export const WizardCreateDonation = props => {
 			return <RegisterPerson notification={"Please fill out the following form before making a donation."} />;
 		}
 	} else {
-		return <LogIn path={"/projects/" + id + "/donate"} />;
+		return <Redirect to={"/login?successpath=/projects/" + id + "/donate"} />;
 	}
 };

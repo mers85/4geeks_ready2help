@@ -9,6 +9,7 @@ import { CreateProject } from "./createProject";
 import { toast } from "react-toastify";
 import { Profile } from "./profile";
 import { RegisterOrganization } from "./registerOrganization";
+import { Redirect } from "react-router-dom";
 
 export const WizardCreateProject = props => {
 	const history = useHistory();
@@ -22,6 +23,6 @@ export const WizardCreateProject = props => {
 			return <RegisterOrganization notification={"Debes registrarte como organización para crear un proyecto"} />;
 		}
 	} else {
-		return <LogIn path={"/create_project"} />;
+		return <Redirect to="/login?successpath=/create_project" />;
 	}
 };
