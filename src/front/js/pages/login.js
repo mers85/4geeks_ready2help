@@ -173,6 +173,9 @@ export const LogIn = props => {
 									<Link to="/signup">Sign Up</Link>
 								)}
 							</p>
+							<p className="noteHelp">
+								<Link to={"/"}>ir a la página principal</Link>
+							</p>
 						</Grid>
 					</Grid>
 				</form>
