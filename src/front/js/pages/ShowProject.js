@@ -165,7 +165,7 @@ export const ShowProject = props => {
 												<div className="text-center display-4 bg-light">coming soon...</div>
 											</TabPane>
 											<TabPane tabId="3">
-												<div className="text-center display-4 bg-light">
+												<div className="text-center display-4 bg-light py-4">
 													{actions.isLogIn() ? (
 														<Volunteer project={project} isVolunteer={isVolunteer} />
 													) : (

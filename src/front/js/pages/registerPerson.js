@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { Context } from "../store/appContext";
 import { useHistory } from "react-router-dom";
 import queryString from "query-string";
@@ -18,6 +18,12 @@ export const RegisterPerson = props => {
 
 	const url = window.location.search;
 	let params = queryString.parse(url);
+
+	useEffect(() => {
+		if (params.successpath && params.successpath.includes("/donate")) {
+			setNotification("Por favor, rellena tus datos de perfil para poder realizar una donación");
+		}
+	}, []);
 
 	function redirectToMyPath() {
 		if (params.successpath) {
@@ -105,7 +111,9 @@ export const RegisterPerson = props => {
 	return (
 		<Grid className="projectWrapper">
 			<div className="row mx-auto">
-				<div className="col-8 mx-auto">{<FixedAlert color="info" message={notification} />}</div>
+				<div className="col-8 mx-auto">
+					{notification ? <FixedAlert color="info" message={notification} /> : ""}
+				</div>
 				<Grid className="projectForm">
 					<h2>Datos Complementarios</h2>
 					<p>Completa tu perfil</p>
