@@ -12,6 +12,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				localStorage.setItem("token", accessToken);
 
 				setStore({ user: user });
+
 				localStorage.setItem("user", JSON.stringify(user));
 			},
 			getAccessToken: () => {
@@ -45,8 +46,22 @@ const getState = ({ getStore, getActions, setStore }) => {
 					return false;
 				}
 			},
+			getUser: () => {
+				let store = getStore();
+				if (store.user) {
+					return store.user;
+				} else {
+					return JSON.parse(localStorage.getItem("user"));
+				}
+			},
+			getUserId: () => {
+				let user = getActions().getUser();
+				if (user) {
+					return user["id"];
+				}
+			},
 			addNewUserRole: newRol => {
-				let user = getStore().user;
+				let user = getActions().getUser();
 				let roles = user["roles"];
 
 				let allRoles = [...roles, newRol];
@@ -57,25 +72,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 				localStorage.removeItem("user");
 				localStorage.setItem("user", JSON.stringify(user));
 			},
-			getUser: () => {
-				let store = getStore();
-				if (store.user) {
-					return store.user;
-				} else {
-					return JSON.parse(localStorage.getItem("user"));
-				}
-			},
-			getUserId: () => {
-				let store = getStore();
-				if (store.user) {
-					return store.user["id"];
-				} else {
-					let user = JSON.parse(localStorage.getItem("user"));
-					return user["id"];
-				}
-			},
 			addOrganizationId: organizationId => {
-				let user = getStore().user;
+				let user = getActions().getUser();
 				user["organization_id"] = organizationId;
 
 				setStore({ user: user });
@@ -84,8 +82,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 				localStorage.setItem("user", JSON.stringify(user));
 			},
 			addUserDetails: userDetails => {
-				let user = getStore().user;
-				console.log("store user:", user, typeof user);
+				let user = getActions().getUser();
+
 				user["details"] = userDetails;
 				setStore({ user: user });
 
@@ -93,20 +91,15 @@ const getState = ({ getStore, getActions, setStore }) => {
 				localStorage.setItem("user", JSON.stringify(user));
 			},
 			getUserDetails: () => {
-				let store = getStore();
-				console.log("store user:", store.user, typeof store.user);
-				if (store.user && store.user["details"]) {
-					return store.user["details"];
-				} else {
-					let user = JSON.parse(localStorage.getItem("user"));
-					console.log("localstorage user:", user, typeof user);
+				let user = getActions().getUser();
+				if (user) {
 					return user["details"];
 				}
 			},
 			isUserDetails: () => {
 				let userDetails = getActions().getUserDetails();
 
-				if (userDetails && userDetails["id"]) {
+				if (userDetails) {
 					return true;
 				} else {
 					return false;

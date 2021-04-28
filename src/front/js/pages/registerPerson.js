@@ -21,7 +21,6 @@ export const RegisterPerson = props => {
 
 	function redirectToMyPath() {
 		if (params.successpath) {
-			console.log("path:", params.successpath);
 			history.push(params.successpath);
 		} else {
 			history.push("/profile");
@@ -89,8 +88,6 @@ export const RegisterPerson = props => {
 					return response.json();
 				})
 				.then(responseJson => {
-					console.log(responseJson);
-
 					if (responseOk) {
 						actions.addUserDetails(responseJson.person);
 						redirectToMyPath();
@@ -99,7 +96,6 @@ export const RegisterPerson = props => {
 					}
 				})
 				.catch(error => {
-					console.log("error", error);
 					toast.error(error.message);
 				});
 		}

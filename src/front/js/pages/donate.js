@@ -105,7 +105,6 @@ export const Donate = props => {
 					}
 				})
 				.catch(error => {
-					console.log("error", error);
 					setError(error.message);
 				});
 		}

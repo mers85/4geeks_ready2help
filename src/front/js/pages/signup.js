@@ -76,13 +76,11 @@ export const SignUp = props => {
 					return response.json();
 				})
 				.then(responseJson => {
-					console.log(responseJson);
 					if (!responseOk) {
 						toast.error(responseJson.message);
 					}
 				})
 				.catch(error => {
-					console.log("error", error);
 					toast.error(error.message);
 				});
 		} else {

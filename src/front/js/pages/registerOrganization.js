@@ -68,10 +68,7 @@ export const RegisterOrganization = props => {
 					return response.json();
 				})
 				.then(responseJson => {
-					console.log(responseJson);
-
 					if (responseOk) {
-						console.log("mi respuesta", responseJson);
 						actions.addNewUserRole("organization");
 						actions.addOrganizationId(responseJson["organization"]["id"]);
 						toast.success("¡Organización registrada!");
@@ -81,7 +78,6 @@ export const RegisterOrganization = props => {
 					}
 				})
 				.catch(error => {
-					console.log("error", error);
 					toast.error(error.message);
 				});
 		}
