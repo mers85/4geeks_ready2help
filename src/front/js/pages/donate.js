@@ -1,13 +1,16 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Context } from "../store/appContext";
+import { useHistory } from "react-router-dom";
+
+import SimpleReactValidator from "simple-react-validator";
+import { toast } from "react-toastify";
+
 import pmt1 from "../../img/pmt1.png";
 import pmt2 from "../../img/pmt2.png";
 import pmt3 from "../../img/pmt3.png";
 import pmt4 from "../../img/pmt4.png";
 import "../../styles/donate.scss";
-import { useHistory } from "react-router-dom";
-import { toast } from "react-toastify";
 
 export const Donate = props => {
 	let { id } = useParams();
@@ -19,11 +22,22 @@ export const Donate = props => {
 		pymntType: "PayPal"
 	});
 
+	const changeHandler = e => {
+		setValue({ ...value, [e.target.name]: e.target.value });
+		validator.showMessages();
+	};
+
+	const [validator] = React.useState(
+		new SimpleReactValidator({
+			className: "errorMessage"
+		})
+	);
+
 	useEffect(() => {
-		let personId = actions.getPersonId();
+		let userDetailsId = actions.getUserDetails().id;
 
 		let responsePersonOk = false;
-		fetch(process.env.BACKEND_URL + "/api/v1/persons/" + personId, {
+		fetch(process.env.BACKEND_URL + "/api/v1/persons/" + userDetailsId, {
 			method: "GET",
 			headers: {
 				"Content-Type": "application/json",
@@ -91,14 +105,9 @@ export const Donate = props => {
 					}
 				})
 				.catch(error => {
-					console.log("error", error);
 					setError(error.message);
 				});
 		}
-	};
-
-	const changeHandler = e => {
-		setValue({ ...value, [e.target.name]: e.target.value });
 	};
 
 	return (
@@ -113,7 +122,7 @@ export const Donate = props => {
 							<div className="wpo-donations-amount">
 								<h2>Your Donation</h2>
 								<input
-									type="text"
+									type="number"
 									className="form-control"
 									value={value.amount}
 									name="amount"
@@ -124,6 +133,7 @@ export const Donate = props => {
 									// pattern="[0-9]"
 									required
 								/>
+								{validator.message("amount", value.title, "required:amount")}
 							</div>
 							<div className="wpo-donations-details">
 								<h2>Details</h2>

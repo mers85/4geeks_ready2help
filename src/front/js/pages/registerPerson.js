@@ -1,17 +1,37 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { Context } from "../store/appContext";
 import { useHistory } from "react-router-dom";
+import queryString from "query-string";
+
 import { toast } from "react-toastify";
-import PropTypes from "prop-types";
+import SimpleReactValidator from "simple-react-validator";
+
 import FixedAlert from "../component/fixedAlert";
 import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
-import SimpleReactValidator from "simple-react-validator";
 
 export const RegisterPerson = props => {
+	const [notification, setNotification] = useState("");
 	const { actions, store } = useContext(Context);
 	const history = useHistory();
+
+	const url = window.location.search;
+	let params = queryString.parse(url);
+
+	useEffect(() => {
+		if (params.successpath && params.successpath.includes("/donate")) {
+			setNotification("Por favor, rellena tus datos de perfil para poder realizar una donación");
+		}
+	}, []);
+
+	function redirectToMyPath() {
+		if (params.successpath) {
+			history.push(params.successpath);
+		} else {
+			history.push("/profile");
+		}
+	}
 
 	const [value, setValue] = useState({
 		name: "",
@@ -66,23 +86,22 @@ export const RegisterPerson = props => {
 					responseOk = response.ok;
 					if (response.ok) {
 						if (response.status === 201) {
-							toast.success("¡Datos complementarios registrados!");
-							history.push("/profile");
+							toast.success("¡Gracias por completar tu perfil!");
+						} else if (response.status === 202) {
+							toast.warn("Ya existe un usuario registardo con estos datos");
 						}
 					}
 					return response.json();
 				})
 				.then(responseJson => {
-					console.log(responseJson);
-
 					if (responseOk) {
-						actions.addPersonId(responseJson.person.id);
+						actions.addUserDetails(responseJson.person);
+						redirectToMyPath();
 					} else {
 						toast.error(responseJson.message);
 					}
 				})
 				.catch(error => {
-					console.log("error", error);
 					toast.error(error.message);
 				});
 		}
@@ -93,7 +112,7 @@ export const RegisterPerson = props => {
 		<Grid className="projectWrapper">
 			<div className="row mx-auto">
 				<div className="col-8 mx-auto">
-					{props.notification ? <FixedAlert color="info" message={props.notification} /> : ""}
+					{notification ? <FixedAlert color="info" message={notification} /> : ""}
 				</div>
 				<Grid className="projectForm">
 					<h2>Datos Complementarios</h2>
@@ -220,7 +239,4 @@ export const RegisterPerson = props => {
 			</div>
 		</Grid>
 	);
-};
-RegisterPerson.propTypes = {
-	notification: PropTypes.string
 };

@@ -32,7 +32,6 @@ export const Projects = () => {
 				}
 			})
 			.catch(error => {
-				console.log("error", error);
 				setError(error.message);
 			});
 	}

@@ -1,6 +1,7 @@
 import React, { useState, useContext } from "react";
 import { Context } from "../store/appContext";
 import PropTypes from "prop-types";
+import queryString from "query-string";
 
 import Grid from "@material-ui/core/Grid";
 import SimpleReactValidator from "simple-react-validator";
@@ -16,6 +17,9 @@ import s1 from "../../img/shape.png";
 
 export const LogIn = props => {
 	const history = useHistory();
+	const url = window.location.search;
+	let params = queryString.parse(url);
+
 	const { actions } = useContext(Context);
 
 	const [value, setValue] = useState({
@@ -40,15 +44,8 @@ export const LogIn = props => {
 	);
 
 	function redirectToMyPath() {
-		if (props.path === "/create_project") {
-			if (actions.getUserRoles().includes("organization")) {
-				history.push(props.path);
-			} else {
-				history.push("/register_org");
-				toast.info("Debes registrarte como organización para crear un proyecto");
-			}
-		} else if (props.path && props.path.includes("/projects/")) {
-			history.push(props.path);
+		if (params.successpath) {
+			history.push(params.successpath);
 		} else {
 			history.push("/profile");
 		}
@@ -84,11 +81,7 @@ export const LogIn = props => {
 					})
 					.then(responseJson => {
 						if (responseOk) {
-							let orgID = responseJson.user["organization_id"] ? responseJson.user["organization_id"] : null;
-							let personId = responseJson.person ? responseJson.person["id"] : null;
-							
-							actions.saveAccessToken(responseJson.token, responseJson.user["roles"], responseJson.user["id"], orgID, personId);
-
+							actions.saveUserDetails(responseJson.token, responseJson.user);
 							toast.success("¡Has iniciado sesión con éxito!");
 							redirectToMyPath();
 						} else {
@@ -163,13 +156,14 @@ export const LogIn = props => {
 							</Grid>
 							<p className="noteHelp">
 								¿Ya tienes un usuario?{" "}
-								{props.path == "/create_project" ? (
-									<Link to="/signup/create_project">Sign Up</Link>
-								) : props.path && props.path.includes("/projects/") ? (
-									<Link to={"/signup/projects"}>Sign Up</Link>
+								{params.successpath ? (
+									<Link to={"/signup?successpath=" + params.successpath}>Sign Up</Link>
 								) : (
 									<Link to="/signup">Sign Up</Link>
 								)}
+							</p>
+							<p className="noteHelp">
+								<Link to={"/"}>ir a la página principal</Link>
 							</p>
 						</Grid>
 					</Grid>
@@ -180,8 +174,4 @@ export const LogIn = props => {
 			</Grid>
 		</Grid>
 	);
-};
-
-LogIn.propTypes = {
-	path: PropTypes.string
 };

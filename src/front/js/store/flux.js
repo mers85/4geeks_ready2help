@@ -3,28 +3,17 @@ const getState = ({ getStore, getActions, setStore }) => {
 		store: {
 			accessToken: null,
 			projects: null,
-			userRoles: null,
-            userId: null,
-			organizationId: null,
-			personId: null
+			user: null
 		},
 		actions: {
 			// Use getActions to call a function within a fuction
-			saveAccessToken: (accessToken, userRoles, userId, organizationId, personId) => {
+			saveUserDetails: (accessToken, user) => {
 				setStore({ accessToken: accessToken });
 				localStorage.setItem("token", accessToken);
 
-				setStore({ userRoles: userRoles });
-				localStorage.setItem("user_roles", userRoles);
+				setStore({ user: user });
 
-				setStore({ userId: userId });
-				localStorage.setItem("user_id", userId);
-
-				setStore({ organizationId: organizationId });
-				localStorage.setItem("organization_id", organizationId);
-
-				setStore({ personId: personId });
-				localStorage.setItem("person_id", personId);
+				localStorage.setItem("user", JSON.stringify(user));
 			},
 			getAccessToken: () => {
 				let store = getStore();
@@ -34,18 +23,12 @@ const getState = ({ getStore, getActions, setStore }) => {
 					return localStorage.getItem("token");
 				}
 			},
-			outAccessToken: () => {
+			outUserDetails: () => {
 				setStore({ accessToken: null });
-				setStore({ userRoles: null });
-				setStore({ userId: null });
-				setStore({ userOrganizationId: null });
-				setStore({ personId: null });
+				setStore({ user: null });
 				//localStorage.clear();
 				localStorage.removeItem("token");
-				localStorage.removeItem("user_roles");
-				localStorage.removeItem("user_id");
-				localStorage.removeItem("organization_id");
-				localStorage.removeItem("person_id");
+				localStorage.removeItem("user");
 				window.location.href = "/";
 			},
 			addProjects: newProjects => {
@@ -63,65 +46,60 @@ const getState = ({ getStore, getActions, setStore }) => {
 					return false;
 				}
 			},
-			addNewUserRole: newRol => {
+			getUser: () => {
 				let store = getStore();
-				let roles = store.userRoles;
-
-				let allRoles = [...roles, newRol];
-				setStore({ userRoles: allRoles });
-
-				localStorage.removeItem("user_roles");
-				localStorage.setItem("user_roles", allRoles);
-			},
-			getUserRoles: () => {
-				let store = getStore();
-				if (store.userRoles) {
-					return store.userRoles;
+				if (store.user) {
+					return store.user;
 				} else {
-					return localStorage.getItem("user_roles");
+					return JSON.parse(localStorage.getItem("user"));
 				}
 			},
 			getUserId: () => {
-				let store = getStore();
-				if (store.userId) {
-					return store.userId;
-				} else {
-					return localStorage.getItem("user_id");
+				let user = getActions().getUser();
+				if (user) {
+					return user["id"];
 				}
+			},
+			addNewUserRole: newRol => {
+				let user = getActions().getUser();
+				let roles = user["roles"];
+
+				let allRoles = [...roles, newRol];
+
+				user["roles"] = allRoles;
+				setStore({ user: user });
+
+				localStorage.removeItem("user");
+				localStorage.setItem("user", JSON.stringify(user));
 			},
 			addOrganizationId: organizationId => {
-				setStore({ organizationId: organizationId });
+				let user = getActions().getUser();
+				user["organization_id"] = organizationId;
 
-				localStorage.removeItem("organization_id");
-				localStorage.setItem("organization_id", organizationId);
+				setStore({ user: user });
+
+				localStorage.removeItem("user");
+				localStorage.setItem("user", JSON.stringify(user));
 			},
-			getOrganizationId: () => {
-				let store = getStore();
-				if (store.organizationId) {
-					return store.organizationId;
-				} else {
-					return localStorage.getItem("organization_id");
+			addUserDetails: userDetails => {
+				let user = getActions().getUser();
+
+				user["details"] = userDetails;
+				setStore({ user: user });
+
+				localStorage.removeItem("user");
+				localStorage.setItem("user", JSON.stringify(user));
+			},
+			getUserDetails: () => {
+				let user = getActions().getUser();
+				if (user) {
+					return user["details"];
 				}
 			},
-			addPersonId: personId => {
-				setStore({ personId: personId });
+			isUserDetails: () => {
+				let userDetails = getActions().getUserDetails();
 
-				localStorage.removeItem("person_id");
-				localStorage.setItem("person_id", personId);
-			},
-			getPersonId: () => {
-				let store = getStore();
-
-				if (store.personId) {
-					return store.personId;
-				} else {
-					return JSON.parse(localStorage.getItem("person_id"));
-				}
-			},
-			isPerson: () => {
-				let person = getActions().getPersonId();
-
-				if (person) {
+				if (userDetails) {
 					return true;
 				} else {
 					return false;

@@ -191,7 +191,7 @@ def login():
         # Comprobamos si el usuario tiene el perfil person dado de alta
         person = user.person.serialize() if user.person is not None else None 
 
-        return jsonify({'token' : token.decode('UTF-8'), "user": user.serialize(), "person": person}), 201
+        return jsonify({'token' : token.decode('UTF-8'), "user": user.serialize()}), 201
     # returns 403 if password is wrong
     raise APIException("Wrong Password !!", 403)
 
@@ -254,7 +254,7 @@ def register_pers(current_user):
     zipcode = pers["zipcode"]
     phone = pers["phone"]
 
-    person = Person.find_by_name(name)
+    person = user.person
     if not person:
         try:
             person = Person.create_person(user, name, lastname, email, address, zipcode, phone)

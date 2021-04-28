@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link, useHistory, useParams } from "react-router-dom";
 import PropTypes from "prop-types";
+import queryString from "query-string";
 
 //validacines y notificaciones
 import SimpleReactValidator from "simple-react-validator";
@@ -15,7 +16,9 @@ import "../../styles/signup.scss";
 
 export const SignUp = props => {
 	const history = useHistory();
-	const { successpath } = useParams();
+	const url = window.location.search;
+	let params = queryString.parse(url);
+
 	const [value, setValue] = useState({
 		email: "",
 		password: "",
@@ -33,8 +36,8 @@ export const SignUp = props => {
 	);
 
 	function redirectToMyPath() {
-		if (successpath) {
-			history.push("/" + successpath);
+		if (params.successpath) {
+			history.push(params.successpath);
 		} else {
 			history.push("/login");
 		}
@@ -73,13 +76,11 @@ export const SignUp = props => {
 					return response.json();
 				})
 				.then(responseJson => {
-					console.log(responseJson);
 					if (!responseOk) {
 						toast.error(responseJson.message);
 					}
 				})
 				.catch(error => {
-					console.log("error", error);
 					toast.error(error.message);
 				});
 		} else {
@@ -155,6 +156,9 @@ export const SignUp = props => {
 
 							<p className="noteHelp">
 								Already have an account? <Link to="/login">Return to Login In</Link>
+							</p>
+							<p className="noteHelp">
+								<Link to="/">ir a la página principal</Link>
 							</p>
 						</Grid>
 					</Grid>
