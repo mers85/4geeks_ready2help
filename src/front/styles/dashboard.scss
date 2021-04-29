@@ -1,0 +1,46 @@
+
+/* 
+    ESTILOS DEL DASHBOARD GENERAL
+*/
+
+.dashboard {
+    display: flex;
+    height: 100vh;
+    overflow: scroll initial;
+
+    .sidebar{
+        background-image: linear-gradient(to right, #00a7d5, #27cdca);
+        color: #fff;
+    }
+
+    .dBeril i {
+        padding: 0;
+        margin: -1.8rem;
+    }
+
+    
+
+    .sidebar a {
+        color: inherit;
+        text-decoration: none;
+    }
+
+    .sidebar-footer{
+        text-align: center;
+
+        div{
+           padding: 20px 5px;
+        }
+    }
+
+     div.content {
+        margin-left: 200px;
+        padding: 1px 16px;
+        height: 1000px;
+    }
+
+
+    @media screen and (max-width: 700px) {
+        div.content {margin-left: 0;}
+    }
+}

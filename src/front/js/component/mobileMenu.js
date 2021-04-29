@@ -51,7 +51,11 @@ export const MobileMenu = () => {
 	return (
 		<div>
 			<div className={`mobileMenu ${isMenuShow ? "show" : ""}`}>
-				{/* <div className="clox" onClick={this.menuHandler}>Close Me</div> */}
+				{
+					<div className="clox" onClick={menuHandler}>
+						Close Me
+					</div>
+				}
 
 				<ul className="responsivemenu">
 					{menus.map(item => {

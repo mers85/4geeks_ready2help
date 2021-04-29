@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState, useContext } from "react";
+import { Context } from "../store/appContext";
 import { Link } from "react-router-dom";
 
 import { HeaderTopbar } from "./headerTopbar";
@@ -6,6 +7,8 @@ import { MobileMenu } from "./mobileMenu";
 import "../../styles/header.scss";
 
 export const Header = () => {
+	const { actions } = useContext(Context);
+
 	return (
 		<div className="middle-header header-style-3">
 			<HeaderTopbar />
@@ -42,6 +45,15 @@ export const Header = () => {
 											Contacto
 										</Link>
 									</li>
+									{actions.isLogIn() ? (
+										<li>
+											<Link to="/dashboard" title="Menú personal">
+												Menú personal
+											</Link>
+										</li>
+									) : (
+										""
+									)}
 								</ul>
 							</nav>
 						</div>

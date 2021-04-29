@@ -26,6 +26,7 @@ import { Donate } from "./pages/donate";
 import { ToastContainer } from "react-toastify";
 
 import "react-toastify/dist/ReactToastify.css";
+import { Dashboard } from "./pages/dashboard";
 
 //create your first component
 const Layout = () => {
@@ -63,6 +64,9 @@ const Layout = () => {
 					</Route>
 					<Route exact path="/profile">
 						<Profile />
+					</Route>
+					<Route exact path="/dashboard">
+						<Dashboard />
 					</Route>
 					<Route exact path="/register_org">
 						<RegisterOrganization />
