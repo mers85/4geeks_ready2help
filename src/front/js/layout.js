@@ -40,7 +40,7 @@ const Layout = () => {
 	}, [location]);
 
 	return (
-		<div className="d-flex flex-column h-100">
+		<div className="">
 			<ScrollToTop>
 				{location.pathname !== "/login" &&
 				location.pathname !== "/signup" &&

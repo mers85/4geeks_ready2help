@@ -13,12 +13,16 @@
         color: #fff;
     }
 
-    .dBeril i {
+    .sidebar-content i {
         padding: 0;
         margin: -1.8rem;
     }
 
-    
+    .sidebar-content span {
+        padding: 0;
+        margin: 1.8rem;
+    }
+
 
     .sidebar a {
         color: inherit;
@@ -33,14 +37,6 @@
         }
     }
 
-     div.content {
-        margin-left: 200px;
-        padding: 1px 16px;
-        height: 1000px;
-    }
 
-
-    @media screen and (max-width: 700px) {
-        div.content {margin-left: 0;}
-    }
+   
 }

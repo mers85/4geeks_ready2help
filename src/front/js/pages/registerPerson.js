@@ -173,7 +173,7 @@ export const RegisterPerson = props => {
 								/>
 								{validator.message("address", value.address, "required:address")}
 							</Grid>
-							<Grid item xs={6}>
+							<Grid item xs={12} md={6}>
 								<TextField
 									className="inputOutline"
 									fullWidth
@@ -191,7 +191,7 @@ export const RegisterPerson = props => {
 								/>
 								{validator.message("zipcode", value.zipcode, "required:zipcode")}
 							</Grid>
-							<Grid item xs={6}>
+							<Grid item xs={12} md={6}>
 								<TextField
 									className="inputOutline"
 									fullWidth
@@ -208,7 +208,7 @@ export const RegisterPerson = props => {
 								/>
 								{validator.message("email", value.email, "required:email")}
 							</Grid>
-							<Grid item xs={6}>
+							<Grid item xs={12} md={6}>
 								<TextField
 									className="inputOutline"
 									fullWidth
