@@ -26,6 +26,7 @@ import { Donate } from "./pages/donate";
 import { ToastContainer } from "react-toastify";
 
 import "react-toastify/dist/ReactToastify.css";
+import { Navbar } from "./component/navbar";
 
 //create your first component
 const Layout = () => {
@@ -44,7 +45,7 @@ const Layout = () => {
 				{location.pathname !== "/login" &&
 				location.pathname !== "/signup" &&
 				location.pathname !== "/reset_pass" ? (
-					<Header />
+					<Navbar />
 				) : null}
 				<ToastContainer />
 				<Switch>

@@ -7,7 +7,7 @@ export const Home = () => {
 	const { store, actions } = useContext(Context);
 
 	return (
-		<div className="text-center mt-5">
+		<div className="text-center py-5 my-5">
 			<h1>Hello Rigo!</h1>
 			<p>
 				<img src={rigoImageUrl} />

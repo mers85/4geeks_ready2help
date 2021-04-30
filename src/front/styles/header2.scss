@@ -1,0 +1,36 @@
+
+
+.header-general{
+        background-color: #ffffff;
+        color: #7b7b7b;
+
+        .nav-item {
+             a.nav-link:link {
+                color: #7b7b7b;
+            }
+
+            a.nav-link:visited {
+               color: #7b7b7b;
+            }
+            
+            /* mouse over link */
+            a.nav-link:hover {
+                color: #08cc7f;
+            }
+
+            /* selected link */
+            a.nav-link:active {
+                color: #08cc7f;
+            }
+
+        }
+        
+    
+    .bg-green {
+        color: #ffffff;
+        background-color: #08cc7f;
+    }
+
+    
+
+}

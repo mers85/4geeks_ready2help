@@ -24,39 +24,39 @@ export const HeaderTopbar = () => {
 
 	return (
 		<div className="topbar">
-			<div className="container">
-				<div className="row">
-					<div className="col col-md-6 col-sm-12 col-12">
-						<div className="contact-intro">
-							<ul>
-								<li>
-									{/* <i className="fi flaticon-call" /> */}
-									<i className="fas fa-phone-volume mr-1" />
-									+34667780442
-								</li>
-								<li>
-									{/* <i className="fi flaticon-envelope" /> */}
-									<i className="fas fa-envelope mr-1" />
-									ready2helpemail@gmail.com
-								</li>
-							</ul>
+			<nav className="navbar navbar-expand-lg navbar-light bg-white">
+				<div className="container">
+					<div className="row">
+						<div className="col col-md-6 col-sm-12 col-12">
+							<div className="">
+								<ul className="navbar-nav mr-auto">
+									<li classNam="nav-item">
+										<i className="fas fa-phone-volume mr-1" />
+										+34667780442
+									</li>
+									<li classNam="nav-item">
+										<i className="fas fa-envelope mr-1" />
+										ready2helpemail@gmail.com
+									</li>
+								</ul>
+							</div>
 						</div>
-					</div>
-					<div className="col col-md-6 col-sm-12 col-12">
-						<div className="contact-info">
-							<ul>
-								<li>{sessionLinks().log}</li>
-								<li>{sessionLinks().signup}</li>
-								<li>
-									<Link className="theme-btn" to="/create_project">
-										Crear proyecto
-									</Link>
-								</li>
-							</ul>
+						<div className="col col-md-6 col-sm-12 col-12">
+							<div className="">
+								<ul className="navbar-nav ml-auto">
+									<li classNam="nav-item">{sessionLinks().log}</li>
+									<li classNam="nav-item">{sessionLinks().signup}</li>
+									<li classNam="nav-item">
+										<Link className="btn theme-btn" to="/create_project">
+											Crear proyecto
+										</Link>
+									</li>
+								</ul>
+							</div>
 						</div>
 					</div>
 				</div>
-			</div>
+			</nav>
 		</div>
 	);
 };
