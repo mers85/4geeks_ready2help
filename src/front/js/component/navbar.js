@@ -11,9 +11,6 @@ import "bootstrap/js/src/collapse.js";
 export function Navbar() {
 	const { actions } = useContext(Context);
 
-	const [collapsed, setCollapsed] = useState(true);
-	const toggleNavbar = () => setCollapsed(!collapsed);
-
 	function sessionLinks() {
 		let link = { log: "", signup: "" };
 		let token = actions.getAccessToken();
@@ -41,14 +38,13 @@ export function Navbar() {
 	return (
 		<div>
 			<Topbar />
-			<nav className="header-general navbar navbar-expand-lg navbar-light pt-3 shadow">
+			<nav className="header-general navbar navbar-expand-lg navbar-light py-3 shadow">
 				<div className="container">
 					<Link className="navbar-brand" to="/" title="">
 						Ready2Help
 					</Link>
 					<button
-						className="navbar-toggler"
-						onClick={toggleNavbar}
+						className="navbar-toggler custom-toggler"
 						type="button"
 						data-toggle="collapse"
 						data-target="#navbarSupportedContent"
@@ -57,8 +53,36 @@ export function Navbar() {
 						aria-label="Toggle navigation">
 						<span className="navbar-toggler-icon text-muted"></span>
 					</button>
-					<div className="collapse navbar-collapse" id="navbarSupportedContent" isOpen={!collapsed}>
-						<ul className="navbar-nav ml-auto">
+					<div className="collapse navbar-collapse" id="navbarSupportedContent">
+						<div className="navbar-nav ml-auto d-none d-sm-none d-md-none d-lg-block">
+							<ul className="navbar-nav ml-auto">
+								<li className="nav-item active">
+									<Link className="nav-link" to="/projects" title="Proyectos">
+										Proyectos
+									</Link>
+								</li>
+								<li className="nav-item">
+									<Link className="nav-link" to="/" title="Acerca de nosotros">
+										Acerca de nosotros
+									</Link>
+								</li>
+								<li className="nav-item">
+									<Link className="nav-link" to="/" title="contacto">
+										Contacto
+									</Link>
+								</li>
+								{actions.isLogIn() ? (
+									<li className="nav-item">
+										<Link className="nav-link" to="/" title="Menú personal">
+											Menú personal
+										</Link>
+									</li>
+								) : (
+									""
+								)}
+							</ul>
+						</div>
+						<ul className="navbar-nav mr-auto d-sm-block d-md-block d-lg-none d-xl-none py-3">
 							<li className="nav-item active">
 								<Link className="nav-link" to="/projects" title="Proyectos">
 									Proyectos
@@ -84,8 +108,8 @@ export function Navbar() {
 								""
 							)}
 
-							<li className="nav-item d-md-block d-lg-none d-xl-none">{sessionLinks().log}</li>
-							<li className="nav-item  d-md-block d-lg-none d-xl-none">{sessionLinks().signup}</li>
+							<li className="nav-item">{sessionLinks().log}</li>
+							<li className="nav-item">{sessionLinks().signup}</li>
 						</ul>
 					</div>
 				</div>
