@@ -12,5 +12,9 @@ export const LogOut = () => {
 		toast.success("Sesión finalizada");
 	}
 
-	return <Link onClick={handleLogOut}>Log Out</Link>;
+	return (
+		<Link className="nav-link" onClick={handleLogOut}>
+			Log Out
+		</Link>
+	);
 };
