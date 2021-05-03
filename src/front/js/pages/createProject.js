@@ -96,116 +96,96 @@ export const CreateProject = props => {
 	};
 
 	return (
-		<Grid className="projectWrapper">
-			<Grid className="projectForm">
-				<h2>Crear proyecto</h2>
-				<p>
-					Puedes dar de alta tu proyecto solo con el nombre y luego ir a tu panel de administración y
-					completar los datos antes de hacerlo público
-				</p>
-				<form onSubmit={submitForm}>
-					<Grid container spacing={3}>
-						<Grid item xs={12}>
-							<TextField
-								className="inputOutline"
-								fullWidth
-								placeholder="Nombre del proyecto"
-								value={value.title}
-								variant="outlined"
-								name="title"
-								label="Nombre del proyecto"
-								inputlabelprops={{
-									shrink: true
-								}}
-								onBlur={e => changeHandler(e)}
-								onChange={e => changeHandler(e)}
-							/>
-							{validator.message("Nombre del proyecto", value.title, "required:title")}
-						</Grid>
-						<Grid item xs={12}>
-							<TextField
-								className="inputOutline"
-								fullWidth
-								multiline
-								rows={2}
-								rowsMax={6}
-								placeholder="Subtítulo"
-								value={value.subtitle}
-								variant="outlined"
-								name="subtitle"
-								type="text"
-								label="Subtítulo"
-								inputlabelprops={{
-									shrink: true
-								}}
-								onBlur={e => changeHandler(e)}
-								onChange={e => changeHandler(e)}
-							/>
-						</Grid>
-						<Grid item xs={6}>
-							<TextField
-								className="inputOutline"
-								fullWidth
-								placeholder="Dinero"
-								value={value.money_needed}
-								variant="outlined"
-								name="money_needed"
-								type="text"
-								label="Dinero"
-								inputlabelprops={{
-									shrink: true
-								}}
-								onBlur={e => changeHandler(e)}
-								onChange={e => changeHandler(e)}
-							/>
-						</Grid>
-						<Grid item xs={6}>
-							<TextField
-								className="inputOutline"
-								fullWidth
-								placeholder="Voluntarios"
-								value={value.people_needed}
-								variant="outlined"
-								name="people_needed"
-								type="text"
-								label="Voluntarios"
-								inputlabelprops={{
-									shrink: true
-								}}
-								onBlur={e => changeHandler(e)}
-								onChange={e => changeHandler(e)}
-							/>
-						</Grid>
-						<Grid item xs={12}>
-							<TextareaAutosize
-								rowsMin={4}
-								className="textAreaOutline"
-								style={{ width: "100%" }}
-								fullWidth
-								placeholder="Descripción"
-								value={value.description}
-								variant="outlined"
-								name="description"
-								type="text"
-								label="Descripción"
-								inputlabelprops={{
-									shrink: true
-								}}
-								onBlur={e => changeHandler(e)}
-								onChange={e => changeHandler(e)}
-							/>
-						</Grid>
-						<Grid item xs={12}>
-							<Grid className="formFooter">
-								<Button fullwidth="true" className="cBtnTheme" type="submit">
-									Crear Proyecto
-								</Button>
-							</Grid>
-						</Grid>
-					</Grid>
-				</form>
-			</Grid>
-		</Grid>
+		<div className="container formulario-base py-5 mt-5 px-0">
+			<div className="row mx-auto">
+				<div className="col-sm-12 col-md-10 mx-auto">
+					<div className="card p-md-4 py-4 border-0 shadow">
+						<h2 className="card-title text-center p-3">Crear proyecto</h2>
+						<small className="card-subtitle px-3 text-center">
+							Puedes dar de alta tu proyecto solo con el nombre y luego ir a tu panel de administración y
+							completar los datos antes de hacerlo público
+						</small>
+						<div className="card-body mx-0">
+							<form onSubmit={submitForm}>
+								<div className="form-row py-3">
+									<div className="form-group col-12 textOnInput">
+										<label className="textLabel">Nombre del proyecto</label>
+										<input
+											type="text"
+											className="form-control"
+											placeholder="Nombre del proyecto"
+											name="title"
+											defaultValue={value.title}
+											onBlur={e => changeHandler(e)}
+											onChange={e => changeHandler(e)}
+										/>
+										{validator.message("title", value.title, "required:title")}
+									</div>
+								</div>
+								<div className="form-row pb-3">
+									<div className="form-group col-12 textOnInput">
+										<label className="textLabel">Subtítulo</label>
+										<textarea
+											className="form-control"
+											id="exampleFormControlTextarea1"
+											name="subtitle"
+											placeholder="Subtítulo"
+											defaultValue={value.subtitle}
+											onBlur={e => changeHandler(e)}
+											onChange={e => changeHandler(e)}
+											rows="2"></textarea>
+									</div>
+								</div>
+								<div className="form-row ">
+									<div className="form-group col-sm-12 col-md-6 textOnInput pb-3">
+										<label className="textLabel">Dinero</label>
+										<input
+											type="text"
+											className="form-control"
+											placeholder="Dinero"
+											name="money_needed"
+											defaultValue={value.money_needed}
+											onBlur={e => changeHandler(e)}
+											onChange={e => changeHandler(e)}
+										/>
+									</div>
+									<div className="form-group col-sm-12 col-md-6 textOnInput pb-3">
+										<label className="textLabel">Voluntarios</label>
+										<input
+											type="text"
+											className="form-control"
+											placeholder="Voluntarios"
+											name="people_needed"
+											defaultValue={value.people_needed}
+											onBlur={e => changeHandler(e)}
+											onChange={e => changeHandler(e)}
+										/>
+									</div>
+								</div>
+								<div className="form-row pb-2">
+									<div className="form-group col-12 textOnInput">
+										<label className="textLabel">Descripción</label>
+										<textarea
+											className="form-control"
+											id="exampleFormControlTextarea1"
+											name="description"
+											placeholder="Descripción"
+											defaultValue={value.description}
+											onBlur={e => changeHandler(e)}
+											onChange={e => changeHandler(e)}
+											rows="4"></textarea>
+									</div>
+								</div>
+
+								<button type="submit" className="btn button-green btn-md btn-block">
+									CREAR PROYECTO
+								</button>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
 	);
 };
 
