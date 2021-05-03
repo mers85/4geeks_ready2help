@@ -297,7 +297,7 @@ def request_reset_pass():
             raise APIException("Something went wrong. Your password could not be changed.", 401)
 
         message_email=f"Hi {user.email}! As requested, here is your link to reset your password: {url_reset_email}"
-        email = send_email(receiver=user.email, message=message_email)
+        email = send_email(receiver=user.email, subject="Reset Password", message=message_email)
 
         return jsonify({'token' : user.token, 'url_reset':url_reset_app}), 201
 
@@ -330,16 +330,17 @@ def reset_pass():
         raise APIException("This user does not exist", 401)
 
 
-def send_email(receiver=None, message=""):
+def send_email(sender="ready2helpemail@gmail.com", receiver=None, subject="", message=""):
     if receiver is not None:
         try:
-            msg = MIMEMultipart()
+            msg = email.message.Message()
             password = os.environ.get('PASS_EMAIL')
-            msg['From'] = "ready2helpemail@gmail.com"
+            msg['From'] = sender
             msg['To'] = receiver
-            msg['Subject'] = "Ready2Help - Reset Password"
+            msg['Subject'] = f"Ready2Help - {subject}"
             # add in the message body
-            msg.attach(MIMEText(message, 'plain'))
+            msg.add_header('Content-Type', 'text/html')
+            msg.set_payload(message)
             #create server
             server = smtplib.SMTP('smtp.gmail.com: 587')
             server.starttls()
@@ -411,6 +412,10 @@ def create_donation(current_user, id):
         )
 
         project_donate.update_project(total_donated = project_donate.total_donated + amount)
+
+        message = f"¡Hola {person_donate.name}! Muchas gracias por su donación al proyecto {project_donate.title}"
+
+        send_email(receiver=person_donate.email, subject="Donation Confirmated", message=message)
     except:
         print("Unexpected error:", sys.exc_info())
         raise APIException("Something went wrong. The donation was not complete", 401)
@@ -458,3 +463,19 @@ def create_volunteer(current_user, id):
         raise APIException("Please, Log In", 401)
 
     return jsonify({"message" : "Thanks for joining!", "project": project.serialize() }), 201
+
+
+@api.route('/contact', methods =['POST'])
+def contact():
+    body = request.get_json()
+    email = body["email"]
+    comment = body["comment"]
+    
+    if email:
+        subject = f"Solicitud de Contacto con {email}"
+        send_email(receiver="ready2helpemail@gmail.com", message=comment, subject=subject)
+    else:
+        print("Unexpected error:", sys.exc_info())
+        raise APIException("Please, Try again to send your comments", 401)
+
+    return jsonify({"message" : "Thanks for your comments! We try to answer you soon."}), 201

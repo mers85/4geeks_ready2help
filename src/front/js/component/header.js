@@ -66,7 +66,7 @@ export function Header() {
 									</Link>
 								</li>
 								<li className="nav-item">
-									<Link className="nav-link" to="/" title="contacto">
+									<Link className="nav-link" to="/contact" title="contacto">
 										Contacto
 									</Link>
 								</li>
@@ -93,7 +93,7 @@ export function Header() {
 								</Link>
 							</li>
 							<li className="nav-item">
-								<Link className="nav-link" to="/" title="contacto">
+								<Link className="nav-link" to="/contact" title="contacto">
 									Contacto
 								</Link>
 							</li>
