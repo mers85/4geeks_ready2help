@@ -3,10 +3,9 @@ import { Context } from "../store/appContext";
 import { Link } from "react-router-dom";
 import { LogOut } from "../pages/logout";
 
-import { MobileMenu } from "./mobileMenu";
-import "../../styles/header2.scss";
+import "../../styles/header.scss";
 
-export function Topbar() {
+export function TopHeader() {
 	const { actions, store } = useContext(Context);
 
 	function sessionLinks() {
@@ -35,7 +34,7 @@ export function Topbar() {
 
 	return (
 		<div className="header-general navbar navbar-expand-lg d-none d-sm-none d-md-none d-lg-block border-bottom">
-			<div className=" container">
+			<div className=" container font-weight-normal">
 				<ul className="navbar-nav mr-auto">
 					<li classNam="nav-item mx-1">
 						<i className="fas fa-phone-volume" />
