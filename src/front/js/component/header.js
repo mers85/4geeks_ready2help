@@ -72,7 +72,7 @@ export function Header() {
 								</li>
 								{actions.isLogIn() ? (
 									<li className="nav-item">
-										<Link className="nav-link" to="/" title="Menú personal">
+										<Link className="nav-link" to="/profile" title="Menú personal">
 											Menú personal
 										</Link>
 									</li>
@@ -99,7 +99,7 @@ export function Header() {
 							</li>
 							{actions.isLogIn() ? (
 								<li className="nav-item">
-									<Link className="nav-link" to="/" title="Menú personal">
+									<Link className="nav-link" to="/profile" title="Menú personal">
 										Menú personal
 									</Link>
 								</li>
