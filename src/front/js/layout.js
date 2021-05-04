@@ -10,6 +10,7 @@ import { LogIn } from "./pages/login";
 import { CreateProject } from "./pages/createProject";
 import { WizardCreateProject } from "./pages/wizardCreateProject";
 import { WizardCreateDonation } from "./pages/wizardCreateDonation";
+import { Contact } from "./pages/contact";
 import { LogOut } from "./pages/logout";
 import injectContext from "./store/appContext";
 
@@ -90,6 +91,9 @@ const Layout = () => {
 					</Route>
 					<Route exact path="/projects/:id/donate">
 						<WizardCreateDonation />
+					</Route>
+					<Route exact path="/contact">
+						<Contact />
 					</Route>
 					<Route exact path="/logout">
 						<LogOut />

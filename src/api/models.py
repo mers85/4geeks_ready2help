@@ -359,7 +359,7 @@ class Project(db.Model):
 
     @classmethod
     def get_all(cls):
-        return cls.query.all()
+        return cls.query.order_by(cls.id).all()
         
     @classmethod
     def create(cls, title, subtitle, description, money_needed, people_needed, status, organization_id):
