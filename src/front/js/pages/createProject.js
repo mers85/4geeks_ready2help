@@ -10,7 +10,7 @@ import TextareaAutosize from "@material-ui/core/TextareaAutosize";
 import Button from "@material-ui/core/Button";
 import PropTypes from "prop-types";
 
-import "../../styles/formularioBase.scss";
+import "../../styles/formularioBase2.scss";
 import { LogIn } from "./login";
 
 export const CreateProject = props => {
