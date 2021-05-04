@@ -30,38 +30,47 @@ export const Contact = () => {
 	);
 
 	const submitForm = e => {
-		setValue({
-			email: "",
-			comment: ""
-		});
-
 		e.preventDefault();
-		console.log(value.email, value.comment);
-		let responseOk = false;
-		fetch(process.env.BACKEND_URL + "/api/v1/contact", {
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json"
-			},
-			body: JSON.stringify({
-				email: value.email,
-				comment: value.comment
-			})
-		})
-			.then(response => {
-				responseOk = response.ok;
-				return response.json();
-			})
-			.then(responseJson => {
-				if (responseOk) {
-					toast.success("Tus comentarios han sido enviados. Te responderemos muy pronto.");
-				} else {
-					toast.error(responseJson.message);
-				}
-			})
-			.catch(error => {
-				toast.error(error.message);
+		if (validator.allValid()) {
+			setValue({
+				email: "",
+				comment: ""
 			});
+			validator.hideMessages();
+
+			if (value.email) {
+				console.log(value.email, value.comment);
+				let responseOk = false;
+				fetch(process.env.BACKEND_URL + "/api/v1/contact", {
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json"
+					},
+					body: JSON.stringify({
+						email: value.email,
+						comment: value.comment
+					})
+				})
+					.then(response => {
+						responseOk = response.ok;
+						return response.json();
+					})
+					.then(responseJson => {
+						if (responseOk) {
+							toast.success("Tus comentarios han sido enviados. Te responderemos muy pronto.");
+						} else {
+							toast.error(responseJson.message);
+						}
+					})
+					.catch(error => {
+						toast.error(error.message);
+					});
+			}
+		} else {
+			validator.showMessages();
+			toast.error("¡Es necesario un email!");
+		}
+		return false;
 	};
 
 	return (
@@ -91,6 +100,7 @@ export const Contact = () => {
 												onBlur={e => changeHandler(e)}
 												onChange={e => changeHandler(e)}
 											/>
+											{validator.message("email", value.email, "required:email")}
 										</div>
 									</div>
 									<div className="form-row py-3">
