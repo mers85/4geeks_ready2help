@@ -1,14 +1,12 @@
 import React, { useState, useContext } from "react";
+import { Link, useHistory } from "react-router-dom";
 import { Context } from "../store/appContext";
-import rigoImageUrl from "../../img/rigo-baby.jpg";
 
-import Grid from "@material-ui/core/Grid";
 import SimpleReactValidator from "simple-react-validator";
 import { toast } from "react-toastify";
-import TextField from "@material-ui/core/TextField";
-import Button from "@material-ui/core/Button";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import { Link, useHistory } from "react-router-dom";
+
+import rigoImageUrl from "../../img/rigo-baby.jpg";
+import PageTitle from "../component/pageTitle";
 
 import "../../styles/formularioBase2.scss";
 
@@ -67,110 +65,110 @@ export const Contact = () => {
 	};
 
 	return (
-		<div className="container formulario-base py-5 my-5">
-			<div className="row">
-				<div className="col-sm-12 col-md-10 mx-auto">
-					<div className="card mb-3 p-3 shadow rounded border-0">
-						<h2 className="card-title text-center p-3">Contacto</h2>
-						<small className="card-subtitle px-3 text-center">
-							Dinos en qué te podemos ayudar, en qué nos quieres ayudar tú o simplemente deja tus
-							comentarios.
-						</small>
-						<div className="card-body mx-0">
-							<form onSubmit={submitForm}>
-								<div className="form-row py-3">
-									<div className="form-group col-12 textOnInput">
-										<label>Correo Electrónico</label>
-										<input
-											type="email"
-											className="form-control"
-											id="email"
-											name="email"
-											defaultValue={value.email}
-											placeholder="@"
-											onBlur={e => changeHandler(e)}
-											onChange={e => changeHandler(e)}
-										/>
+		<div>
+			<PageTitle pageTitle="Contáctanos" myPath="/contact" />
+			<div className="container formulario-base py-5 my-5">
+				<div className="row">
+					<div className="col-sm-12 col-md-10 mx-auto">
+						<div className="card mb-3 p-3 shadow rounded border-0">
+							<h2 className="card-title text-center p-3">Contacto</h2>
+							<small className="card-subtitle px-3 text-center">
+								Dinos en qué te podemos ayudar, en qué nos quieres ayudar tú o simplemente deja tus
+								comentarios.
+							</small>
+							<div className="card-body mx-0">
+								<form onSubmit={submitForm}>
+									<div className="form-row py-3">
+										<div className="form-group col-12 textOnInput">
+											<label>Correo Electrónico</label>
+											<input
+												type="email"
+												className="form-control"
+												id="email"
+												name="email"
+												defaultValue={value.email}
+												placeholder="@"
+												onBlur={e => changeHandler(e)}
+												onChange={e => changeHandler(e)}
+											/>
+										</div>
 									</div>
-								</div>
-								<div className="form-row py-3">
-									<div className="form-group col-12 textOnInput">
-										<label>Comentarios</label>
-										<textarea
-											className="form-control"
-											id="comment"
-											name="comment"
-											defaultValue={value.comment}
-											rows="4"
-											onBlur={e => changeHandler(e)}
-											onChange={e => changeHandler(e)}
-										/>
+									<div className="form-row py-3">
+										<div className="form-group col-12 textOnInput">
+											<label>Comentarios</label>
+											<textarea
+												className="form-control"
+												id="comment"
+												name="comment"
+												defaultValue={value.comment}
+												rows="4"
+												onBlur={e => changeHandler(e)}
+												onChange={e => changeHandler(e)}
+											/>
+										</div>
 									</div>
-								</div>
-								<button type="submit" className="btn button-green btn-md btn-block">
-									ENVIAR
-								</button>
-							</form>
+									<button type="submit" className="btn button-green btn-md btn-block">
+										ENVIAR
+									</button>
+								</form>
+							</div>
 						</div>
 					</div>
 				</div>
-			</div>
 
-			<div className="row d-flex justify-content-between">
-				<div className="card-deck mx-auto">
-					<div className="card mb-3 mx-md-2 rounded shadow border-0">
-						<div className="card-body text-center">
-							<a href="mailto:ready2helpemail@gmail.com">
-								<h5 className="card-title">
-									ready2helpemail <br /> @gmail.com
-								</h5>
-							</a>
-							<div className="card-subtitle mb-2 py-3 d-flex flex-row justify-content-start">
-								<div className="col-4 px-0">
-									<span className="badge badge-pill bg-icon-1 p-4 rounded-circle">
-										<i className="fas fa-at text-white fa-2x"></i>
-									</span>
-								</div>
-								<div className="col-8  py-4">
-									<h6 className="text-muted font-weight-light">Correo Electrónico</h6>
+				<div className="row d-flex justify-content-between">
+					<div className="card-deck col-sm-12 col-md-10 mx-auto">
+						<div className="card p-2  mb-3 mx-md-1 rounded shadow border-0">
+							<div className="card-body">
+								<a href="mailto:ready2helpemail@gmail.com">
+									<h5 className="card-title">
+										ready2helpemail <br /> @gmail.com
+									</h5>
+								</a>
+								<div className="card-subtitle text-center mb-2 py-2 d-flex flex-wrap flex-row justify-content-start">
+									<div className="col-sm-12 col-md-3 px-0">
+										<span className="badge badge-pill bg-icon-1 p-4 rounded-circle">
+											<i className="fas fa-at text-white fa-2x"></i>
+										</span>
+									</div>
+									<div className="col-sm-12 col-md-8  py-4">
+										<h6 className="text-muted ml-md-2">Correo Electrónico</h6>
+									</div>
 								</div>
 							</div>
 						</div>
-					</div>
 
-					<div className="card mb-3 mx-md-3 rounded shadow border-0">
-						<div className="card-body text-center">
-							<a href="tel:+34667780442">
-								<h5 className="card-title">
-									(+34)
-									<br /> 667 780 442
-								</h5>
-							</a>
-							<div className="card-subtitle mb-2 py-3 d-flex flex-row justify-content-start">
-								<div className="col-4 px-0">
-									<span className="badge badge-pill bg-icon-2 p-4 rounded-circle">
-										<i className="fas fa-phone text-white fa-2x"></i>
-									</span>
-								</div>
-								<div className="col-8  py-4">
-									<h6 className="text-muted font-weight-light">Teléfono</h6>
+						<div className="card p-2  mb-3 mx-md-2 rounded shadow border-0">
+							<div className="card-body">
+								<a href="tel:+34667780442">
+									<h5 className="card-title pb-4">(+34) 667 780 442</h5>
+								</a>
+								<div className="card-subtitle text-center mb-2 py-2 d-flex flex-wrap flex-row justify-content-start">
+									<div className="col-sm-12 col-md-3 px-0">
+										<span className="badge badge-pill bg-icon-2 p-4 rounded-circle">
+											<i className="fas fa-phone text-white fa-2x"></i>
+										</span>
+									</div>
+									<div className="col-sm-12 col-md-8   py-4">
+										<h6 className="text-muted ml-md-2">Teléfono</h6>
+									</div>
 								</div>
 							</div>
 						</div>
-					</div>
-					<div className="card mb-3 mx-md-2 rounded shadow border-0">
-						<div className="card-body text-center">
-							<a href="https://g.page/4geeks-academy-madrid?share">
-								<h5 className="card-title">Cl. de Edison, 3, 28006, Madrid</h5>
-							</a>
-							<div className="card-subtitle mb-2 py-3 d-flex flex-row justify-content-start">
-								<div className="col-4 px-0">
-									<span className="badge badge-pill bg-icon-3 p-4 rounded-circle">
-										<i className="fas fa-map-marked text-white fa-2x"></i>
-									</span>
-								</div>
-								<div className="col-8  py-4">
-									<h6 className="text-muted font-weight-light">Dirección</h6>
+						<div className="card p-2  mb-3 mx-md-1 rounded shadow border-0">
+							<div className="card-body">
+								<a href="https://g.page/4geeks-academy-madrid?share">
+									<h5 className="card-title">Cl. de Edison, 3, 28006, Madrid</h5>
+								</a>
+								<div className="card-subtitle text-center mb-2 py-2 d-flex flex-wrap flex-row justify-content-start">
+									<div className="col-sm-12 col-md-3 px-0">
+										<span className="badge badge-pill bg-icon-3 p-4 rounded-circle">
+											<i className="fas fa-map-marked text-white fa-2x"></i>
+										</span>
+									</div>
+									<div className="col-sm-12 col-md-8  py-4">
+										<h6 className="text-muted ml-md-2">Dirección</h6>
+									</div>
 								</div>
 							</div>
 						</div>

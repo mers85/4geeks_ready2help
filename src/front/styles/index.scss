@@ -2,6 +2,36 @@
     General Styles
 */
 
+.text-green {
+    color: #08cc7f;
+}
+
+.page-title{
+    opacity: 0.8;
+    background: url('../img/hands_01.jpg') no-repeat center top / cover;
+    z-index: 1;
+
+
+    ul li {
+        
+        a:link {
+            color: white;
+        }
+        a:visited {
+            color: white;
+        }
+        a:hover {
+            color: #08cc7f;
+        }
+        a:active {
+            color: #08cc7f;
+        }
+    }
+
+}
+
+
+
 /*--------------------------------------------------------------
 #0.1    Theme Reset Style
 --------------------------------------------------------------*/
