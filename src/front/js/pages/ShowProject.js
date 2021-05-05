@@ -9,6 +9,7 @@ import { TabContent, TabPane, Nav, NavItem, NavLink } from "reactstrap";
 import classnames from "classnames";
 import { LogIn } from "./login";
 import { Volunteer } from "../component/volunteer";
+import { ProgressBar } from "../component/progressBar";
 
 import imgPrincipal from "../../img/hands_01.jpg";
 import "../../styles/showproject.scss";
@@ -18,22 +19,12 @@ export const ShowProject = props => {
 	const { actions } = useContext(Context);
 	const [project, setProject] = useState("");
 	const [recaudado, setRecaudado] = useState("");
-	const [progressbarMoney, setProgressBarMoney] = useState("");
-	const [progressBarColor, setProgressBarColor] = useState("");
 	const [isVolunteer, setIsVolunteer] = useState("");
 
 	const [activeTab, setActiveTab] = useState("1");
 	const toggle = tab => {
 		if (activeTab !== tab) setActiveTab(tab);
 	};
-
-	function myProgressBar(money_needed) {
-		let money_recaudado = 35000;
-		let percent = ((money_recaudado * 100) / money_needed).toFixed(2);
-		setProgressBarMoney(percent);
-		let widthPorcentaje = percent + " %";
-		setProgressBarColor(widthPorcentaje);
-	}
 
 	function isVolunteerInThisProject(project) {
 		if (project && project.volunteers) {
@@ -63,7 +54,6 @@ export const ShowProject = props => {
 			.then(responseJson => {
 				if (responseOk) {
 					setProject(responseJson.project);
-					myProgressBar(responseJson.project.money_needed);
 					isVolunteerInThisProject(responseJson.project);
 				} else {
 					toast.error(responseJson.message);
@@ -129,29 +119,10 @@ export const ShowProject = props => {
 														<div className="wpo-case-content">
 															<div className="wpo-case-text-top">
 																<h2>{project.title}</h2>
-																<div className="progress-section">
-																	<div className="process">
-																		<div className="progress">
-																			<div
-																				className="progress-bar"
-																				style={{ width: progressBarColor }}>
-																				<div className="progress-value">
-																					<span>{progressbarMoney}</span>%
-																				</div>
-																			</div>
-																		</div>
-																	</div>
-																</div>
-																<ul className="mb-3">
-																	<li>
-																		<span>Recaudado:</span> {35000}{" "}
-																		<i className="fas fa-euro-sign text-secondary fa-1x"></i>
-																	</li>
-																	<li>
-																		<span>Objetivo:</span> {project.money_needed}{" "}
-																		<i className="fas fa-euro-sign text-secondary fa-1x"></i>
-																	</li>
-																</ul>
+																<ProgressBar
+																	total_donated={35000}
+																	money_needed={project.money_needed}
+																/>
 																<div className="case-bb-text py-3">
 																	<h5>{project.subtitle}</h5>
 																	<p>{project.description}</p>

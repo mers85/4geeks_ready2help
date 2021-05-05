@@ -183,7 +183,7 @@ def login():
         # generates the JWT Token
         token = jwt.encode({
             'id': user.id,
-            'exp' : datetime.utcnow() + timedelta(minutes = 90)
+            'exp' : datetime.utcnow() + timedelta(minutes = 120)
         }, app.config['SECRET_KEY'])
 
         #roles = [role.name for role in user.roles]

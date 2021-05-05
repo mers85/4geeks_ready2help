@@ -1,5 +1,4 @@
 import React, { useEffect, useState, useContext } from "react";
-import "../../styles/home.scss";
 import { CardDeck, Card } from "reactstrap";
 import { Context } from "../store/appContext";
 import { CardProject2 } from "../component/cardProject2";
@@ -40,29 +39,26 @@ export const Projects = () => {
 	return (
 		<div>
 			<PageTitle pageTitle="Proyectos" myPath="/projects" />
-			<div className="container-fluid py-5 my-5">
-				<div className="row justify-content-md-center">
-					<CardDeck className="mx-auto">
-						{store.projects ? (
-							store.projects.map(project => {
-								// return <h1 key={project.id}>{project.description}</h1>;
-								return (
-									<CardProject2
-										key={project.id}
-										title={project.title}
-										subtitle={project.subtitle}
-										money_needed={project.money_needed}
-										total_donated={project.total_donated}
-										people_needed={project.people_needed}
-										id={project.id}
-										volunteers_stats={project.volunteers_stats}
-									/>
-								);
-							})
-						) : (
-							<h1>CARGANDO...</h1>
-						)}
-					</CardDeck>
+			<div className="container-fluid d-flex justify-content-center px-sm-2 px-md-4 px-lg-5 py-3 my-3">
+				<div className="row d-flex flex-wrap pb-md-3 mb-md-3">
+					{store.projects ? (
+						store.projects.map(project => {
+							return (
+								<CardProject2
+									key={project.id}
+									title={project.title}
+									subtitle={project.subtitle}
+									money_needed={project.money_needed}
+									total_donated={project.total_donated}
+									people_needed={project.people_needed}
+									id={project.id}
+									volunteers_stats={project.volunteers_stats}
+								/>
+							);
+						})
+					) : (
+						<h1>CARGANDO...</h1>
+					)}
 				</div>
 			</div>
 		</div>
