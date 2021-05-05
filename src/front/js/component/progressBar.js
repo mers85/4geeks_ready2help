@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Alert } from "reactstrap";
 import PropTypes from "prop-types";
 
-import "../../styles/projects2.scss";
+import "../../styles/projects.scss";
 
 export const ProgressBar = props => {
 	function number_format(amount, decimals) {
