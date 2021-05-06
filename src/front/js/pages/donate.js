@@ -16,6 +16,7 @@ export const Donate = props => {
 	let { id } = useParams();
 	const { actions, store } = useContext(Context);
 	const history = useHistory();
+	const [disableButton, setDisableButton] = useState("");
 	const [value, setValue] = useState({
 		amount: "",
 		person: "",
@@ -72,7 +73,7 @@ export const Donate = props => {
 
 	const SubmitHandler = e => {
 		e.preventDefault();
-
+		setDisableButton("true");
 		let amount = value.amount.replace(/[^0-9,.]/g, "").replace(/,/g, ".");
 
 		if (evaluateAmount(amount)) {
@@ -89,11 +90,12 @@ export const Donate = props => {
 				})
 			})
 				.then(response => {
+					setDisableButton("");
 					responseOk = response.ok;
 					if (responseOk) {
 						if (response.status === 201) {
 							toast.success(
-								"Thanks a lot for your donation. We already sent an email with the details about it."
+								"Muchas gracias por tu donación. Te hemos enviado un correo electrónico con los detalles al respecto."
 							);
 						}
 					}
@@ -112,31 +114,31 @@ export const Donate = props => {
 
 	return (
 		<div className="wpo-donation-page-area">
-			<div className="container py-5 my-5">
+			<div className="container formulario-base py-5 my-5">
 				<div className="row">
 					<div className="col-lg-8 offset-lg-2">
 						<div className="wpo-donate-header">
-							<h2>Make a Donation</h2>
+							<h2>Haz una donación</h2>
 						</div>
 						<form onSubmit={SubmitHandler}>
 							<div className="wpo-donations-amount">
-								<h2>Your Donation</h2>
+								<h2>Importe de tu Donación</h2>
 								<input
 									type="number"
 									className="form-control"
 									value={value.amount}
 									name="amount"
 									id="amount"
-									placeholder="Enter Donation Amount"
+									placeholder="Importe a donar"
 									onChange={e => changeHandler(e)}
 									onBlur={e => changeHandler(e)}
 									// pattern="[0-9]"
 									required
 								/>
-								{validator.message("amount", value.title, "required:amount")}
+								{validator.message("amount", value.amount, "required:amount")}
 							</div>
 							<div className="wpo-donations-details">
-								<h2>Details</h2>
+								<h2>Detalles</h2>
 								<div className="row">
 									<div className="col-lg-6 col-md-6 col-sm-6 col-12 form-group">
 										<input
@@ -207,7 +209,7 @@ export const Donate = props => {
 								</div>
 							</div>
 							<div className="wpo-doanation-payment">
-								<h2>Choose Your Payment Method</h2>
+								<h2>Elige tu método de pago</h2>
 								<div className="wpo-payment-area">
 									<div className="row">
 										<div className="col-12">
@@ -271,8 +273,11 @@ export const Donate = props => {
 								</div>
 							</div>
 							<div className="submit-area">
-								<button type="submit" className="theme-btn submit-btn">
-									Donate Now
+								<button
+									type="submit"
+									className="btn button-green btn-md btn-block"
+									disabled={disableButton}>
+									DONAR
 								</button>
 							</div>
 						</form>

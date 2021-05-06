@@ -413,9 +413,11 @@ def create_donation(current_user, id):
 
         project_donate.update_project(total_donated = project_donate.total_donated + amount)
 
-        message = f"¡Hola {person_donate.name}! Muchas gracias por su donación al proyecto {project_donate.title}"
+        # message_donation = f"¡Hola {person_donate.name}! Muchas gracias por tu donación al proyecto {project_donate.title}"
 
-        send_email(receiver=person_donate.email, subject="Donation Confirmated", message=message)
+        message_donation=f"Hola {person_donate.name}! Muchas gracias por tu aporte al proyecto {project_donate.title}"
+
+        send_email(receiver=person_donate.email, subject="Donation Confirmated", message=message_donation)
     except:
         print("Unexpected error:", sys.exc_info())
         raise APIException("Something went wrong. The donation was not complete", 401)
