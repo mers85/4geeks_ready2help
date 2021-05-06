@@ -15,6 +15,7 @@ import "../../styles/signup.scss";
 
 export const ResetPass = () => {
 	const history = useHistory();
+	const [disableButton, setDisableButton] = useState("");
 	const [value, setValue] = useState({
 		email: "",
 		password: "",
@@ -38,6 +39,8 @@ export const ResetPass = () => {
 	const submitForm = e => {
 		e.preventDefault();
 		if (validator.allValid()) {
+			setDisableButton("true");
+
 			let responseOk = false;
 			fetch(process.env.BACKEND_URL + "/api/v1/reset_pass", {
 				method: "POST",
@@ -51,6 +54,7 @@ export const ResetPass = () => {
 				})
 			})
 				.then(response => {
+					setDisableButton("");
 					responseOk = response.ok;
 					if (response.ok) {
 						if (response.status === 201) {
@@ -140,7 +144,11 @@ export const ResetPass = () => {
 						</Grid>
 						<Grid item xs={12}>
 							<Grid className="formFooter">
-								<Button fullWidth className="cBtn cBtnLarge cBtnTheme" type="submit">
+								<Button
+									fullWidth
+									className="cBtn cBtnLarge cBtnTheme"
+									type="submit"
+									disabled={disableButton}>
 									Send
 								</Button>
 							</Grid>

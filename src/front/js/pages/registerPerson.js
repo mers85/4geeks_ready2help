@@ -11,6 +11,7 @@ import "../../styles/formularioBase2.scss";
 
 export const RegisterPerson = props => {
 	const [notification, setNotification] = useState("");
+	const [disableButton, setDisableButton] = useState("");
 	const { actions, store } = useContext(Context);
 	const history = useHistory();
 
@@ -64,6 +65,8 @@ export const RegisterPerson = props => {
 			});
 			validator.hideMessages();
 
+			setDisableButton("true");
+
 			let responseOk = false;
 			fetch(process.env.BACKEND_URL + "/api/v1/register_pers", {
 				method: "POST",
@@ -81,6 +84,7 @@ export const RegisterPerson = props => {
 				})
 			})
 				.then(response => {
+					setDisableButton("");
 					responseOk = response.ok;
 					if (response.ok) {
 						if (response.status === 201) {

@@ -44,6 +44,7 @@ const Layout = () => {
 			<ScrollToTop>
 				{location.pathname !== "/login" &&
 				location.pathname !== "/signup" &&
+				location.pathname !== "/request_reset_pass" &&
 				location.pathname !== "/reset_pass" ? (
 					<Header />
 				) : null}

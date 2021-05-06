@@ -22,6 +22,7 @@ export const LogIn = props => {
 
 	const { actions } = useContext(Context);
 
+	const [disableButton, setDisableButton] = useState("");
 	const [value, setValue] = useState({
 		email: "",
 		password: "",
@@ -64,6 +65,8 @@ export const LogIn = props => {
 			const userRegex = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 			const email = value.email;
 			if (email.match(userRegex)) {
+				setDisableButton("true");
+
 				let responseOk = false;
 				fetch(process.env.BACKEND_URL + "/api/v1/login", {
 					method: "POST",
@@ -76,6 +79,7 @@ export const LogIn = props => {
 					})
 				})
 					.then(response => {
+						setDisableButton("");
 						responseOk = response.ok;
 						return response.json();
 					})
@@ -150,7 +154,7 @@ export const LogIn = props => {
 								<Link to="/request_reset_pass">¿Olvidó su contraseña?</Link>
 							</Grid>
 							<Grid className="formFooter">
-								<Button fullWidth className="cBtnTheme" type="submit">
+								<Button fullWidth className="cBtnTheme" type="submit" disabled={disableButton}>
 									Login
 								</Button>
 							</Grid>

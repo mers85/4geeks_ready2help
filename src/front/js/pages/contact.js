@@ -12,7 +12,7 @@ import "../../styles/formularioBase2.scss";
 
 export const Contact = () => {
 	const { store, actions } = useContext(Context);
-
+	const [disableButton, setDisableButton] = useState("");
 	const [value, setValue] = useState({
 		email: "",
 		comment: ""
@@ -30,38 +30,47 @@ export const Contact = () => {
 	);
 
 	const submitForm = e => {
-		setValue({
-			email: "",
-			comment: ""
-		});
-
 		e.preventDefault();
-		console.log(value.email, value.comment);
-		let responseOk = false;
-		fetch(process.env.BACKEND_URL + "/api/v1/contact", {
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json"
-			},
-			body: JSON.stringify({
-				email: value.email,
-				comment: value.comment
+
+		if (validator.allValid()) {
+			setValue({ email: "", comment: "" });
+		}
+		validator.hideMessages();
+
+		if (value.email && value.comment) {
+			setDisableButton("true");
+
+			let responseOk = false;
+			fetch(process.env.BACKEND_URL + "/api/v1/contact", {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json"
+				},
+				body: JSON.stringify({
+					email: value.email,
+					comment: value.comment
+				})
 			})
-		})
-			.then(response => {
-				responseOk = response.ok;
-				return response.json();
-			})
-			.then(responseJson => {
-				if (responseOk) {
-					toast.success("Tus comentarios han sido enviados. Te responderemos muy pronto.");
-				} else {
-					toast.error(responseJson.message);
-				}
-			})
-			.catch(error => {
-				toast.error(error.message);
-			});
+				.then(response => {
+					setDisableButton("");
+					responseOk = response.ok;
+					return response.json();
+				})
+				.then(responseJson => {
+					if (responseOk) {
+						toast.success("Tus comentarios han sido enviados. Te responderemos muy pronto.");
+					} else {
+						toast.error(responseJson.message);
+					}
+				})
+				.catch(error => {
+					toast.error(error.message);
+				});
+		} else {
+			validator.showMessages();
+			toast.error("¡Rellenar los campos de Correo Electrónico y Comentarios!");
+		}
+		return false;
 	};
 
 	return (
@@ -87,10 +96,12 @@ export const Contact = () => {
 												id="email"
 												name="email"
 												defaultValue={value.email}
+												value={value.email}
 												placeholder="@"
 												onBlur={e => changeHandler(e)}
 												onChange={e => changeHandler(e)}
 											/>
+											{validator.message("email", value.email, "required:email")}
 										</div>
 									</div>
 									<div className="form-row py-3">
@@ -101,13 +112,18 @@ export const Contact = () => {
 												id="comment"
 												name="comment"
 												defaultValue={value.comment}
+												value={value.comment}
 												rows="4"
 												onBlur={e => changeHandler(e)}
 												onChange={e => changeHandler(e)}
 											/>
+											{validator.message("comment", value.comment, "required:comment")}
 										</div>
 									</div>
-									<button type="submit" className="btn button-green btn-md btn-block">
+									<button
+										type="submit"
+										className="btn button-green btn-md btn-block"
+										disabled={disableButton}>
 										ENVIAR
 									</button>
 								</form>
@@ -157,7 +173,7 @@ export const Contact = () => {
 						</div>
 						<div className="card p-2  mb-3 mx-md-1 rounded shadow border-0">
 							<div className="card-body">
-								<a href="https://g.page/4geeks-academy-madrid?share">
+								<a href="https://g.page/4geeks-academy-madrid?share" target="_blank" rel="noreferrer">
 									<h5 className="card-title">Cl. de Edison, 3, 28006, Madrid</h5>
 								</a>
 								<div className="card-subtitle text-center mb-2 py-2 d-flex flex-wrap flex-row justify-content-start">

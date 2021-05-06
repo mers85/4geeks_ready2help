@@ -84,8 +84,24 @@
        background-image: linear-gradient(#E1B3FE,#B5B3F9);
     }
 
-    
+    .noteHelp {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 13px;
+      letter-spacing: 0;
+      font-weight: 500;
 
+      a {
+        display: inline-block;
+        color: #0077b5;
+        margin-left: 10px;
+        font-size: 13px;
+        font-weight: 500;
+        cursor: pointer;
+      }
+    }    
 
 }
+
+
 
