@@ -36,12 +36,12 @@ export function TopHeader() {
 		<div className="header-general navbar navbar-expand-lg d-none d-sm-none d-md-none d-lg-block border-bottom">
 			<div className=" container font-weight-normal">
 				<ul className="navbar-nav mr-auto">
-					<li classNam="nav-item mx-1">
+					<li className="nav-item mx-1">
 						<i className="fas fa-phone-volume" />
 						+34667780442
 					</li>
 					<span className="border-right mx-1"></span>
-					<li classNam="nav-item">
+					<li className="nav-item">
 						<i className="fas fa-envelope mx-1" />
 						ready2helpemail@gmail.com
 					</li>
@@ -52,7 +52,7 @@ export function TopHeader() {
 					<span className="border-right mx-2"></span>
 					<li className="nav-item">{sessionLinks().signup}</li>
 					<li className="nav-item">
-						<Link className="btn bg-green" to="/create_project">
+						<Link to="/create_project" className="btn bg-green">
 							Crear proyecto
 						</Link>
 					</li>

@@ -106,7 +106,11 @@ const Layout = () => {
 						<h1>Not found!</h1>
 					</Route>
 				</Switch>
-				<Footer />
+				{location.pathname !== "/login" &&
+				location.pathname !== "/signup" &&
+				location.pathname !== "/reset_pass" ? (
+					<Footer />
+				) : null}
 			</ScrollToTop>
 		</div>
 	);

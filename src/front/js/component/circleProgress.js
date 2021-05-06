@@ -11,7 +11,7 @@ export const CircleProgress = props => {
 		<div className="circle-progress">
 			<div className="container">
 				<div className="row">
-					<div className="col-sm-3 col-md-2">
+					<div className="col-sm">
 						<div className="progress-volunteer" data-percentage={projectStats.project_volunteers_percent}>
 							<span className="progress-volunteer-left">
 								<span className="progress-volunteer-bar"></span>
