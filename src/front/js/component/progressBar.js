@@ -38,11 +38,12 @@ export const ProgressBar = props => {
 			<div className="progress-section pt-4 mt-3 mb-md-3">
 				<div className="process">
 					<div className="progress">
-						{console.log(Math.round(percent(props.total_donated, props.money_needed)).toString())}
 						<div
 							className="progress-bar"
 							role="progressbar"
-							style={{ width: Math.round(percent(props.total_donated, props.money_needed)).toString() }}
+							style={{
+								width: Math.round(percent(props.total_donated, props.money_needed)).toString() + "%"
+							}}
 							aria-valuenow={Math.round(percent(props.total_donated, props.money_needed)).toString()}
 							aria-valuemin="0"
 							aria-valuemax="100">

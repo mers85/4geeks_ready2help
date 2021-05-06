@@ -120,7 +120,7 @@ export const ShowProject = props => {
 															<div className="wpo-case-text-top">
 																<h2>{project.title}</h2>
 																<ProgressBar
-																	total_donated={35000}
+																	total_donated={project.total_donated}
 																	money_needed={project.money_needed}
 																/>
 																<div className="case-bb-text py-3">
