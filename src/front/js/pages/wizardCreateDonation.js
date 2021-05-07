@@ -6,7 +6,7 @@ import { Redirect } from "react-router-dom";
 
 import "../../styles/formularioBase.scss";
 import { LogIn } from "./login";
-import { Donate } from "./donate";
+import Donate from "./donate";
 import { toast } from "react-toastify";
 import { Profile } from "./profile";
 import { RegisterPerson } from "./registerPerson";

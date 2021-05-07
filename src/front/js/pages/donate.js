@@ -2,25 +2,31 @@ import React, { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Context } from "../store/appContext";
 import { useHistory } from "react-router-dom";
+import PropTypes from "prop-types";
 
 import SimpleReactValidator from "simple-react-validator";
 import { toast } from "react-toastify";
 
+// stripe
+import { CardElement, Elements, ElementsConsumer } from "@stripe/react-stripe-js";
+import { loadStripe } from "@stripe/stripe-js";
+
+//estilos
 import pmt1 from "../../img/pmt1.png";
 import pmt2 from "../../img/pmt2.png";
 import pmt3 from "../../img/pmt3.png";
 import pmt4 from "../../img/pmt4.png";
 import "../../styles/donate.scss";
 
-export const Donate = props => {
+const DonateForm = props => {
 	let { id } = useParams();
 	const { actions, store } = useContext(Context);
 	const history = useHistory();
 	const [disableButton, setDisableButton] = useState("");
+
 	const [value, setValue] = useState({
 		amount: "",
-		person: "",
-		pymntType: "PayPal"
+		person: ""
 	});
 
 	const changeHandler = e => {
@@ -71,43 +77,92 @@ export const Donate = props => {
 		return evaulateReturn;
 	}
 
-	const SubmitHandler = e => {
+	const SubmitHandler = async e => {
 		e.preventDefault();
 		setDisableButton("true");
 		let amount = value.amount.replace(/[^0-9,.]/g, "").replace(/,/g, ".");
 
+		let stripeAmount = amount * 100;
+
 		if (evaluateAmount(amount)) {
-			let responseOk = false;
-			fetch(process.env.BACKEND_URL + "/api/v1/projects/" + id + "/donation", {
+			if (!props.stripe || !props.elements) {
+				return;
+			}
+
+			fetch(process.env.BACKEND_URL + "/api/v1/payment_intents", {
 				method: "POST",
 				headers: {
-					"Content-Type": "application/json",
-					Authorization: "Bearer " + actions.getAccessToken()
+					"Content-Type": "application/json"
 				},
 				body: JSON.stringify({
-					amount: parseFloat(amount),
-					payment_type: value.pymntType
+					amount: parseFloat(stripeAmount)
 				})
 			})
 				.then(response => {
 					setDisableButton("");
-					responseOk = response.ok;
-					if (responseOk) {
-						if (response.status === 201) {
-							toast.success(
-								"Muchas gracias por tu donación. Te hemos enviado un correo electrónico con los detalles al respecto."
-							);
-						}
-					}
 					return response.json();
 				})
-				.then(responseJson => {
-					if (responseOk) {
-						history.push("/projects");
+				.then(async responseJson => {
+					let clientSecret = responseJson.client_secret;
+					const result = await props.stripe.confirmCardPayment(clientSecret, {
+						payment_method: {
+							card: props.elements.getElement(CardElement),
+							billing_details: {
+								name: value.person.name
+							}
+						}
+					});
+
+					if (result.error) {
+						// Show error to your customer (e.g., insufficient funds)
+						toast.error(result.error.message);
+					} else {
+						// The payment has been processed!
+						if (result.paymentIntent.status === "succeeded") {
+							// Show a success message to your customer
+							// There's a risk of the customer closing the window before callback
+							// execution. Set up a webhook or plugin to listen for the
+							// payment_intent.succeeded event that handles any business critical
+							// post-payment actions.
+
+							let responseOk = false;
+							fetch(process.env.BACKEND_URL + "/api/v1/projects/" + id + "/donation", {
+								method: "POST",
+								headers: {
+									"Content-Type": "application/json",
+									Authorization: "Bearer " + actions.getAccessToken()
+								},
+								body: JSON.stringify({
+									amount: parseFloat(amount),
+									payment_type: "card",
+									stripe_payment_id: result.paymentIntent.id
+								})
+							})
+								.then(response => {
+									setDisableButton("");
+									responseOk = response.ok;
+									if (responseOk) {
+										if (response.status === 201) {
+											toast.success(
+												"Muchas gracias por tu donación. Te hemos enviado un correo electrónico con los detalles al respecto."
+											);
+										}
+									}
+									return response.json();
+								})
+								.then(responseJson => {
+									if (responseOk) {
+										history.push("/projects");
+									}
+								})
+								.catch(error => {
+									toast.error(error.message);
+								});
+						}
 					}
 				})
 				.catch(error => {
-					setError(error.message);
+					toast.error(error.message);
 				});
 		}
 	};
@@ -209,6 +264,10 @@ export const Donate = props => {
 								</div>
 							</div>
 							<div className="wpo-doanation-payment">
+								<h2>Introduce los datos de tu tarjeta</h2>
+								<CardElement />
+							</div>
+							{/* <div className="wpo-doanation-payment">
 								<h2>Elige tu método de pago</h2>
 								<div className="wpo-payment-area">
 									<div className="row">
@@ -241,7 +300,7 @@ export const Donate = props => {
 															</label>
 														</li>
 													</ul>
-													{/* <div className="contact-form form-style">
+													<div className="contact-form form-style">
 														<div className="row">
 															<div className="col-lg-6 col-md-12 col-12">
 																<label>Card holder Name</label>
@@ -265,18 +324,18 @@ export const Donate = props => {
 																<input type="text" placeholder="" name="date" />
 															</div>
 														</div>
-													</div> */}
+													</div>
 												</div>
 											</div>
 										</div>
 									</div>
 								</div>
-							</div>
+							</div> */}
 							<div className="submit-area">
 								<button
 									type="submit"
 									className="btn button-green btn-md btn-block"
-									disabled={disableButton}>
+									disabled={disableButton || !props.stripe}>
 									DONAR
 								</button>
 							</div>
@@ -287,3 +346,21 @@ export const Donate = props => {
 		</div>
 	);
 };
+DonateForm.propTypes = {
+	elements: PropTypes.object,
+	stripe: PropTypes.object
+};
+
+const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLIC_KEY);
+
+const Donate = () => {
+	return (
+		<Elements stripe={stripePromise}>
+			<ElementsConsumer>
+				{({ elements, stripe }) => <DonateForm elements={elements} stripe={stripe} />}
+			</ElementsConsumer>
+		</Elements>
+	);
+};
+
+export default Donate;

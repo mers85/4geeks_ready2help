@@ -20,6 +20,7 @@ flask-admin = "*"
 pyjwt = "==1.7.1"
 wtforms = "*"
 wtforms-json = "*"
+stripe = "*"
 
 [requires]
 python_version = "3.8"
