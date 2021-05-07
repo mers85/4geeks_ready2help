@@ -2,6 +2,7 @@ import React, { useEffect, useState, useContext } from "react";
 import { CardDeck, Card } from "reactstrap";
 import { Context } from "../store/appContext";
 import { CardProject } from "../component/cardProject";
+import Spinner from "../component/spinner";
 import PageTitle from "../component/pageTitle";
 
 export const Projects = () => {
@@ -57,7 +58,7 @@ export const Projects = () => {
 							);
 						})
 					) : (
-						<h1>CARGANDO...</h1>
+						<Spinner />
 					)}
 				</div>
 			</div>
