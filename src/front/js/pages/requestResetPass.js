@@ -12,7 +12,7 @@ import "../../styles/formularioBase2.scss";
 export const RequestResetPass = () => {
 	const [error, setError] = useState("");
 	const [message, setMessage] = useState("");
-	const [disableButton, setDisableButton] = useState("");
+	const [disableButton, setDisableButton] = useState(false);
 	const history = useHistory();
 	const [value, setValue] = useState({ email: "" });
 
@@ -39,7 +39,7 @@ export const RequestResetPass = () => {
 				break;
 		}
 
-		setDisableButton("true");
+		setDisableButton(true);
 
 		let responseOk = false;
 		fetch(process.env.BACKEND_URL + "/api/v1/request_reset_pass", {
@@ -52,7 +52,7 @@ export const RequestResetPass = () => {
 			})
 		})
 			.then(response => {
-				setDisableButton("");
+				setDisableButton(false);
 				responseOk = response.ok;
 				if (responseOk) {
 					if (response.status === 201) {

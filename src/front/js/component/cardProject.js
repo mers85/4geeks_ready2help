@@ -23,7 +23,7 @@ export const CardProject = props => {
 			<div className="card projects border-0 shadow">
 				<img className="img-fluid" src={image_projects} alt="" />
 				<div className="card-body ">
-					<h2 className="card-title">{props.title}</h2>
+					<h4 className="card-title">{props.title}</h4>
 					<p className="card-subtitle mb-1">{props.subtitle}</p>
 					<div className="row card-text justify-content-lg-around">
 						{props.people_needed > 0 ? (

@@ -16,7 +16,7 @@ export const Donate = props => {
 	let { id } = useParams();
 	const { actions, store } = useContext(Context);
 	const history = useHistory();
-	const [disableButton, setDisableButton] = useState("");
+	const [disableButton, setDisableButton] = useState(false);
 	const [value, setValue] = useState({
 		amount: "",
 		person: "",
@@ -73,7 +73,7 @@ export const Donate = props => {
 
 	const SubmitHandler = e => {
 		e.preventDefault();
-		setDisableButton("true");
+		setDisableButton(true);
 		let amount = value.amount.replace(/[^0-9,.]/g, "").replace(/,/g, ".");
 
 		if (evaluateAmount(amount)) {
@@ -90,7 +90,7 @@ export const Donate = props => {
 				})
 			})
 				.then(response => {
-					setDisableButton("");
+					setDisableButton(false);
 					responseOk = response.ok;
 					if (responseOk) {
 						if (response.status === 201) {
@@ -144,7 +144,7 @@ export const Donate = props => {
 										<input
 											type="text"
 											className="form-control"
-											value={value.person.name}
+											defaultValue={value.person.name}
 											name="fname"
 											id="fname"
 											placeholder="First Name"
@@ -155,7 +155,7 @@ export const Donate = props => {
 										<input
 											type="text"
 											className="form-control"
-											value={value.person.lastname}
+											defaultValue={value.person.lastname}
 											name="lname"
 											id="lname"
 											placeholder="Last Name"
@@ -166,7 +166,7 @@ export const Donate = props => {
 										<input
 											type="email"
 											className="form-control"
-											value={value.person.email}
+											defaultValue={value.person.email}
 											name="email"
 											id="email"
 											placeholder="Email"
@@ -177,7 +177,7 @@ export const Donate = props => {
 										<input
 											type="text"
 											className="form-control"
-											value={value.person.address}
+											defaultValue={value.person.address}
 											name="adress"
 											id="adress"
 											placeholder="Address"
@@ -188,7 +188,7 @@ export const Donate = props => {
 										<input
 											type="text"
 											className="form-control"
-											value={value.person.zipcode}
+											defaultValue={value.person.zipcode}
 											name="zipcode"
 											id="zipcod"
 											placeholder="ZipCode"
@@ -199,7 +199,7 @@ export const Donate = props => {
 										<input
 											type="text"
 											className="form-control"
-											value={value.person.phone}
+											defaultValue={value.person.phone}
 											name="phone"
 											id="phone"
 											placeholder="Phone"

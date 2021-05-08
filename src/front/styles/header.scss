@@ -24,13 +24,15 @@
             }
 
         }
+
+    
          
         .custom-toggler .navbar-toggler-icon {
-        background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(8, 204, 127, 0.5)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 8h24M4 16h24M4 24h24'/%3E%3C/svg%3E");
+            background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(200,200,200, 0.5)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 8h24M4 16h24M4 24h24'/%3E%3C/svg%3E");
         }
 
         .custom-toggler.navbar-toggler {
-        border-color: rgb(8, 204, 127);
+            border-color: 	rgb(200,200,200);
         }
 
         button.navbar-toggler.custom-toggler:focus {   
@@ -47,4 +49,19 @@
 
     
 
+}
+
+button {
+    color: #7b7b7b; 
+    background: none;
+	border: none;
+	padding: 0;
+	font: inherit;
+	cursor: pointer;
+    outline: inherit;
+
+}
+button.button-login:hover {
+cursor: pointer;
+color:  #08cc7f;
 }

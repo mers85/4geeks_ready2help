@@ -10,16 +10,20 @@ import classnames from "classnames";
 import { LogIn } from "./login";
 import { Volunteer } from "../component/volunteer";
 import { ProgressBar } from "../component/progressBar";
+import { Donate } from "./donate";
+import { WizardCreateDonation } from "./wizardCreateDonation";
+import { CircleProgress } from "../component/circleProgress";
 
 import imgPrincipal from "../../img/hands_01.jpg";
 import "../../styles/showproject.scss";
+import "../../styles/volunteer.scss";
 
 export const ShowProject = props => {
 	let { id } = useParams();
 	const { actions } = useContext(Context);
 	const [project, setProject] = useState("");
 	const [recaudado, setRecaudado] = useState("");
-	const [isVolunteer, setIsVolunteer] = useState("");
+	const [isVolunteer, setIsVolunteer] = useState(false);
 
 	const [activeTab, setActiveTab] = useState("1");
 	const toggle = tab => {
@@ -86,13 +90,17 @@ export const ShowProject = props => {
 											</NavLink>
 										</NavItem>
 										<NavItem>
-											<NavLink
-												className={classnames({ active: activeTab === "2" })}
-												onClick={() => {
-													toggle("2");
-												}}>
-												Donar
-											</NavLink>
+											{project && project.money_needed > 0 ? (
+												<NavLink
+													className={classnames({ active: activeTab === "2" })}
+													onClick={() => {
+														toggle("2");
+													}}>
+													Donar
+												</NavLink>
+											) : (
+												""
+											)}
 										</NavItem>
 										<NavItem>
 											{(project && project.people_needed == 0) ||
@@ -123,7 +131,43 @@ export const ShowProject = props => {
 																	total_donated={project.total_donated}
 																	money_needed={project.money_needed}
 																/>
-																<div className="case-bb-text py-3">
+																{project.people_needed > 0 ? (
+																	<div className="volunteer row d-flex justify-content-between py-4">
+																		{isVolunteer ? (
+																			<div className="col-sm-12 col-md my-3">
+																				<div className="card shadow py-4">
+																					<div className="card-body">
+																						<h6>
+																							Gracias por ser voluntario
+																							de este proyecto!
+																						</h6>
+																					</div>
+																				</div>
+																			</div>
+																		) : (
+																			<div className="col-sm-12 col-md mt-2">
+																				<div className="card shadow py-4">
+																					<div className="card-body">
+																						<h6>
+																							Únete!! Nos encantaría
+																							contar con tu apoyo
+																						</h6>
+																					</div>
+																				</div>
+																			</div>
+																		)}
+																		<div className="col-sm d-lg-flex justify-content-lg-end">
+																			<CircleProgress
+																				volunteers_stats={
+																					project.volunteers_stats
+																				}
+																			/>
+																		</div>
+																	</div>
+																) : (
+																	""
+																)}
+																<div className="case-bb-text py-3 mt-3 text-justify">
 																	<h5>{project.subtitle}</h5>
 																	<p>{project.description}</p>
 																</div>
@@ -133,10 +177,22 @@ export const ShowProject = props => {
 												</div>
 											</TabPane>
 											<TabPane tabId="2">
-												<div className="text-center display-4 bg-light">coming soon...</div>
+												<div className="text-center display-4 py-4">
+													{actions.isLogIn() ? (
+														<WizardCreateDonation />
+													) : (
+														<button className="btn my-2 btn-rounded cBtnTheme btn-lg btn-floating">
+															<Link
+																className="text-white"
+																to={"/login?successpath=/projects/" + project.id}>
+																Inicia sesión para poder realizar la donación
+															</Link>
+														</button>
+													)}
+												</div>
 											</TabPane>
 											<TabPane tabId="3">
-												<div className="text-center display-4 bg-light py-4">
+												<div className="text-center display-4 py-4">
 													{actions.isLogIn() ? (
 														<Volunteer project={project} isVolunteer={isVolunteer} />
 													) : (

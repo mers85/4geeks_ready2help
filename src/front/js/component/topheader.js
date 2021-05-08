@@ -12,11 +12,7 @@ export function TopHeader() {
 		let link = { log: "", signup: "" };
 		let token = actions.getAccessToken();
 		if (token) {
-			link.log = (
-				<li className="nav-item">
-					<LogOut />
-				</li>
-			);
+			link.log = <LogOut />;
 		} else {
 			link.log = (
 				<Link className="nav-link" to="/login">
