@@ -260,6 +260,17 @@ class Person(db.Model):
 
         return person
 
+    def update_user_details(self, name=None, lastname=None, email=None, address=None, zipcode=None, phone=None):
+        self.name = name if name is not None else self.name
+        self.lastname = lastname if lastname is not None else self.lastname
+        self.email = email if email is not None else self.email
+        self.address = address if address is not None else self.address
+        self.zipcode = zipcode if zipcode is not None else self.zipcode
+        self.phone = phone if phone is not None else self.phone
+
+        db.session.commit()
+        return True
+
 #PROJECT
 class Project(db.Model):
     __tablename__ = "projects"

@@ -17,6 +17,7 @@ import injectContext from "./store/appContext";
 import { Header } from "./component/header";
 import { Footer } from "./component/footer";
 import { Profile } from "./pages/profile";
+import { Profile2 } from "./pages/profile2";
 import { RegisterOrganization } from "./pages/registerOrganization";
 import { RegisterPerson } from "./pages/registerPerson";
 import { RequestResetPass } from "./pages/requestResetPass";
@@ -24,10 +25,12 @@ import { ResetPass } from "./pages/resetPass";
 import { Projects } from "./pages/projects";
 import { ShowProject } from "./pages/ShowProject";
 import { Donate } from "./pages/donate";
+import NotFound from "./component/notFound";
+import { EditUserDetails } from "./pages/editUserDetails";
+
 import { ToastContainer } from "react-toastify";
 
 import "react-toastify/dist/ReactToastify.css";
-import NotFound from "./component/notFound";
 
 //create your first component
 const Layout = () => {
@@ -73,6 +76,9 @@ const Layout = () => {
 					<Route exact path="/register_pers">
 						<RegisterPerson />
 					</Route>
+					<Route exact path="/profile/users/:id/edit_details">
+						<EditUserDetails />
+					</Route>
 					<Route exact path="/organizations/:id/create_project">
 						<CreateProject />
 					</Route>
@@ -102,6 +108,9 @@ const Layout = () => {
 					</Route>
 					<Route exact path="/single/:theid">
 						<Single />
+					</Route>
+					<Route exact path="/profile2">
+						<Profile2 />
 					</Route>
 					<Route>
 						<NotFound />

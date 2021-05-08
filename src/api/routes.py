@@ -477,6 +477,61 @@ def get_person(current_user, id_person):
     
     return jsonify({'person': person.serialize()}), 200
 
+@api.route('/users/<int:id>/edit_details', methods =['PUT'])
+@authentication_required
+def edit_user_details(current_user, id):
+    #import pdb; pdb.set_trace()
+    if current_user.id == id:
+        user_details = current_user.person
+    else:
+        print("Unexpected error:", sys.exc_info())
+        raise APIException("Usuario no autorizado", 401) 
+
+    request_json = request.get_json()
+
+    if "name" in request_json:
+        name = request_json["name"]
+    else:
+        name = None
+
+    if "lastname" in request_json:
+        lastname = request_json["lastname"]
+    else:
+        lastname = None
+
+    if "email" in request_json:
+        email = request_json["email"]
+    else:
+        email = None
+
+    if "address" in request_json:
+        address = request_json["address"]
+    else:
+        address = None
+    
+    if "zipcode" in request_json:
+        zipcode = request_json["zipcode"]
+    else:
+        zipcode = None
+
+    if "phone" in request_json:
+        phone = request_json["phone"]
+    else:
+        phone = None
+
+    if user_details:
+        try: 
+            user_details.update_user_details(name=name, lastname=lastname,
+                                            email=email, address=address, 
+                                            zipcode=zipcode, phone=phone)
+        except:
+            print("Unexpected error:", sys.exc_info())
+            raise APIException("Ha ocurrido un error, no se ha editado el usuario", 401)
+        
+        return jsonify({"message" : "Usuario editado correctamente", "user_details": user_details.serialize()}), 200
+
+
+
 @api.route('/projects/<int:id>/volunteers', methods =['POST'])
 @authentication_required
 def create_volunteer(current_user, id):

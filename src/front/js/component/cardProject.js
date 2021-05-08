@@ -14,10 +14,6 @@ import "../../styles/projects.scss";
 import "../../styles/circleProgressBar.scss";
 
 export const CardProject = props => {
-	const ClickHandler = () => {
-		window.scrollTo(10, 0);
-	};
-
 	return (
 		<div className="col-xs-12 col-sm-12 col-md-6 col-lg-5 col-xl-4 mt-3">
 			<div className="card projects border-0 shadow">
@@ -43,13 +39,10 @@ export const CardProject = props => {
 					</div>
 				</div>
 				<div className="card-footer bg-white btn-group btn-group-lg d-inline-flex p-0">
-					<Link className="btn rounded-0 text-muted" onClick={ClickHandler} to={"/projects/" + props.id}>
+					<Link className="btn rounded-0 text-muted" to={"/projects/" + props.id}>
 						Detalle
 					</Link>
-					<Link
-						className="btn bg-blue-light-gradient rounded-0"
-						onClick={ClickHandler}
-						to={"/projects/" + props.id + "/donate"}>
+					<Link className="btn bg-blue-light-gradient rounded-0" to={"/projects/" + props.id + "/donate"}>
 						Donar
 					</Link>
 				</div>
