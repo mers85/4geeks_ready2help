@@ -82,6 +82,9 @@ const Layout = () => {
 					<Route exact path="/organizations/:id/create_project">
 						<CreateProject />
 					</Route>
+					<Route exact path="/organizations/:id/projects">
+						<h1>Proyectos de la org</h1>
+					</Route>
 					<Route exact path="/create_project">
 						<WizardCreateProject />
 					</Route>

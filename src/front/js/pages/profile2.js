@@ -79,6 +79,7 @@ export const Profile2 = () => {
 						resgisterDetailsPath={"/register_pers"}
 					/>
 				)}
+				{organization ? <DashboardOrganization organization={organization} /> : ""}
 			</div>
 		</div>
 	);

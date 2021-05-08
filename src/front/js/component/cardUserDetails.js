@@ -29,8 +29,12 @@ export const CardUserDetails = props => {
 						<h6 className="card-title text-center">
 							{props.userDetails.name + " " + props.userDetails.lastname}
 						</h6>
-						<p className="card-text">Dirección: {props.userDetails.address}</p>
-						<p className="card-text">Teléfono: {props.userDetails.phone}</p>
+						<p className="card-text">
+							<i className="fas fa-map-marked-alt text-muted fa-1x mr-2"></i> {props.userDetails.address}
+						</p>
+						<p className="card-text">
+							<i className="fas fa-phone-volume text-muted fa-1x mr-2"></i> {props.userDetails.phone}
+						</p>
 					</div>
 				) : (
 					<div className="card-body text-center">
