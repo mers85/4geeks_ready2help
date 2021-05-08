@@ -7,6 +7,8 @@ import PropTypes from "prop-types";
 import SimpleReactValidator from "simple-react-validator";
 import { toast } from "react-toastify";
 
+import FixedAlert from "../component/fixedAlert";
+
 // stripe
 import { CardElement, Elements, ElementsConsumer } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
@@ -23,6 +25,7 @@ const DonateForm = props => {
 	const { actions, store } = useContext(Context);
 	const history = useHistory();
 	const [disableButton, setDisableButton] = useState(false);
+	const [notificacionPayment, setNotificacionPayment] = useState(false);
 	const [value, setValue] = useState({
 		amount: "",
 		person: ""
@@ -79,6 +82,7 @@ const DonateForm = props => {
 	const SubmitHandler = async e => {
 		e.preventDefault();
 		setDisableButton(true);
+		setNotificacionPayment(true);
 		let amount = value.amount.replace(/[^0-9,.]/g, "").replace(/,/g, ".");
 
 		let stripeAmount = amount * 100;
@@ -98,7 +102,6 @@ const DonateForm = props => {
 				})
 			})
 				.then(response => {
-					setDisableButton(false);
 					return response.json();
 				})
 				.then(async responseJson => {
@@ -138,8 +141,9 @@ const DonateForm = props => {
 								})
 							})
 								.then(response => {
-									setDisableButton("");
 									responseOk = response.ok;
+									setDisableButton(false);
+									setNotificacionPayment(false);
 									if (responseOk) {
 										if (response.status === 201) {
 											toast.success(
@@ -151,7 +155,8 @@ const DonateForm = props => {
 								})
 								.then(responseJson => {
 									if (responseOk) {
-										history.push("/projects");
+										history.push("/projects/" + id);
+										window.location.reload();
 									}
 								})
 								.catch(error => {
@@ -262,74 +267,24 @@ const DonateForm = props => {
 									</div>
 								</div>
 							</div>
+							{notificacionPayment ? (
+								<div className="row">
+									<div className="col-sm">
+										<FixedAlert
+											color="info"
+											message={"Espere un momento mientras se procesa la operación"}
+										/>
+									</div>
+								</div>
+							) : (
+								""
+							)}
+
 							<div className="wpo-doanation-payment">
 								<h2>Introduce los datos de tu tarjeta</h2>
 								<CardElement />
 							</div>
-							{/* <div className="wpo-doanation-payment">
-								<h2>Elige tu método de pago</h2>
-								<div className="wpo-payment-area">
-									<div className="row">
-										<div className="col-12">
-											<div className="wpo-payment-option" id="open4">
-												<div id="open5" className="payment-name">
-													<ul>
-														<li className="pay">
-															<input id="1" type="radio" name="size" value="30" />
-															<label htmlFor="1">
-																<img src={pmt1} alt="" />
-															</label>
-														</li>
-														<li className="ski">
-															<input id="2" type="radio" name="size" value="30" />
-															<label htmlFor="2">
-																<img src={pmt2} alt="" />
-															</label>
-														</li>
-														<li className="mas">
-															<input id="3" type="radio" name="size" value="30" />
-															<label htmlFor="3">
-																<img src={pmt3} alt="" />
-															</label>
-														</li>
-														<li className="visa">
-															<input id="4" type="radio" name="size" value="30" />
-															<label htmlFor="4">
-																<img src={pmt4} alt="" />
-															</label>
-														</li>
-													</ul>
-													<div className="contact-form form-style">
-														<div className="row">
-															<div className="col-lg-6 col-md-12 col-12">
-																<label>Card holder Name</label>
-																<input type="text" placeholder="" name="name" />
-															</div>
-															<div className="col-lg-6 col-md-12 col-12">
-																<label>Card Number</label>
-																<input
-																	type="text"
-																	placeholder=""
-																	id="card"
-																	name="card"
-																/>
-															</div>
-															<div className="col-lg-6 col-md-12 col-12">
-																<label>CVV</label>
-																<input type="text" placeholder="" name="CVV" />
-															</div>
-															<div className="col-lg-6 col-md-12 col-12">
-																<label>Expire Date</label>
-																<input type="text" placeholder="" name="date" />
-															</div>
-														</div>
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div> */}
+
 							<div className="submit-area">
 								<button
 									type="submit"
