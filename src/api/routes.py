@@ -8,6 +8,8 @@ from api.models import db, User, Organization, Person, Project, Role, Donation
 from api.utils import generate_sitemap, APIException
 from api.forms import ProjectForm
 
+import stripe 
+
 #Para imprimir errores
 import sys
 
@@ -25,6 +27,10 @@ import jwt
 from datetime import datetime, timedelta
 from functools import wraps
 from flask import current_app as app
+
+
+stripe.api_key = os.getenv('STRIPE_SECRET_KEY')
+stripe.api_version = os.getenv('STRIPE_API_VERSION')
 
 
 api = Blueprint('api', __name__)
@@ -388,6 +394,23 @@ def create_project(current_user, organization_id):
     return jsonify({"message" : "Project created", "project" : project.serialize()}), 201
 
 
+#PAYMENTS STRIPE
+@api.route('/payment_intents', methods =['POST'])
+def create_payment_intent():
+    request_json = request.get_json()
+    amount = request_json["amount"]
+
+    intent = stripe.PaymentIntent.create(
+        amount= amount,
+        currency="usd",
+        # Verify your integration in this guide by including this parameter
+
+        metadata={'integration_check': 'accept_a_payment'}
+    )
+
+    return jsonify({"client_secret": intent.client_secret}), 201
+
+
 @api.route('/projects/<int:id>/donation', methods =['POST'])
 @authentication_required
 def create_donation(current_user, id):
@@ -401,6 +424,7 @@ def create_donation(current_user, id):
     body_donation = request.get_json()
     amount = body_donation["amount"]
     payment_type = body_donation["payment_type"]
+    stripe_payment_id = body_donation["stripe_payment_id"]
 
     try:
         project_donate = Project.find_by_id(project_id)
@@ -408,7 +432,8 @@ def create_donation(current_user, id):
             project_donate,
             person_donate,
             amount,
-            payment_type
+            payment_type,
+            stripe_payment_id
         )
 
         project_donate.update_project(total_donated = project_donate.total_donated + amount)

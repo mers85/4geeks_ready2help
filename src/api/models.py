@@ -385,6 +385,7 @@ class Donation(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     amount = db.Column(db.Float, nullable=False)
     payment_type = db.Column(db.String, nullable=False)
+    stripe_payment_id = db.Column(db.String, nullable=True)
     date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     
     project_id = db.Column(db.Integer, db.ForeignKey('projects.id'), nullable=False)
@@ -406,13 +407,14 @@ class Donation(db.Model):
         }
     
     @classmethod
-    def create(cls, project_donate, person_donate, amount, payment_type):
+    def create(cls, project_donate, person_donate, amount, payment_type, stripe_payment_id):
         donation = cls()
 
         donation.project = project_donate
         donation.person = person_donate
         donation.amount = amount
         donation.payment_type = payment_type
+        donation.stripe_payment_id = stripe_payment_id
         
         db.session.add(donation)
         db.session.commit()
