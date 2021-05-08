@@ -4,6 +4,8 @@ import { Link, useHistory } from "react-router-dom";
 
 import { toast } from "react-toastify";
 
+import "../../styles/header.scss";
+
 export const LogOut = () => {
 	const { actions } = useContext(Context);
 
@@ -13,8 +15,8 @@ export const LogOut = () => {
 	}
 
 	return (
-		<Link className="nav-link" onClick={handleLogOut}>
+		<button className="button-login py-2" onClick={handleLogOut}>
 			Log Out
-		</Link>
+		</button>
 	);
 };

@@ -22,7 +22,7 @@ export const LogIn = props => {
 
 	const { actions } = useContext(Context);
 
-	const [disableButton, setDisableButton] = useState("");
+	const [disableButton, setDisableButton] = useState(false);
 	const [value, setValue] = useState({
 		email: "",
 		password: "",
@@ -65,7 +65,7 @@ export const LogIn = props => {
 			const userRegex = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 			const email = value.email;
 			if (email.match(userRegex)) {
-				setDisableButton("true");
+				setDisableButton(true);
 
 				let responseOk = false;
 				fetch(process.env.BACKEND_URL + "/api/v1/login", {
@@ -79,7 +79,7 @@ export const LogIn = props => {
 					})
 				})
 					.then(response => {
-						setDisableButton("");
+						setDisableButton(false);
 						responseOk = response.ok;
 						return response.json();
 					})

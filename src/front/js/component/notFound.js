@@ -1,28 +1,22 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { Alert } from "reactstrap";
-import "../../styles/spinner.scss";
 
 const NotFound = () => {
 	return (
-		<section className="error-404-section section-padding">
-			<div className="container">
-				<div className="row">
-					<div className="col col-xs-12">
-						<div className="content clearfix">
-							<div className="error">{/* <img src={erimg} alt="" /> */}</div>
-							<div className="error-message">
-								<h3>Oops! Página no encontrada!</h3>
-								<p>Lo sentimos, pero la página que busca no existe.</p>
-								<Link to="/" className="theme-btn-s4">
-									Back to home
-								</Link>
-							</div>
-						</div>
+		<div className="container py-5 -my-5">
+			<div className="row text-center mt-5">
+				<div className="col-sm mx-auto">
+					<div className="card-body">
+						<h3 className="display-4">Oops! Página no encontrada!</h3>
+						<p>Lo sentimos, pero la página que busca no existe.</p>
+						<Link to="/" className="bg-green rounded-pill p-3 text-white">
+							Back to home
+						</Link>
 					</div>
 				</div>
 			</div>
-		</section>
+		</div>
 	);
 };
 

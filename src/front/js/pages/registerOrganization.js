@@ -12,7 +12,7 @@ import FixedAlert from "../component/fixedAlert";
 export const RegisterOrganization = props => {
 	const history = useHistory();
 	const { actions } = useContext(Context);
-	const [disableButton, setDisableButton] = useState("");
+	const [disableButton, setDisableButton] = useState(false);
 	const [value, setValue] = useState({
 		email: "",
 		name: "",
@@ -44,7 +44,7 @@ export const RegisterOrganization = props => {
 			});
 			validator.hideMessages();
 
-			setDisableButton("true");
+			setDisableButton(true);
 
 			let responseOk = false;
 			fetch(process.env.BACKEND_URL + "/api/v1/register_org", {
@@ -62,7 +62,7 @@ export const RegisterOrganization = props => {
 				})
 			})
 				.then(response => {
-					setDisableButton("");
+					setDisableButton(false);
 					responseOk = response.ok;
 					return response.json();
 				})

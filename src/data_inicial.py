@@ -55,7 +55,7 @@ data = {
             "people_needed": 2,
             "status": "draft",
             "subtitle": "Proyecto 1: Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.",
-            "title": "Proyecto 1: Neque porro quisquam est qui dolorem ipsum quia dolor sit amet",
+            "title": "Proyecto 1: Neque porro quisquam est qui dolorem ipsum",
             "total_donated":0
         },
         {
@@ -65,7 +65,7 @@ data = {
             "people_needed": 60,
             "status": "draft",
             "subtitle": "Proyecto 2: Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.",
-            "title": "Proyecto 2: Neque porro quisquam est qui dolorem ipsum quia dolor sit amet",
+            "title": "Proyecto 2: Neque porro quisquam est qui dolorem ipsum",
             "total_donated":0
         },
         {
@@ -75,7 +75,7 @@ data = {
             "people_needed": 50,
             "status": "draft",
             "subtitle": "Proyecto 3: Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.",
-            "title": "Proyecto 3: Neque porro quisquam est qui dolorem ipsum quia dolor sit amet",
+            "title": "Proyecto 3: Neque porro quisquam est qui dolorem ipsum",
             "total_donated":0
         },
         {
@@ -85,7 +85,7 @@ data = {
             "people_needed": 20,
             "status": "draft",
             "subtitle": "Proyecto 4: Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. ",
-            "title": "Proyecto 4: Neque porro quisquam est qui dolorem ipsum quia dolor sit amet",
+            "title": "Proyecto 4: Neque porro quisquam est qui dolorem ipsum",
             "total_donated":0
         }
     ]

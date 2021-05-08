@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
+import "../../styles/index.scss";
 
 const PageTitle = props => {
 	return (
