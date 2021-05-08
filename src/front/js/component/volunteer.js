@@ -52,7 +52,7 @@ export const Volunteer = props => {
 							<div className="card-body">
 								<h3 className="card-title">¡ Gracias por ser Ubuntu!</h3>
 								<blockquote className="blockquote p-2 m-2">
-									<p className="mb-0 mx-2">
+									<p className="mb-0 mx-2 text-justify">
 										Una persona con ubuntu es abierta y está disponible para las demás, respalda a
 										las demás, no se siente amenazada cuando otras son capaces y son buenas en algo,
 										porque está segura de sí misma ya que sabe que pertenece a una gran totalidad,

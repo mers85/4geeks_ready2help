@@ -27,6 +27,7 @@ import { Donate } from "./pages/donate";
 import { ToastContainer } from "react-toastify";
 
 import "react-toastify/dist/ReactToastify.css";
+import NotFound from "./component/notFound";
 
 //create your first component
 const Layout = () => {
@@ -103,7 +104,7 @@ const Layout = () => {
 						<Single />
 					</Route>
 					<Route>
-						<h1>Not found!</h1>
+						<NotFound />
 					</Route>
 				</Switch>
 				{location.pathname !== "/login" &&

@@ -12,7 +12,7 @@ import "../../styles/formularioBase2.scss";
 
 export const Contact = () => {
 	const { store, actions } = useContext(Context);
-	const [disableButton, setDisableButton] = useState("");
+	const [disableButton, setDisableButton] = useState(false);
 	const [value, setValue] = useState({
 		email: "",
 		comment: ""
@@ -38,7 +38,7 @@ export const Contact = () => {
 		validator.hideMessages();
 
 		if (value.email && value.comment) {
-			setDisableButton("true");
+			setDisableButton(true);
 
 			let responseOk = false;
 			fetch(process.env.BACKEND_URL + "/api/v1/contact", {
@@ -52,7 +52,7 @@ export const Contact = () => {
 				})
 			})
 				.then(response => {
-					setDisableButton("");
+					setDisableButton(false);
 					responseOk = response.ok;
 					return response.json();
 				})

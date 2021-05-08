@@ -22,8 +22,7 @@ const DonateForm = props => {
 	let { id } = useParams();
 	const { actions, store } = useContext(Context);
 	const history = useHistory();
-	const [disableButton, setDisableButton] = useState("");
-
+	const [disableButton, setDisableButton] = useState(false);
 	const [value, setValue] = useState({
 		amount: "",
 		person: ""
@@ -79,7 +78,7 @@ const DonateForm = props => {
 
 	const SubmitHandler = async e => {
 		e.preventDefault();
-		setDisableButton("true");
+		setDisableButton(true);
 		let amount = value.amount.replace(/[^0-9,.]/g, "").replace(/,/g, ".");
 
 		let stripeAmount = amount * 100;
@@ -99,7 +98,7 @@ const DonateForm = props => {
 				})
 			})
 				.then(response => {
-					setDisableButton("");
+					setDisableButton(false);
 					return response.json();
 				})
 				.then(async responseJson => {
@@ -199,7 +198,7 @@ const DonateForm = props => {
 										<input
 											type="text"
 											className="form-control"
-											value={value.person.name}
+											defaultValue={value.person.name}
 											name="fname"
 											id="fname"
 											placeholder="First Name"
@@ -210,7 +209,7 @@ const DonateForm = props => {
 										<input
 											type="text"
 											className="form-control"
-											value={value.person.lastname}
+											defaultValue={value.person.lastname}
 											name="lname"
 											id="lname"
 											placeholder="Last Name"
@@ -221,7 +220,7 @@ const DonateForm = props => {
 										<input
 											type="email"
 											className="form-control"
-											value={value.person.email}
+											defaultValue={value.person.email}
 											name="email"
 											id="email"
 											placeholder="Email"
@@ -232,7 +231,7 @@ const DonateForm = props => {
 										<input
 											type="text"
 											className="form-control"
-											value={value.person.address}
+											defaultValue={value.person.address}
 											name="adress"
 											id="adress"
 											placeholder="Address"
@@ -243,7 +242,7 @@ const DonateForm = props => {
 										<input
 											type="text"
 											className="form-control"
-											value={value.person.zipcode}
+											defaultValue={value.person.zipcode}
 											name="zipcode"
 											id="zipcod"
 											placeholder="ZipCode"
@@ -254,7 +253,7 @@ const DonateForm = props => {
 										<input
 											type="text"
 											className="form-control"
-											value={value.person.phone}
+											defaultValue={value.person.phone}
 											name="phone"
 											id="phone"
 											placeholder="Phone"
