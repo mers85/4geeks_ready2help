@@ -1,28 +1,35 @@
-.avatar {
-  vertical-align: middle;
-    border: 1px solid #ffffff;
-    border-width: 1rem;
-  width: 200px;
-  height: 200px;
-}
+.profile {
+    .avatar {
+    vertical-align: middle;
+        border: 1px solid #ffffff;
+        border-width: 1rem;
+    width: 200px;
+    height: 200px;
+    }
 
-.aqua-gradient {
-  height: 200px;
-  background: linear-gradient(to right, #00a7d5, #27cdca);;
-}
+    .aqua-gradient {
+    height: 200px;
+    background: linear-gradient(to right, #00a7d5, #27cdca);;
+    }
 
-.image {
-  margin-top: -150px;
-}
+    .image {
+    margin-top: -150px;
+    }
 
-.image-org {
-  margin-top: -100px;
-}
+    .image-org {
+    margin-top: -100px;
+    }
 
-.avatar-container {
-  width: 90%;
-}
+    .avatar-container {
+    width: 90%;
+    }
 
-.bg-card-org{
-    background-image: linear-gradient(#E1B3FE,#B5B3F9);
+    .bg-card-password{
+        height: 200px;
+        background-image: linear-gradient(#E1B3FE,#B5B3F9);
+    }
+
+
+
+
 }

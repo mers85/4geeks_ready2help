@@ -63,36 +63,11 @@ const Layout = () => {
 					<Route exact path="/signup">
 						<SignUp />
 					</Route>
-
 					<Route exact path="/login">
 						<LogIn />
 					</Route>
-					<Route exact path="/profile">
-						<Profile />
-					</Route>
-					<Route exact path="/register_org">
-						<RegisterOrganization />
-					</Route>
-					<Route exact path="/register_pers">
-						<RegisterPerson />
-					</Route>
-					<Route exact path="/profile/users/:id/edit_details">
-						<EditUserDetails />
-					</Route>
-					<Route exact path="/organizations/:id/create_project">
-						<CreateProject />
-					</Route>
-					<Route exact path="/organizations/:id/projects">
-						<h1>Proyectos de la org</h1>
-					</Route>
-					<Route exact path="/create_project">
-						<WizardCreateProject />
-					</Route>
-					<Route exact path="/projects">
-						<Projects />
-					</Route>
-					<Route exact path="/projects/:id">
-						<ShowProject />
+					<Route exact path="/logout">
+						<LogOut />
 					</Route>
 					<Route exact path="/request_reset_pass">
 						<RequestResetPass />
@@ -100,20 +75,44 @@ const Layout = () => {
 					<Route exact path="/reset_pass">
 						<ResetPass />
 					</Route>
+					<Route exact path="/register_org">
+						<RegisterOrganization />
+					</Route>
+					<Route exact path="/register_pers">
+						<RegisterPerson />
+					</Route>
+					<Route exact path="/profile">
+						<Profile />
+					</Route>
+					<Route exact path="/profile2">
+						<Profile2 />
+					</Route>
+					<Route exact path="/profile/users/:id/edit_details">
+						<EditUserDetails />
+					</Route>
+					<Route exact path="/create_project">
+						<WizardCreateProject />
+					</Route>
+					<Route exact path="/organizations/:id/create_project">
+						<CreateProject />
+					</Route>
+					<Route exact path="/organizations/:id/projects">
+						<h1>Proyectos de la org</h1>
+					</Route>
+					<Route exact path="/projects">
+						<Projects />
+					</Route>
+					<Route exact path="/projects/:id">
+						<ShowProject />
+					</Route>
 					<Route exact path="/projects/:id/donate">
 						<WizardCreateDonation />
 					</Route>
 					<Route exact path="/contact">
 						<Contact />
 					</Route>
-					<Route exact path="/logout">
-						<LogOut />
-					</Route>
 					<Route exact path="/single/:theid">
 						<Single />
-					</Route>
-					<Route exact path="/profile2">
-						<Profile2 />
 					</Route>
 					<Route>
 						<NotFound />

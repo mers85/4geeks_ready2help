@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { Context } from "../store/appContext";
 import { useHistory } from "react-router-dom";
 import queryString from "query-string";
@@ -114,7 +114,8 @@ export const EditUserDetails = props => {
 					<div className="col-sm-12 col-md-10 mx-auto">
 						<div className="card p-md-4 py-4 border-0 shadow">
 							<h2 className="card-title text-center p-3">Editar Datos Complementarios</h2>
-							<small className="card-subtitle p-2 text-center">Actualiza tus datos de perfil</small>
+							<p className="card-subtitle p-2 text-center">Actualiza tus datos de perfil</p>
+
 							<div className="card-body mx-0">
 								<form onSubmit={submitForm}>
 									<div className="form-row py-3">
@@ -205,6 +206,9 @@ export const EditUserDetails = props => {
 									</button>
 								</form>
 							</div>
+							<Link className="noteHelp p-2" to="/profile">
+								Volver al menú personal
+							</Link>
 						</div>
 					</div>
 				</div>

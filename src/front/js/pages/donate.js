@@ -13,11 +13,6 @@ import FixedAlert from "../component/fixedAlert";
 import { CardElement, Elements, ElementsConsumer } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 
-//estilos
-import pmt1 from "../../img/pmt1.png";
-import pmt2 from "../../img/pmt2.png";
-import pmt3 from "../../img/pmt3.png";
-import pmt4 from "../../img/pmt4.png";
 import "../../styles/donate.scss";
 
 const DonateForm = props => {
