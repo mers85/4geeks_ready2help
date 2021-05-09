@@ -23,7 +23,7 @@ export const CardUserAccess = props => {
 			<div className="card-body">
 				<h6 className="card-title text-center">Datos de acceso</h6>
 				<p className="card-text text-justify py-1">
-					Desde aquí puedes modificar los datos con que accedes a tu cuenta Ready2Help.
+					Desde aquí puedes modificar la contraseña de tu cuenta Ready2Help
 				</p>
 				<p className="card-text py-1">
 					<i className="fas fa-envelope fa-1x mr-2"></i> {props.userEmail}

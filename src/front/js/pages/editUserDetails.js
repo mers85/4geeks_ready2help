@@ -85,7 +85,7 @@ export const EditUserDetails = props => {
 				setDisableButton(false);
 				responseOk = response.ok;
 				if (response.ok) {
-					if (response.status === 201) {
+					if (response.status === 200) {
 						toast.success("¡Tu perfil ha sido editado correctamente!");
 					}
 				}

@@ -7,7 +7,7 @@ import PropTypes from "prop-types";
 import imgPrincipal from "../../img/hands_01.jpg";
 import Button from "@material-ui/core/Button";
 
-export const VolunteerActivities = props => {
+export const DonationsActivities = props => {
 	const [error, setError] = useState("");
 	const { actions, store } = useContext(Context);
 	const history = useHistory();
@@ -25,7 +25,7 @@ export const VolunteerActivities = props => {
 	return (
 		<div>
 			<div className="card border-0 shadow">
-				<h6 className="card-header bg-white text-center">Proyectos en los que participas como voluntario</h6>
+				<h6 className="card-header bg-white text-center">Proyectos en los que haz realizado donaciones</h6>
 				<div className="card-body">
 					<ul className="list-group">
 						{props.projects.map(project => {
@@ -33,7 +33,7 @@ export const VolunteerActivities = props => {
 								<li
 									key={project.id}
 									className="list-group-item d-flex justify-content-between align-items-center">
-									{truncateString(project.title, 45)}
+									{truncateString(project.project_title, 45)}
 									<Link className="badge badge-pill cBtnTheme p-2" to={"/projects/" + project.id}>
 										ver detalles
 									</Link>
@@ -47,6 +47,6 @@ export const VolunteerActivities = props => {
 	);
 };
 
-VolunteerActivities.propTypes = {
+DonationsActivities.propTypes = {
 	projects: PropTypes.array
 };

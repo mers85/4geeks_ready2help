@@ -8,13 +8,13 @@ import { DashboardOrganization } from "./dashboardOrganization";
 import { MyActivities } from "./myActivities";
 import FixedAlert from "../component/fixedAlert";
 import { CardUserDetails } from "../component/cardUserDetails";
+import { CardUserAccess } from "../component/cardUserAccess";
 
 import { TabContent, TabPane, Nav, NavItem, NavLink, Card, Button, CardTitle, CardText, Row, Col } from "reactstrap";
 import classnames from "classnames";
 
 import rigoImageUrl from "../../img/rigo-baby.jpg";
 import "../../styles/profile.scss";
-import { CardUserAccess } from "../component/cardUserAccess";
 
 export const Profile2 = () => {
 	const [email, setEmail] = useState("");
@@ -69,27 +69,6 @@ export const Profile2 = () => {
 
 	return (
 		<div className="container">
-			{/* <div className="row py-5 my-5 mx-auto">
-				{!person && volunteeringProjects.length > 0 ? (
-					<FixedAlert color="primary" message={"Por favor, completa tu perfil!"} />
-				) : (
-					""
-				)}
-				{person ? (
-					<CardUserDetails
-						image={rigoImageUrl}
-						userDetails={person}
-						editPath={"/profile/users/" + actions.getUserId() + "/edit_details"}
-					/>
-				) : (
-					<CardUserDetails
-						image={rigoImageUrl}
-						userEmail={user.email}
-						resgisterDetailsPath={"/register_pers"}
-					/>
-				)}
-				{organization ? <DashboardOrganization organization={organization} /> : ""}
-			</div> */}
 			<Nav tabs className="py-2 mt-3 justify-content-center">
 				<NavItem className="border border-light mx-1">
 					<NavLink
@@ -148,33 +127,18 @@ export const Profile2 = () => {
 					</div>
 				</TabPane>
 				<TabPane tabId="2">
-					<Row>
-						<Col sm="6">
-							<Card body>
-								<CardTitle>Special Title Treatment</CardTitle>
-								<CardText>
-									With supporting text below as a natural lead-in to additional content.
-								</CardText>
-								<Button>Go somewhere</Button>
-							</Card>
-						</Col>
-						<Col sm="6">
-							<Card body>
-								<CardTitle>Special Title Treatment</CardTitle>
-								<CardText>
-									With supporting text below as a natural lead-in to additional content.
-								</CardText>
-								<Button>Go somewhere</Button>
-							</Card>
-						</Col>
-					</Row>
+					{organization ? <DashboardOrganization organization={organization} /> : <DashboardOrganization />}
 				</TabPane>
 				<TabPane tabId="3">
-					<Row>
-						<Col sm="12">
-							<h4>Actividades</h4>
-						</Col>
-					</Row>
+					<div className="row">
+						<div className="col-12">
+							{user && user.volunteering_projects.length > 0 ? (
+								<MyActivities user={user} />
+							) : (
+								"Sin actividades"
+							)}
+						</div>
+					</div>
 				</TabPane>
 			</TabContent>
 		</div>

@@ -29,6 +29,7 @@ export const CardUserDetails = props => {
 			) : (
 				<div className="card-body text-center">
 					<h6 className="card-title text-center">Datos de perfil</h6>
+					<small className="card-text text-justify text-center">Completa tus datos</small>
 					<p className="card-text text-justify py-3">
 						La información de este apartado es necesaria para contactarte en caso de que quieras participar
 						como voluntario y realizar donaciones

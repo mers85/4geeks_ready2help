@@ -3,9 +3,12 @@ import { Context } from "../store/appContext";
 import { useHistory } from "react-router-dom";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
+
+import { ProjectsOrganization } from "./projectsOrganization";
 import rigoImageUrl from "../../img/rigo-baby.jpg";
 
 import Button from "@material-ui/core/Button";
+import "../../styles/profile.scss";
 
 export const DashboardOrganization = props => {
 	const [error, setError] = useState("");
@@ -13,57 +16,63 @@ export const DashboardOrganization = props => {
 	const history = useHistory();
 
 	return (
-		// <div className="card bg-card-org p-4">
-		// 	<div className="row p-3 m-3">
-		// 		<div className="card shadow border-0" style={{ width: "18rem;" }}>
-		// 			<div className="m-4">
-		// 				<img src={rigoImageUrl} className="mx-auto image-org img-thumbnail img-fluid" alt="..." />
-		// 			</div>
-		// 			<div className="card-body text-center">
-		// 				<h5 className="card-title">{props.organization.name}</h5>
-		// 				<p className="card-text btn cBtnTheme">Editar datos de la Organización</p>
-		// 			</div>
-		// 			<ul className="list-group list-group-flush">
-		// 				<Link
-		// 					className="list-group-item btn btn-light text-muted border-top rounded-0"
-		// 					to={"/organizations/" + props.organization.id + "/projects"}>
-		// 					Ver/Editar proyectos
-		// 				</Link>
-		// 				<Link
-		// 					className="list-group-item btn btn-light text-muted rounded-0"
-		// 					to={"/organizations/" + props.organization.id + "/create_project"}>
-		// 					Añadir Proyecto
-		// 				</Link>
-		// 			</ul>
-		// 		</div>
-		// 	</div>
-		// </div>
-		<div className="container py-3">
-			<div className="card">
-				<div className="row ">
-					<div className="col-md-4">
-						<img src={rigoImageUrl} className="" />
+		<div>
+			{props.organization ? (
+				<div className="row">
+					<div className="col-sm-12 col-md-6 my-2">
+						<div className="card border-0 shadow py-2">
+							<div className="row ">
+								<div className="col-md-4">
+									<img src={rigoImageUrl} className="m-2 img-thumbnail" />
+									<h6 className="card-title text-center my-2">Datos de la organización</h6>
+								</div>
+								<div className="col-md-8 px-3">
+									<div className="card-block px-3">
+										<h6 className="card-text my-3">
+											<p>{props.organization.name}</p>
+										</h6>
+										<p className="card-text">
+											<i className="mr-auto px-1 fas fa-envelope fa-1x"></i>
+											<span>{props.organization.email}</span>
+										</p>
+										<p className="card-text">
+											<i className="mr-auto px-1 fas fa-map-marked-alt text-muted fa-1x"></i>
+											<span className="text-right">{props.organization.address}</span>
+										</p>
+										<p className="card-text">
+											<i className="mr-auto px-1 fas fa-phone-volume text-muted fa-1x"></i>
+											<span>{props.organization.phone}</span>
+										</p>
+										<Link
+											className="btn btn-light rounded-pill p-3 text-muted rounded"
+											to={"/organizations/" + props.organization.id + "/edit"}>
+											Editar datos de la organización
+										</Link>
+									</div>
+								</div>
+							</div>
+						</div>
 					</div>
-					<div className="col-md-8 px-3">
-						<div className="card-block px-3">
-							<h4 className="card-title">Lorem ipsum dolor sit amet</h4>
-							<p className="card-text">
-								Consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna
-								aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-								aliquip ex ea commodo consequat.{" "}
-							</p>
-							<p className="card-text">
-								Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat
-								nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui
-								officia deserunt mollit anim id est laborum.
-							</p>
-							<a href="#" className="btn btn-primary">
-								Read More
-							</a>
+					<div className="col-sm-12 col-md-6 my-2">
+						<ProjectsOrganization organization={props.organization} />
+					</div>
+				</div>
+			) : (
+				<div className="row">
+					<div className="col-12 col-md-10  mx-auto my-2">
+						<div className="card border-0 shadow">
+							<h6 className="card-header bg-white text-center">
+								Añade tu Organización para poder crear proyectos
+							</h6>
+							<div className="card-body text-center">
+								<Link className="bg-green rounded-pill p-3 text-white" to="/register_org">
+									<i className="fas fa-plus-circle fa-2x text-white p-2 px-4 align-middle"></i>
+								</Link>
+							</div>
 						</div>
 					</div>
 				</div>
-			</div>
+			)}
 		</div>
 	);
 };

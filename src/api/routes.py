@@ -248,6 +248,68 @@ def register_org(current_user):
         # returns 202 if user already exists
         return jsonify({"message" :"Organization already exists. Please Log in."}), 202
 
+@api.route('/organizations/<int:id>', methods =['GET'])
+@authentication_required
+def get_organization(current_user, id):
+
+    try: 
+        #Find organization by id
+        organization = Organization.find_by_id(id)
+    except:
+        print("Unexpected error:", sys.exc_info())
+        raise APIException("Something went wrong. Organization not found", 401)
+    
+    return jsonify({'organization': organization.serialize()}), 200
+
+
+@api.route('/organizations/<int:id>/edit', methods =['PUT'])
+@authentication_required
+def edit_organization(current_user, id):
+    #import pdb; pdb.set_trace()
+    if current_user.organization_id == id:
+        organization = current_user.organization
+    else:
+        print("Unexpected error:", sys.exc_info())
+        raise APIException("No está autorizado para realizar esta acción", 401) 
+
+    request_json = request.get_json()
+
+    if "name" in request_json:
+        name = request_json["name"]
+    else:
+        name = None
+
+    if "email" in request_json:
+        email = request_json["email"]
+    else:
+        email = None
+
+    if "address" in request_json:
+        address = request_json["address"]
+    else:
+        address = None
+    
+    if "zipcode" in request_json:
+        zipcode = request_json["zipcode"]
+    else:
+        zipcode = None
+
+    if "phone" in request_json:
+        phone = request_json["phone"]
+    else:
+        phone = None
+
+    if organization:
+        try: 
+            organization.update_organization(name=name, email=email, address=address, 
+                                            zipcode=zipcode, phone=phone)
+        except:
+            print("Unexpected error:", sys.exc_info())
+            raise APIException("Ha ocurrido un error, no se ha editado la organización correctamente", 401)
+        
+        return jsonify({"message" : "Organización editada correctamente", "organization": organization.serialize()}), 200
+
+
 @api.route('/register_pers', methods =['POST'])
 @authentication_required
 def register_pers(current_user):
@@ -394,6 +456,74 @@ def create_project(current_user, organization_id):
     return jsonify({"message" : "Project created", "project" : project.serialize()}), 201
 
 
+@api.route('/organizations/<int:organization_id>/projects', methods =['GET'])
+@authentication_required
+def get_all_projects_organization(current_user, organization_id):
+    organization = Organization.find_by_id(organization_id)
+    organization_user_ids = [user.id for user in organization.users]
+
+    if current_user.id not in organization_user_ids:
+        raise APIException("User not allowed to administrate this organization", 401)
+
+    projects = organization.projects
+    
+    list_projects = []
+    for project in projects:
+        list_projects.append(project.serialize())
+
+    return jsonify({"projects" : list_projects}), 200
+
+
+@api.route('/organizations/<int:organization_id>/projects/<int:project_id>', methods =['PUT'])
+@authentication_required
+def edit_organizatio_project(current_user, organization_id, project_id):
+    #import pdb; pdb.set_trace()
+    organization = Organization.find_by_id(organization_id)
+    organization_user_ids = [user.id for user in organization.users]
+
+    if current_user.id not in organization_user_ids:
+        raise APIException("User not allowed to administrate this organization", 401)
+
+    project = Project.find_by_id(project_id)
+
+    request_json = request.get_json()
+
+    if "title" in request_json:
+        title = request_json["title"]
+    else:
+        name = None
+
+    if "subtitle" in request_json:
+        subtitle = request_json["subtitle"]
+    else:
+        subtitle = None
+
+    if "money_needed" in request_json:
+        money_needed = request_json["money_needed"]
+    else:
+        money_needed = None
+
+    if "people_needed" in request_json:
+        people_needed = request_json["people_needed"]
+    else:
+        people_needed = None
+    
+    if "status" in request_json:
+        status = request_json["status"]
+    else:
+        status = None
+
+    if project:
+        try: 
+            project.update_project(title=title, subtitle=subtitle,
+                                     money_needed=money_needed, people_needed=people_needed,
+                                      status=None)
+        except:
+            print("Unexpected error:", sys.exc_info())
+            raise APIException("Ha ocurrido un error, no se ha editado el proyecto", 401)
+        
+        return jsonify({"message" : "Proyecto editado correctamente", "project": project.serialize()}), 200
+
 #PAYMENTS STRIPE
 @api.route('/payment_intents', methods =['POST'])
 def create_payment_intent():
@@ -459,7 +589,6 @@ def show_project(id):
         raise APIException("Project not found", 401)
 
     return jsonify({"project": project.serialize()}), 200
-    
 
 #API para recuperar los datos de una persona (sus datos de perfil) por su ID
 @api.route('/persons/<int:id_person>', methods =['GET'])

@@ -27,6 +27,8 @@ import { ShowProject } from "./pages/ShowProject";
 import { Donate } from "./pages/donate";
 import NotFound from "./component/notFound";
 import { EditUserDetails } from "./pages/editUserDetails";
+import { EditOrganization } from "./pages/editOrganization";
+import { EditProject } from "./pages/editProject";
 
 import { ToastContainer } from "react-toastify";
 
@@ -77,6 +79,12 @@ const Layout = () => {
 					</Route>
 					<Route exact path="/register_org">
 						<RegisterOrganization />
+					</Route>
+					<Route exact path="/organizations/:id/edit">
+						<EditOrganization />
+					</Route>
+					<Route exact path="/organizations/:id/projects/:id">
+						<EditProject />
 					</Route>
 					<Route exact path="/register_pers">
 						<RegisterPerson />
