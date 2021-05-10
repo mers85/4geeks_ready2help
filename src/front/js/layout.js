@@ -32,6 +32,7 @@ import { EditProject } from "./pages/editProject";
 import { ToastContainer } from "react-toastify";
 
 import "react-toastify/dist/ReactToastify.css";
+import { AboutUs } from "./pages/aboutUs";
 
 //create your first component
 const Layout = () => {
@@ -113,7 +114,7 @@ const Layout = () => {
 						<Contact />
 					</Route>
 					<Route exact path="/about_us">
-						<h1>sobre nosotros</h1>
+						<AboutUs />
 					</Route>
 					<Route exact path="/single/:theid">
 						<Single />
