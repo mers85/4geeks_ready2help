@@ -84,7 +84,7 @@ export function Header() {
 									<li className="nav-item">
 										<NavLink
 											className="nav-link"
-											to="/profile2"
+											to="/profile"
 											title="Menú personal"
 											activeClassName="active">
 											Menú personal

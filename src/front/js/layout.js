@@ -17,7 +17,6 @@ import injectContext from "./store/appContext";
 import { Header } from "./component/header";
 import { Footer } from "./component/footer";
 import { Profile } from "./pages/profile";
-import { Profile2 } from "./pages/profile2";
 import { RegisterOrganization } from "./pages/registerOrganization";
 import { RegisterPerson } from "./pages/registerPerson";
 import { RequestResetPass } from "./pages/requestResetPass";
@@ -91,9 +90,6 @@ const Layout = () => {
 					</Route>
 					<Route exact path="/profile">
 						<Profile />
-					</Route>
-					<Route exact path="/profile2">
-						<Profile2 />
 					</Route>
 					<Route exact path="/profile/users/:id/edit_details">
 						<EditUserDetails />
