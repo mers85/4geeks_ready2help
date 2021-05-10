@@ -11,18 +11,21 @@
 }
 
 .page-title {
-    opacity: 0.8;
-    background: url('../img/hands_01.jpg') no-repeat center top / cover;
+    opacity: 0.7;
+    background: url('../img/red_social.png') no-repeat center top / cover;
     z-index: 1;
-
+     .bg-white-opacity {
+        background-color:white;
+        z-index:0;
+    }
 
     ul li {
         
         a:link {
-            color: white;
+            color: #777777;
         }
         a:visited {
-            color: white;
+            color: #777777;
         }
         a:hover {
             color: #08cc7f;

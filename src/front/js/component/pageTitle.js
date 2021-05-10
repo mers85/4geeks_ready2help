@@ -5,12 +5,12 @@ import "../../styles/index.scss";
 
 const PageTitle = props => {
 	return (
-		<div className="jumbotron page-title jumbotron-fluid">
+		<div className="jumbotron bg-white page-title jumbotron-fluid">
 			<div className="container">
 				<div className="row">
-					<div className="col-12 mx-auto text-center">
-						<div className="py-4 my-4 sombra">
-							<p className="text-white display-4">{props.pageTitle}</p>
+					<div className="col-sm-12 col-md-8 col-lg-6 mx-auto text-center ">
+						<div className="py-4 my-4 bg-white-opacity ">
+							<h4 className="display-4">{props.pageTitle}</h4>
 							<ul className="d-inline-flex">
 								<li>
 									<Link to="/">Home</Link>
@@ -18,7 +18,7 @@ const PageTitle = props => {
 
 								<li>
 									<Link to={props.myPath}>
-										<span className="text-white mx-2">/</span>
+										<span className="text-muted mx-2">/</span>
 										<span className="text-green">{props.pageTitle}</span>
 									</Link>
 								</li>
