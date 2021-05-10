@@ -9,6 +9,7 @@ import { MyActivities } from "./myActivities";
 import FixedAlert from "../component/fixedAlert";
 import { CardUserDetails } from "../component/cardUserDetails";
 import { CardUserAccess } from "../component/cardUserAccess";
+import PageTitle from "../component/pageTitle";
 
 import { TabContent, TabPane, Nav, NavItem, NavLink, Card, Button, CardTitle, CardText, Row, Col } from "reactstrap";
 import classnames from "classnames";
@@ -68,79 +69,83 @@ export const Profile2 = () => {
 	}, []);
 
 	return (
-		<div className="container">
-			<Nav tabs className="py-2 mt-3 justify-content-center">
-				<NavItem className="border border-light mx-1">
-					<NavLink
-						className={classnames({ active: activeTab === "1" })}
-						onClick={() => {
-							toggle("1");
-						}}>
-						Editar perfil
-					</NavLink>
-				</NavItem>
-				<NavItem className="border border-light mx-1">
-					<NavLink
-						className={classnames({ active: activeTab === "2" })}
-						onClick={() => {
-							toggle("2");
-						}}>
-						Organización
-					</NavLink>
-				</NavItem>
-				<NavItem className="border border-light mx-1">
-					<NavLink
-						className={classnames({ active: activeTab === "3" })}
-						onClick={() => {
-							toggle("3");
-						}}>
-						Actividades
-					</NavLink>
-				</NavItem>
-			</Nav>
-			<TabContent activeTab={activeTab}>
-				<TabPane tabId="1">
-					<div className="row">
-						<div className="col-lg-6 col-sm-12 py-2 my-2">
-							{!person && volunteeringProjects.length > 0 ? (
-								<FixedAlert color="primary" message={"Por favor, completa tu perfil!"} />
-							) : (
-								""
-							)}
-							{person ? (
-								<CardUserDetails
-									image={rigoImageUrl}
-									userDetails={person}
-									editPath={"/profile/users/" + actions.getUserId() + "/edit_details"}
-								/>
-							) : (
-								<CardUserDetails
-									image={rigoImageUrl}
-									userEmail={user.email}
-									resgisterDetailsPath={"/register_pers"}
-								/>
-							)}
+		<div className="container-fluid p-0">
+			<div className="d-lg-flex flex-lg-column bd-highlight d-none d-sm-none d-md-none d-xl-block">
+				<PageTitle pageTitle="Menú personal" myPath="/profile" />
+			</div>
+
+			<div className="container profile">
+				<Nav tabs className="py-2 mt-4 justify-content-center">
+					<NavItem className="border border-light mx-1">
+						<NavLink
+							className={classnames({ active: activeTab === "1" })}
+							onClick={() => {
+								toggle("1");
+							}}>
+							Editar perfil
+						</NavLink>
+					</NavItem>
+					<NavItem className="border border-light mx-1">
+						<NavLink
+							className={classnames({ active: activeTab === "2" })}
+							onClick={() => {
+								toggle("2");
+							}}>
+							Organización
+						</NavLink>
+					</NavItem>
+					<NavItem className="border border-light mx-1">
+						<NavLink
+							className={classnames({ active: activeTab === "3" })}
+							onClick={() => {
+								toggle("3");
+							}}>
+							Actividades
+						</NavLink>
+					</NavItem>
+				</Nav>
+				<TabContent activeTab={activeTab}>
+					<TabPane tabId="1">
+						<div className="row d-flex align-content-center">
+							<div className="col-lg-6 col-md-8 col-sm-12 py-2 my-2">
+								{!person && volunteeringProjects.length > 0 ? (
+									<FixedAlert color="primary" message={"Por favor, completa tu perfil!"} />
+								) : (
+									""
+								)}
+								{person ? (
+									<CardUserDetails
+										image={rigoImageUrl}
+										userDetails={person}
+										editPath={"/profile/users/" + actions.getUserId() + "/edit_details"}
+									/>
+								) : (
+									<CardUserDetails
+										image={rigoImageUrl}
+										userEmail={user.email}
+										resgisterDetailsPath={"/register_pers"}
+									/>
+								)}
+							</div>
+							<div className="col-lg-6 col-md-8 col-sm-12 py-2 my-2">
+								<CardUserAccess userEmail={user.email} recuperarPasswordPath={"/request_reset_pass"} />
+							</div>
 						</div>
-						<div className="col-lg-6 col-sm-12 py-2 my-2">
-							<CardUserAccess userEmail={user.email} recuperarPasswordPath={"/request_reset_pass"} />
+					</TabPane>
+					<TabPane tabId="2">
+						{organization ? (
+							<DashboardOrganization organization={organization} />
+						) : (
+							<DashboardOrganization />
+						)}
+					</TabPane>
+					<TabPane tabId="3">
+						<div className="row">
+							<div className="col-12">{user ? <MyActivities user={user} /> : ""}</div>
 						</div>
-					</div>
-				</TabPane>
-				<TabPane tabId="2">
-					{organization ? <DashboardOrganization organization={organization} /> : <DashboardOrganization />}
-				</TabPane>
-				<TabPane tabId="3">
-					<div className="row">
-						<div className="col-12">
-							{user && user.volunteering_projects.length > 0 ? (
-								<MyActivities user={user} />
-							) : (
-								"Sin actividades"
-							)}
-						</div>
-					</div>
-				</TabPane>
-			</TabContent>
+					</TabPane>
+				</TabContent>
+			</div>
 		</div>
 	);
 };

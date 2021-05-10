@@ -1,8 +1,10 @@
 import React, { useState, useContext } from "react";
 import { Context } from "../store/appContext";
 import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 import { TopHeader } from "./topheader";
+import classnames from "classnames";
 import { LogOut } from "../pages/logout";
 import "../../styles/header.scss";
 import "bootstrap/js/src/collapse.js";
@@ -17,14 +19,14 @@ export function Header() {
 			link.log = <LogOut />;
 		} else {
 			link.log = (
-				<Link className="nav-link" to="/login">
+				<NavLink className="nav-link" to="/login" activeClassName="active">
 					Log In
-				</Link>
+				</NavLink>
 			);
 			link.signup = (
-				<Link className="nav-link" to="/signup">
+				<NavLink className="nav-link" to="/signup" activeClassName="active">
 					Sign Up
-				</Link>
+				</NavLink>
 			);
 		}
 		return link;
@@ -51,26 +53,42 @@ export function Header() {
 					<div className="collapse navbar-collapse" id="navbarSupportedContent">
 						<div className="navbar-nav ml-auto d-none d-sm-none d-md-none d-lg-block">
 							<ul className="navbar-nav ml-auto">
-								<li className="nav-item active">
-									<Link className="nav-link" to="/projects" title="Proyectos">
+								<li className="nav-item">
+									<NavLink
+										className="nav-link"
+										to="/projects"
+										title="Proyectos"
+										activeClassName="active">
 										Proyectos
-									</Link>
+									</NavLink>
 								</li>
 								<li className="nav-item">
-									<Link className="nav-link" to="/" title="Acerca de nosotros">
+									<NavLink
+										to="/about_us"
+										title="Acerca de nosotros"
+										className="nav-link"
+										activeClassName="active">
 										Acerca de nosotros
-									</Link>
+									</NavLink>
 								</li>
 								<li className="nav-item">
-									<Link className="nav-link" to="/contact" title="contacto">
+									<NavLink
+										className="nav-link"
+										to="/contact"
+										title="contacto"
+										activeClassName="active">
 										Contacto
-									</Link>
+									</NavLink>
 								</li>
 								{actions.isLogIn() ? (
 									<li className="nav-item">
-										<Link className="nav-link" to="/profile2" title="Menú personal">
+										<NavLink
+											className="nav-link"
+											to="/profile2"
+											title="Menú personal"
+											activeClassName="active">
 											Menú personal
-										</Link>
+										</NavLink>
 									</li>
 								) : (
 									""
@@ -79,25 +97,33 @@ export function Header() {
 						</div>
 						<ul className="navbar-nav mr-auto d-sm-block d-md-block d-lg-none d-xl-none py-3">
 							<li className="nav-item active">
-								<Link className="nav-link" to="/projects" title="Proyectos">
+								<NavLink className="nav-link" to="/projects" title="Proyectos" activeClassName="active">
 									Proyectos
-								</Link>
+								</NavLink>
 							</li>
 							<li className="nav-item">
-								<Link className="nav-link" to="/" title="Acerca de nosotros">
+								<NavLink
+									className="nav-link"
+									to="/about_us"
+									title="Acerca de nosotros"
+									activeClassName="active">
 									Acerca de nosotros
-								</Link>
+								</NavLink>
 							</li>
 							<li className="nav-item">
-								<Link className="nav-link" to="/contact" title="contacto">
+								<NavLink className="nav-link" to="/contact" title="contacto" activeClassName="active">
 									Contacto
-								</Link>
+								</NavLink>
 							</li>
 							{actions.isLogIn() ? (
 								<li className="nav-item">
-									<Link className="nav-link" to="/profile" title="Menú personal">
+									<NavLink
+										className="nav-link"
+										to="/profile"
+										title="Menú personal"
+										activeClassName="active">
 										Menú personal
-									</Link>
+									</NavLink>
 								</li>
 							) : (
 								""

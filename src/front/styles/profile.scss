@@ -1,4 +1,34 @@
 .profile {
+    a{
+      color: #7b7b7b;
+    }
+
+    .nav-tabs{ 
+        .nav-link:link {
+            color: #7b7b7b;
+        }
+
+        .nav-link:visited {
+            color: #7b7b7b;
+        }
+        
+        /* mouse over link */
+        .nav-link:hover {
+            color: #08cc7f;
+        }
+
+        /* selected link */
+        .nav-link:active {
+            color: #08cc7f;
+        }
+
+        .nav-link.active {
+            color: #08cc7f;
+        }
+       
+
+    }
+
     .avatar {
     vertical-align: middle;
         border: 1px solid #ffffff;

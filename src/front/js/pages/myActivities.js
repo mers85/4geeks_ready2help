@@ -23,11 +23,24 @@ export const MyActivities = props => {
 				)}
 			</div>
 			<div className="col-sm-12 col-md-8 mx-auto mb-2">
-				{props.user && props.user.details.donations.length > 0 ? (
-					<DonationsActivities projects={props.user.details.donations} />
+				{props.user && props.user["details"] && props.user["details"]["donations"].length > 0 ? (
+					<DonationsActivities projects={props.user["details"]["donations"]} />
 				) : (
 					""
 				)}
+			</div>
+			<div className="col-sm- 12 col-md-8  mx-auto my-2">
+				<div className="card border-0 shadow">
+					<div className="card-header bg-white text-center">
+						<h6>Únete a más proyectos</h6>
+						<p className="card-subtitle">«Soy porque nosotros somos»</p>
+					</div>
+					<div className="card-body text-center py-5">
+						<Link className="bg-green rounded-pill p-3 text-white" to="/projects">
+							<span className="text-white p-2 px-4 align-middle">ver proyectos</span>
+						</Link>
+					</div>
+				</div>
 			</div>
 		</div>
 	);

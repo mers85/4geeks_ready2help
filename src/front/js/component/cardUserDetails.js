@@ -8,7 +8,7 @@ import "../../styles/profile.scss";
 
 export const CardUserDetails = props => {
 	return (
-		<div className="profile card shadow border-0 avatar-container">
+		<div className="profile card shadow border-0 avatar-container ">
 			<div className="card-up aqua-gradient"></div>
 			<img src={props.image} className="avatar mx-auto image img-fluid img-thumbnail rounded-circle" alt="..." />
 

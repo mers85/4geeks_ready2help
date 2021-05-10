@@ -19,7 +19,7 @@ export const DashboardOrganization = props => {
 		<div>
 			{props.organization ? (
 				<div className="row">
-					<div className="col-sm-12 col-md-6 my-2">
+					<div className="col-sm-12 col-md-8 col-lg-6 my-2">
 						<div className="card border-0 shadow py-2">
 							<div className="row ">
 								<div className="col-md-4">
@@ -53,18 +53,18 @@ export const DashboardOrganization = props => {
 							</div>
 						</div>
 					</div>
-					<div className="col-sm-12 col-md-6 my-2">
+					<div className="col-sm-12 col-md-8 col-lg-6 my-2">
 						<ProjectsOrganization organization={props.organization} />
 					</div>
 				</div>
 			) : (
 				<div className="row">
-					<div className="col-12 col-md-10  mx-auto my-2">
+					<div className="col-12 col-md-8  mx-auto my-2">
 						<div className="card border-0 shadow">
 							<h6 className="card-header bg-white text-center">
 								Añade tu Organización para poder crear proyectos
 							</h6>
-							<div className="card-body text-center">
+							<div className="card-body text-center py-4">
 								<Link className="bg-green rounded-pill p-3 text-white" to="/register_org">
 									<i className="fas fa-plus-circle fa-2x text-white p-2 px-4 align-middle"></i>
 								</Link>

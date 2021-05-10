@@ -4,7 +4,7 @@
         background-color: #ffffff;
         color: #7b7b7b;
 
-        .nav-item {
+        li.nav-item {
              a.nav-link:link {
                 color: #7b7b7b;
             }
@@ -20,6 +20,14 @@
 
             /* selected link */
             a.nav-link:active {
+                color: #08cc7f;
+            }
+
+            a.nav-link.active {
+                color: #08cc7f;
+            }
+
+             a.active {
                 color: #08cc7f;
             }
 

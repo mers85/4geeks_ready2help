@@ -104,9 +104,6 @@ const Layout = () => {
 					<Route exact path="/organizations/:id/create_project">
 						<CreateProject />
 					</Route>
-					<Route exact path="/organizations/:id/projects">
-						<h1>Proyectos de la org</h1>
-					</Route>
 					<Route exact path="/projects">
 						<Projects />
 					</Route>
@@ -118,6 +115,9 @@ const Layout = () => {
 					</Route>
 					<Route exact path="/contact">
 						<Contact />
+					</Route>
+					<Route exact path="/about_us">
+						<h1>sobre nosotros</h1>
 					</Route>
 					<Route exact path="/single/:theid">
 						<Single />
