@@ -22,9 +22,9 @@ export const DashboardOrganization = props => {
 					<div className="col-sm-12 col-md-8 col-lg-6 my-2">
 						<div className="card border-0 shadow py-2">
 							<div className="row ">
-								<div className="col-md-4">
+								<div className="col-md-4 text-center ">
 									<img src={rigoImageUrl} className="m-2 img-thumbnail" />
-									<h6 className="card-title text-center my-2">Datos de la organización</h6>
+									<h6 className="card-title  my-2">Datos de la organización</h6>
 								</div>
 								<div className="col-md-8 px-3">
 									<div className="card-block px-3">

@@ -106,8 +106,8 @@ export const Profile2 = () => {
 				</Nav>
 				<TabContent activeTab={activeTab}>
 					<TabPane tabId="1">
-						<div className="row d-flex align-content-center">
-							<div className="col-lg-6 col-md-8 col-sm-12 py-2 my-2">
+						<div className="row">
+							<div className="col-lg-6 col-md-12 col-sm-12 py-2 my-2">
 								{!person && volunteeringProjects.length > 0 ? (
 									<FixedAlert color="primary" message={"Por favor, completa tu perfil!"} />
 								) : (
@@ -127,7 +127,7 @@ export const Profile2 = () => {
 									/>
 								)}
 							</div>
-							<div className="col-lg-6 col-md-8 col-sm-12 py-2 my-2">
+							<div className="col-lg-6 col-md-12 col-sm-12 py-2 my-2">
 								<CardUserAccess userEmail={user.email} recuperarPasswordPath={"/request_reset_pass"} />
 							</div>
 						</div>
