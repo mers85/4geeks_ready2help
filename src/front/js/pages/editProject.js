@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { Context } from "../store/appContext";
 import { Link, useHistory, useParams } from "react-router-dom";
 
@@ -13,85 +13,79 @@ import PropTypes from "prop-types";
 import "../../styles/formularioBase2.scss";
 import { LogIn } from "./login";
 
-export const CreateProject = props => {
+export const EditProject = props => {
 	const history = useHistory();
 	let { id } = useParams();
 	const { actions } = useContext(Context);
 
-	const [value, setValue] = useState({
-		title: "",
-		subtitle: "",
-		description: "",
-		money_needed: "",
-		people_needed: "",
-		status: "",
-		organization_id: ""
-	});
+	const [value, setValue] = useState({});
 
 	const changeHandler = e => {
 		setValue({ ...value, [e.target.name]: e.target.value });
-		validator.showMessages();
 	};
 
-	const [validator] = React.useState(
-		new SimpleReactValidator({
-			className: "errorMessage"
+	useEffect(() => {
+		let responseOk = false;
+		fetch(process.env.BACKEND_URL + "/api/v1/projects/" + id, {
+			method: "GET",
+			headers: {
+				"Content-Type": "application/json",
+				Authorization: "Bearer " + actions.getAccessToken()
+			}
 		})
-	);
+			.then(response => {
+				responseOk = response.ok;
+				return response.json();
+			})
+			.then(responseJson => {
+				console.log("project show:", responseJson.project);
+				if (responseOk) {
+					console.log(responseJson.person);
+					setValue({ ...value, ...responseJson.project });
+				} else {
+					toast.error(responseJson.message);
+				}
+			})
+			.catch(error => {
+				toast.error(error.message);
+			});
+	}, []);
 
 	const submitForm = e => {
 		e.preventDefault();
-		if (validator.allValid()) {
-			setValue({
-				title: "",
-				subtitle: "",
-				description: "",
-				money_needed: "",
-				people_needed: "",
-				status: "",
-				organization_id: ""
-			});
-			validator.hideMessages();
 
-			if (value.title) {
-				let responseOk = false;
-				id ? id : (id = props.wizardId);
-				fetch(process.env.BACKEND_URL + "/api/v1/organizations/" + id + "/projects", {
-					method: "POST",
-					headers: {
-						"Content-Type": "application/json",
-						Authorization: "Bearer " + actions.getAccessToken()
-					},
-					body: JSON.stringify({
-						title: value.title,
-						subtitle: value.subtitle,
-						description: value.description,
-						money_needed: parseFloat(value.money_needed),
-						people_needed: parseInt(value.people_needed),
-						status: value.status,
-						organization_id: id ? id : props.wizardId
-					})
-				})
-					.then(response => {
-						responseOk = response.ok;
-						return response.json();
-					})
-					.then(responseJson => {
-						if (responseOk) {
-							toast.success("Tu proyecto ha sido creado!");
-							history.push("/profile");
-						} else {
-							toast.error(responseJson.message);
-						}
-					})
-					.catch(error => {
-						toast.error(error.message);
-					});
-			}
-		} else {
-			validator.showMessages();
-			toast.error("¡Es necesario al menos un nombre del proyecto!");
-		}
+		let responseOk = false;
+		fetch(process.env.BACKEND_URL + "/api/v1/organizations/" + value.organization_id + "/projects/" + id, {
+			method: "PUT",
+			headers: {
+				"Content-Type": "application/json",
+				Authorization: "Bearer " + actions.getAccessToken()
+			},
+			body: JSON.stringify({
+				title: value.title,
+				subtitle: value.subtitle,
+				description: value.description,
+				money_needed: parseFloat(value.money_needed),
+				people_needed: parseInt(value.people_needed),
+				status: value.status
+			})
+		})
+			.then(response => {
+				responseOk = response.ok;
+				return response.json();
+			})
+			.then(responseJson => {
+				if (responseOk) {
+					toast.success("Tu proyecto ha sido modificado correctamente!");
+					history.push("/profile");
+				} else {
+					toast.error(responseJson.message);
+				}
+			})
+			.catch(error => {
+				toast.error(error.message);
+			});
+
 		return false;
 	};
 
@@ -100,11 +94,7 @@ export const CreateProject = props => {
 			<div className="row mx-auto">
 				<div className="col-sm-12 col-md-10 mx-auto">
 					<div className="card p-md-4 py-4 border-0 shadow">
-						<h2 className="card-title text-center p-3">Crear proyecto</h2>
-						<small className="card-subtitle px-3 text-center">
-							Puedes dar de alta tu proyecto solo con el nombre y luego ir a tu panel de administración y
-							completar los datos antes de hacerlo público
-						</small>
+						<h2 className="card-title text-center p-3">Editar proyecto</h2>
 						<div className="card-body mx-0">
 							<form onSubmit={submitForm}>
 								<div className="form-row py-3">
@@ -119,7 +109,6 @@ export const CreateProject = props => {
 											onBlur={e => changeHandler(e)}
 											onChange={e => changeHandler(e)}
 										/>
-										{validator.message("title", value.title, "required:title")}
 									</div>
 								</div>
 								<div className="form-row pb-3">
@@ -182,6 +171,9 @@ export const CreateProject = props => {
 								</button>
 							</form>
 						</div>
+						<Link className="noteHelp p-2" to="/profile">
+							Volver al menú personal
+						</Link>
 					</div>
 				</div>
 			</div>
@@ -189,7 +181,4 @@ export const CreateProject = props => {
 	);
 };
 
-CreateProject.propTypes = {
-	id: PropTypes.object,
-	wizardId: PropTypes.number
-};
+EditProject.propTypes = {};

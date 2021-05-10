@@ -1,0 +1,65 @@
+.profile {
+    a{
+      color: #7b7b7b;
+    }
+
+    .nav-tabs{ 
+        .nav-link:link {
+            color: #7b7b7b;
+        }
+
+        .nav-link:visited {
+            color: #7b7b7b;
+        }
+        
+        /* mouse over link */
+        .nav-link:hover {
+            color: #08cc7f;
+        }
+
+        /* selected link */
+        .nav-link:active {
+            color: #08cc7f;
+        }
+
+        .nav-link.active {
+            color: #08cc7f;
+        }
+       
+
+    }
+
+    .avatar {
+    vertical-align: middle;
+        border: 1px solid #ffffff;
+        border-width: 1rem;
+    width: 200px;
+    height: 200px;
+    }
+
+    .aqua-gradient {
+    height: 200px;
+    background: linear-gradient(to right, #00a7d5, #27cdca);;
+    }
+
+    .image {
+    margin-top: -150px;
+    }
+
+    .image-org {
+    margin-top: -100px;
+    }
+
+    .avatar-container {
+    width: 90%;
+    }
+
+    .bg-card-password{
+        height: 200px;
+        background-image: linear-gradient(#E1B3FE,#B5B3F9);
+    }
+
+
+
+
+}

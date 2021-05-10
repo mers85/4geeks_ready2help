@@ -5,9 +5,17 @@ import { Link, useHistory, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 
 import { DashboardOrganization } from "./dashboardOrganization";
-import FixedAlert from "../component/fixedAlert";
-import Button from "@material-ui/core/Button";
 import { MyActivities } from "./myActivities";
+import FixedAlert from "../component/fixedAlert";
+import { CardUserDetails } from "../component/cardUserDetails";
+import { CardUserAccess } from "../component/cardUserAccess";
+import PageTitle from "../component/pageTitle";
+
+import { TabContent, TabPane, Nav, NavItem, NavLink, Card, Button, CardTitle, CardText, Row, Col } from "reactstrap";
+import classnames from "classnames";
+
+import rigoImageUrl from "../../img/rigo-baby.jpg";
+import "../../styles/profile.scss";
 
 export const Profile = () => {
 	const [email, setEmail] = useState("");
@@ -18,6 +26,12 @@ export const Profile = () => {
 	const [error, setError] = useState("");
 	const { actions, store } = useContext(Context);
 	const history = useHistory();
+
+	const [activeTab, setActiveTab] = useState("1");
+
+	const toggle = tab => {
+		if (activeTab !== tab) setActiveTab(tab);
+	};
 
 	useEffect(() => {
 		let accessToken = actions.getAccessToken();
@@ -55,33 +69,83 @@ export const Profile = () => {
 	}, []);
 
 	return (
-		<div>
-			<div className="jumbotron">
-				{!person && volunteeringProjects.length > 0 ? (
-					<FixedAlert color="primary" message={"Por favor, completa tu perfil!"} />
-				) : (
-					""
-				)}
-				<h4>Mi perfil</h4>
-				{error ? <h3>{error}</h3> : ""}
-				<div>Email: {email}</div>
-				{organization ? (
-					<div> Organización: {organization.name} </div>
-				) : (
-					<Link to="/register_org">
-						<Button className="cBtnTheme py-1">Añade tu Organización</Button>
-					</Link>
-				)}
-				{person ? (
-					<div> Nombre: {person.name} </div>
-				) : (
-					<Link to="/register_pers">
-						<Button className="cBtnTheme py-1 mx-1">Añade tus datos personales</Button>
-					</Link>
-				)}
+		<div className="container-fluid p-0">
+			<div className="d-lg-flex flex-lg-column bd-highlight d-none d-sm-none d-md-none d-xl-block">
+				<PageTitle pageTitle="Menú personal" myPath="/profile" />
 			</div>
-			{organization ? <DashboardOrganization organization={organization} /> : ""}
-			{user && user.volunteering_projects.length > 0 ? <MyActivities user={user} /> : ""}
+
+			<div className="container profile">
+				<Nav tabs className="py-2 mt-4 justify-content-center">
+					<NavItem className="border border-light mx-1">
+						<NavLink
+							className={classnames({ active: activeTab === "1" })}
+							onClick={() => {
+								toggle("1");
+							}}>
+							Editar perfil
+						</NavLink>
+					</NavItem>
+					<NavItem className="border border-light mx-1">
+						<NavLink
+							className={classnames({ active: activeTab === "2" })}
+							onClick={() => {
+								toggle("2");
+							}}>
+							Organización
+						</NavLink>
+					</NavItem>
+					<NavItem className="border border-light mx-1">
+						<NavLink
+							className={classnames({ active: activeTab === "3" })}
+							onClick={() => {
+								toggle("3");
+							}}>
+							Actividades
+						</NavLink>
+					</NavItem>
+				</Nav>
+				<TabContent activeTab={activeTab}>
+					<TabPane tabId="1">
+						<div className="row">
+							<div className="col-lg-6 col-md-12 col-sm-12 py-2 my-2">
+								{!person && volunteeringProjects.length > 0 ? (
+									<FixedAlert color="primary" message={"Por favor, completa tu perfil!"} />
+								) : (
+									""
+								)}
+								{person ? (
+									<CardUserDetails
+										image={rigoImageUrl}
+										userDetails={person}
+										editPath={"/profile/users/" + actions.getUserId() + "/edit_details"}
+									/>
+								) : (
+									<CardUserDetails
+										image={rigoImageUrl}
+										userEmail={user.email}
+										resgisterDetailsPath={"/register_pers"}
+									/>
+								)}
+							</div>
+							<div className="col-lg-6 col-md-12 col-sm-12 py-2 my-2">
+								<CardUserAccess userEmail={user.email} recuperarPasswordPath={"/request_reset_pass"} />
+							</div>
+						</div>
+					</TabPane>
+					<TabPane tabId="2">
+						{organization ? (
+							<DashboardOrganization organization={organization} />
+						) : (
+							<DashboardOrganization />
+						)}
+					</TabPane>
+					<TabPane tabId="3">
+						<div className="row">
+							<div className="col-12">{user ? <MyActivities user={user} /> : ""}</div>
+						</div>
+					</TabPane>
+				</TabContent>
+			</div>
 		</div>
 	);
 };

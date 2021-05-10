@@ -199,6 +199,16 @@ class Organization(db.Model):
 
         return organization
 
+    def update_organization(self, name=None, email=None, address=None, zipcode=None, phone=None):
+        self.name = name if name is not None else self.name
+        self.email = email if email is not None else self.email
+        self.address = address if address is not None else self.address
+        self.zipcode = zipcode if zipcode is not None else self.zipcode
+        self.phone = phone if phone is not None else self.phone
+
+        db.session.commit()
+        return True
+
 #PERSON PERFIL COMPLETO DEL USUARIO
 class Person(db.Model):
     __tablename__ = "persons"
@@ -238,7 +248,8 @@ class Person(db.Model):
             "email": self.email,
             "address": self.address,
             "zipcode": self.zipcode,
-            "phone": self.phone
+            "phone": self.phone,
+            "donations": [donation.serialize() for donation in self.donations]
         }
 
     @classmethod
@@ -259,6 +270,17 @@ class Person(db.Model):
         db.session.commit()
 
         return person
+
+    def update_user_details(self, name=None, lastname=None, email=None, address=None, zipcode=None, phone=None):
+        self.name = name if name is not None else self.name
+        self.lastname = lastname if lastname is not None else self.lastname
+        self.email = email if email is not None else self.email
+        self.address = address if address is not None else self.address
+        self.zipcode = zipcode if zipcode is not None else self.zipcode
+        self.phone = phone if phone is not None else self.phone
+
+        db.session.commit()
+        return True
 
 #PROJECT
 class Project(db.Model):
@@ -304,7 +326,7 @@ class Project(db.Model):
             "title": self.title,
         }
 
-    def update_project(self, title=None, subtitle=None, money_needed=None, people_needed=None, status=None, organization_id=None, total_donated=None, ):
+    def update_project(self, title=None, subtitle=None, money_needed=None, people_needed=None, status=None, organization_id=None, total_donated=None ):
         self.title = title if title is not None else self.title
         self.subtitle = subtitle if subtitle is not None else self.subtitle
         self.money_needed = money_needed if money_needed is not None else self.money_needed
@@ -354,10 +376,6 @@ class Project(db.Model):
         return cls.query.get(id)
 
     @classmethod
-    def find_by_id(cls, id):
-        return cls.query.get(id)
-
-    @classmethod
     def get_all(cls):
         return cls.query.order_by(cls.id).all()
         
@@ -400,6 +418,7 @@ class Donation(db.Model):
         return {
             "id": self.id,
             "project_id": self.project_id,
+            "project_title": self.project.title,
             "person_id": self.person_id,
             "amount": self.amount,
             "payment_type": self.payment_type,

@@ -24,10 +24,14 @@ import { ResetPass } from "./pages/resetPass";
 import { Projects } from "./pages/projects";
 import { ShowProject } from "./pages/ShowProject";
 import { Donate } from "./pages/donate";
+import NotFound from "./component/notFound";
+import { EditUserDetails } from "./pages/editUserDetails";
+import { EditOrganization } from "./pages/editOrganization";
+import { EditProject } from "./pages/editProject";
+
 import { ToastContainer } from "react-toastify";
 
 import "react-toastify/dist/ReactToastify.css";
-import NotFound from "./component/notFound";
 
 //create your first component
 const Layout = () => {
@@ -60,30 +64,11 @@ const Layout = () => {
 					<Route exact path="/signup">
 						<SignUp />
 					</Route>
-
 					<Route exact path="/login">
 						<LogIn />
 					</Route>
-					<Route exact path="/profile">
-						<Profile />
-					</Route>
-					<Route exact path="/register_org">
-						<RegisterOrganization />
-					</Route>
-					<Route exact path="/register_pers">
-						<RegisterPerson />
-					</Route>
-					<Route exact path="/organizations/:id/create_project">
-						<CreateProject />
-					</Route>
-					<Route exact path="/create_project">
-						<WizardCreateProject />
-					</Route>
-					<Route exact path="/projects">
-						<Projects />
-					</Route>
-					<Route exact path="/projects/:id">
-						<ShowProject />
+					<Route exact path="/logout">
+						<LogOut />
 					</Route>
 					<Route exact path="/request_reset_pass">
 						<RequestResetPass />
@@ -91,14 +76,44 @@ const Layout = () => {
 					<Route exact path="/reset_pass">
 						<ResetPass />
 					</Route>
+					<Route exact path="/register_org">
+						<RegisterOrganization />
+					</Route>
+					<Route exact path="/organizations/:id/edit">
+						<EditOrganization />
+					</Route>
+					<Route exact path="/organizations/:id/projects/:id">
+						<EditProject />
+					</Route>
+					<Route exact path="/register_pers">
+						<RegisterPerson />
+					</Route>
+					<Route exact path="/profile">
+						<Profile />
+					</Route>
+					<Route exact path="/profile/users/:id/edit_details">
+						<EditUserDetails />
+					</Route>
+					<Route exact path="/create_project">
+						<WizardCreateProject />
+					</Route>
+					<Route exact path="/organizations/:id/create_project">
+						<CreateProject />
+					</Route>
+					<Route exact path="/projects">
+						<Projects />
+					</Route>
+					<Route exact path="/projects/:id">
+						<ShowProject />
+					</Route>
 					<Route exact path="/projects/:id/donate">
 						<WizardCreateDonation />
 					</Route>
 					<Route exact path="/contact">
 						<Contact />
 					</Route>
-					<Route exact path="/logout">
-						<LogOut />
+					<Route exact path="/about_us">
+						<h1>sobre nosotros</h1>
 					</Route>
 					<Route exact path="/single/:theid">
 						<Single />
