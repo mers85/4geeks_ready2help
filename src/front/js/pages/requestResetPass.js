@@ -56,10 +56,10 @@ export const RequestResetPass = () => {
 				responseOk = response.ok;
 				if (responseOk) {
 					if (response.status === 201) {
-						toast.success(
-							"¡Le hemos enviado un email. En el caso de que no lo haya recibido, es posible que usted no esté registrado en nuestra plataforma!"
-						);
+						toast.success("¡Le hemos enviado un email para cambiar su contraseña!");
 					}
+				} else {
+					toast.warning("Usuario no registrado en nuestra plataforma");
 				}
 				return response.json();
 			})
