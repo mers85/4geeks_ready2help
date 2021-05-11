@@ -3,8 +3,6 @@ import { BrowserRouter, Route, Switch, useLocation } from "react-router-dom";
 import ScrollToTop from "./component/scrollToTop";
 
 import { Home } from "./pages/home";
-import { Demo } from "./pages/demo";
-import { Single } from "./pages/single";
 import { SignUp } from "./pages/signup";
 import { LogIn } from "./pages/login";
 import { CreateProject } from "./pages/createProject";
@@ -59,9 +57,6 @@ const Layout = () => {
 					<Route exact path="/">
 						<Home />
 					</Route>
-					<Route exact path="/demo">
-						<Demo />
-					</Route>
 					<Route exact path="/signup">
 						<SignUp />
 					</Route>
@@ -115,9 +110,6 @@ const Layout = () => {
 					</Route>
 					<Route exact path="/about_us">
 						<AboutUs />
-					</Route>
-					<Route exact path="/single/:theid">
-						<Single />
 					</Route>
 					<Route>
 						<NotFound />
