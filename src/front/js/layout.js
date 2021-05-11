@@ -3,8 +3,6 @@ import { BrowserRouter, Route, Switch, useLocation } from "react-router-dom";
 import ScrollToTop from "./component/scrollToTop";
 
 import { Home } from "./pages/home";
-import { Demo } from "./pages/demo";
-import { Single } from "./pages/single";
 import { SignUp } from "./pages/signup";
 import { LogIn } from "./pages/login";
 import { CreateProject } from "./pages/createProject";
@@ -32,6 +30,7 @@ import { EditProject } from "./pages/editProject";
 import { ToastContainer } from "react-toastify";
 
 import "react-toastify/dist/ReactToastify.css";
+import { AboutUs } from "./pages/aboutUs";
 
 //create your first component
 const Layout = () => {
@@ -57,9 +56,6 @@ const Layout = () => {
 				<Switch>
 					<Route exact path="/">
 						<Home />
-					</Route>
-					<Route exact path="/demo">
-						<Demo />
 					</Route>
 					<Route exact path="/signup">
 						<SignUp />
@@ -113,10 +109,7 @@ const Layout = () => {
 						<Contact />
 					</Route>
 					<Route exact path="/about_us">
-						<h1>sobre nosotros</h1>
-					</Route>
-					<Route exact path="/single/:theid">
-						<Single />
+						<AboutUs />
 					</Route>
 					<Route>
 						<NotFound />

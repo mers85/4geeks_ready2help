@@ -33,7 +33,6 @@ export const MyActivities = props => {
 				<div className="card border-0 shadow">
 					<div className="card-header bg-white text-center">
 						<h6>Únete a más proyectos</h6>
-						<p className="card-subtitle">«Soy porque nosotros somos»</p>
 					</div>
 					<div className="card-body text-center py-5">
 						<Link className="bg-green rounded-pill p-3 text-white" to="/projects">
