@@ -370,7 +370,7 @@ def request_reset_pass():
         return jsonify({'token' : user.token, 'url_reset':url_reset_app}), 201
 
     else:
-        raise APIException("This user does not exist", 401)
+        raise APIException("This user does not exist", 402)
 
 
 @api.route('/reset_pass', methods =['POST'])

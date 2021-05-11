@@ -18,6 +18,16 @@ export const Home = () => {
 		projects();
 	}, []);
 
+	function truncateString(str, num) {
+		// If the length of str is less than or equal to num
+		// just return str--don't truncate it.
+		if (str.length <= num) {
+			return str;
+		}
+		// Return str truncated with '...' concatenated to the end of str.
+		return str.slice(0, num) + "...";
+	}
+
 	function projects() {
 		setError("");
 
@@ -153,7 +163,9 @@ export const Home = () => {
 											<img className="card-img-top" src={image_projects} alt="" />
 											<div className="card-body ">
 												<h4 className="card-title">{project.title}</h4>
-												<p className="card-subtitle mb-1">{project.subtitle}</p>
+												<p className="card-subtitle mb-1">
+													{truncateString(project.subtitle, 58)}
+												</p>
 											</div>
 											<div className="card-footer bg-white btn-group btn-group-lg d-inline-flex p-0">
 												<Link

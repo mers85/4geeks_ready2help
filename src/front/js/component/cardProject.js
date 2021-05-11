@@ -14,13 +14,23 @@ import "../../styles/projects.scss";
 import "../../styles/circleProgressBar.scss";
 
 export const CardProject = props => {
+	function truncateString(str, num) {
+		// If the length of str is less than or equal to num
+		// just return str--don't truncate it.
+		if (str.length <= num) {
+			return str;
+		}
+		// Return str truncated with '...' concatenated to the end of str.
+		return str.slice(0, num) + "...";
+	}
+
 	return (
 		<div className="col-xs-12 col-sm-12 col-md-6 col-lg-5 col-xl-4 mt-3">
 			<div className="card projects border-0 shadow">
 				<img className="img-fluid" src={image_projects} alt="" />
 				<div className="card-body ">
 					<h4 className="card-title">{props.title}</h4>
-					<p className="card-subtitle mb-1">{props.subtitle}</p>
+					<p className="card-subtitle mb-1">{truncateString(props.subtitle, 58)}</p>
 					<div className="row card-text justify-content-lg-around">
 						{props.people_needed > 0 ? (
 							<div className="col-sm-12 col-md-8 col-lg-6 mx-auto">
