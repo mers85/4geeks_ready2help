@@ -13,6 +13,7 @@ import { ProgressBar } from "../component/progressBar";
 import { Donate } from "./donate";
 import { WizardCreateDonation } from "./wizardCreateDonation";
 import { CircleProgress } from "../component/circleProgress";
+import Spinner from "../component/spinner";
 
 import imgPrincipal from "../../img/hands_01.jpg";
 import "../../styles/showproject.scss";
@@ -73,10 +74,15 @@ export const ShowProject = props => {
 			<div className="wpo-case-details-area section-padding">
 				<div className="container mx-auto">
 					<div className="row">
-						<div className="col col-lg-10">
+						<div className="col col-lg-10 mx-auto">
 							<div className="wpo-case-details-wrap">
 								<div className="wpo-case-details-img">
-									<img src={imgPrincipal} alt="" />
+									<img
+										className="img-fluid img-thumbnail"
+										src={imgPrincipal}
+										style={{ width: "100" }}
+										alt=""
+									/>
 								</div>
 								<div className="wpo-case-details-tab">
 									<Nav tabs>
@@ -135,7 +141,7 @@ export const ShowProject = props => {
 																	<div className="volunteer row d-flex justify-content-between py-4">
 																		{isVolunteer ? (
 																			<div className="col-sm-12 col-md my-3">
-																				<div className="card shadow py-4">
+																				<div className="card py-4">
 																					<div className="card-body">
 																						<h6>
 																							Gracias por ser voluntario
@@ -145,8 +151,8 @@ export const ShowProject = props => {
 																				</div>
 																			</div>
 																		) : (
-																			<div className="col-sm-12 col-md mt-2">
-																				<div className="card shadow py-4">
+																			<div className="col-sm-12 col-md my-3 d-none d-smn-one d-md-none d-lg-block">
+																				<div className="card py-4">
 																					<div className="card-body">
 																						<h6>
 																							Únete!! Nos encantaría
@@ -208,7 +214,7 @@ export const ShowProject = props => {
 											</TabPane>
 										</TabContent>
 									) : (
-										<div>Cargando project...</div>
+										<Spinner />
 									)}
 								</div>
 							</div>
