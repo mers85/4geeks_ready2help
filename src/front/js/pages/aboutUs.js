@@ -8,7 +8,7 @@ export const AboutUs = () => {
 	return (
 		<div className="container-fluid p-0">
 			<div className="d-lg-flex flex-lg-column bd-highlight d-none d-sm-none d-md-none d-xl-block">
-				<PageTitle pageTitle="Acerca de Nosotros" myPath="/about_us" />
+				<PageTitle pageTitle="Nosotros" myPath="/about_us" />
 			</div>
 			<div className="container my-5 py-5">
 				<div className="row">

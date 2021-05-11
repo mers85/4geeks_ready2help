@@ -9,6 +9,8 @@ import { LogOut } from "../pages/logout";
 import "../../styles/header.scss";
 import "bootstrap/js/src/collapse.js";
 
+import Logo from "../../img/logo_ready2help.png";
+
 export function Header() {
 	const { actions } = useContext(Context);
 
@@ -38,7 +40,7 @@ export function Header() {
 			<nav className="header-general navbar navbar-expand-lg navbar-light py-3 shadow">
 				<div className="container font-weight-normal">
 					<Link className="navbar-brand" to="/" title="">
-						Ready2Help
+						<img src={Logo} style={{ width: "100px" }} alt="" />
 					</Link>
 					<button
 						className="navbar-toggler custom-toggler"
@@ -65,10 +67,10 @@ export function Header() {
 								<li className="nav-item">
 									<NavLink
 										to="/about_us"
-										title="Acerca de nosotros"
+										title="Nosotros"
 										className="nav-link"
 										activeClassName="active">
-										Acerca de nosotros
+										Nosotros
 									</NavLink>
 								</li>
 								<li className="nav-item">
