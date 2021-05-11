@@ -10,10 +10,10 @@ export const AboutUs = () => {
 			<div className="d-lg-flex flex-lg-column bd-highlight d-none d-sm-none d-md-none d-xl-block">
 				<PageTitle pageTitle="Acerca de Nosotros" myPath="/about_us" />
 			</div>
-			<div className="container">
+			<div className="container my-5 py-5">
 				<div className="row">
 					<div className="col-sm-12 col-md-12 col-lg-4  mx-auto text-justify mb-2">
-						<div className="card-body">
+						<div className="card-body shadow p-3">
 							<h4 className="text-center">Nuestro Objetivo</h4>
 							Ready2Help tiene el objetivo de ser un canal de difusión para aquellas organizaciones
 							sociales con recursos limitados. Queremos que dispongan de esta herramienta para que puedan
@@ -25,7 +25,7 @@ export const AboutUs = () => {
 					</div>
 
 					<div className="col-sm-12 col-md-12 col-lg-4 mx-auto text-justify mb-2">
-						<div className="card-body">
+						<div className="card-body  shadow p-3">
 							<h4 className="text-center">Nuestra Misión</h4>
 							Ready2Help tiene como misión desarrollar herramientas tecnológicas que faciliten, den
 							trazabilidad y fortalezcan la colaboración entre la sociedad civil y el tejido de
@@ -37,7 +37,7 @@ export const AboutUs = () => {
 					</div>
 
 					<div className="col-sm-12 col-md-12 col-lg-4 mx-auto text-justify mb-2">
-						<div className="card-body">
+						<div className="card-body  shadow p-3">
 							<h4 className="text-center">Colabora</h4>
 							Desde Ready2Help queremos invitarte a colaborar con los proyectos sociales que se presentan
 							en nuestra aplicación. Estamos seguros que con tu colaboración, ya sea monetaria o con tu
