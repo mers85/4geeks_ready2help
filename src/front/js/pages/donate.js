@@ -112,6 +112,7 @@ const DonateForm = props => {
 
 					if (result.error) {
 						// Show error to your customer (e.g., insufficient funds)
+						setDisableButton(false);
 						toast.error(result.error.message);
 					} else {
 						// The payment has been processed!
@@ -141,20 +142,20 @@ const DonateForm = props => {
 									setNotificacionPayment(false);
 									if (responseOk) {
 										if (response.status === 201) {
-											toast.success(
-												"Muchas gracias por tu donación. Te hemos enviado un correo electrónico con los detalles al respecto."
-											);
 										}
 									}
 									return response.json();
 								})
 								.then(responseJson => {
 									if (responseOk) {
-										history.push("/projects/" + id);
+										toast.success(
+											"Muchas gracias por tu donación. Te hemos enviado un correo electrónico con los detalles al respecto."
+										);
 										window.location.reload();
 									}
 								})
 								.catch(error => {
+									setDisableButton(false);
 									toast.error(error.message);
 								});
 						}

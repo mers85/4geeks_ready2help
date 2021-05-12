@@ -34,6 +34,7 @@ export const Volunteer = props => {
 				if (responseOk) {
 					setBecameVolunteer(true);
 					toast.success("¡Gracias por unirte!");
+					window.location.reload();
 				} else {
 					toast.error(responseJson.message);
 				}

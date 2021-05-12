@@ -18,58 +18,55 @@ export const DashboardOrganization = props => {
 	return (
 		<div>
 			{props.organization ? (
-				<div className="row">
-					<div className="col-sm-12 col-md-8 col-lg-6 my-2">
-						<div className="card border-0 shadow py-2">
-							<div className="row ">
-								<div className="col-md-4 text-center ">
-									<img src={rigoImageUrl} className="m-2 img-thumbnail" />
-									<h6 className="card-title  my-2">Datos de la organización</h6>
-								</div>
-								<div className="col-md-8 px-3">
-									<div className="card-block px-3">
-										<h6 className="card-text my-3">
-											<p>{props.organization.name}</p>
-										</h6>
-										<p className="card-text">
-											<i className="mr-auto px-1 fas fa-envelope fa-1x"></i>
-											<span>{props.organization.email}</span>
-										</p>
-										<p className="card-text">
-											<i className="mr-auto px-1 fas fa-map-marked-alt text-muted fa-1x"></i>
-											<span className="text-right">{props.organization.address}</span>
-										</p>
-										<p className="card-text">
-											<i className="mr-auto px-1 fas fa-phone-volume text-muted fa-1x"></i>
-											<span>{props.organization.phone}</span>
-										</p>
-										<Link
-											className="btn btn-light rounded-pill p-3 text-muted rounded"
-											to={"/organizations/" + props.organization.id + "/edit"}>
-											Editar datos de la organización
-										</Link>
-									</div>
-								</div>
+				<div className="row d-flex justify-content-center my-5">
+					<div className="col-sm-12 col-md-6 col-lg-6 mt-2 mb-4">
+						<div className="profile card shadow border-0 avatar-container">
+							<div className="card-up bg-card-org"></div>
+							<img
+								src={rigoImageUrl}
+								className="avatar mx-auto image img-fluid img-thumbnail rounded-circle"
+								alt="..."
+							/>
+
+							<div className="card-body">
+								<h6 className="card-title text-center">Datos de La organización</h6>
+								<p className="card-text">
+									<i className="fas fa-users text-muted fa-1x mr-2"></i>
+									{props.organization.name}
+								</p>
+								<p className="card-text">
+									<i className="fas fa-envelope text-muted fa-1x mr-2"></i>
+									{props.organization.email}
+								</p>
+								<p className="card-text">
+									<i className="fas fa-map-marked-alt text-muted fa-1x mr-2"></i>{" "}
+									{props.organization.address}
+								</p>
+								<p className="card-text">
+									<i className="fas fa-phone-volume text-muted fa-1x mr-2"></i>{" "}
+									{props.organization.phone}
+								</p>
 							</div>
+
+							<Link
+								className="col-12 px-0 border border-light py-2 footer bg-white btn btn-outline-lg-light rounded-0 text-muted text-center"
+								to={"/organizations/" + props.organization.id + "/edit"}>
+								Editar datos de la organización
+							</Link>
 						</div>
 					</div>
-					<div className="col-sm-12 col-md-8 col-lg-6 my-2">
+					<div className="col-sm-12 col-md-6 col-lg-6 my-2">
 						<ProjectsOrganization organization={props.organization} />
 					</div>
 				</div>
 			) : (
-				<div className="row">
+				<div className="row my-5">
 					<div className="col-12 col-md-8  mx-auto my-2">
-						<div className="card border-0 shadow">
-							<h6 className="card-header bg-white text-center">
-								Añade tu Organización para poder crear proyectos
-							</h6>
-							<div className="card-body text-center py-4">
-								<Link className="bg-green rounded-pill p-3 text-white" to="/register_org">
-									<i className="fas fa-plus-circle fa-2x text-white p-2 px-4 align-middle"></i>
-								</Link>
+						<Link to="/register_org">
+							<div className="card-body rounded-pill p-3 bg-list-org text-center border-0 shadow">
+								<h5 className="text-center ">Añade tu Organización para poder crear proyectos</h5>
 							</div>
-						</div>
+						</Link>
 					</div>
 				</div>
 			)}

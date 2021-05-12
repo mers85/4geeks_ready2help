@@ -9,7 +9,7 @@ const PageTitle = props => {
 			<div className="container">
 				<div className="row">
 					<div className="col-sm-12 col-md-8 col-lg-6 mx-auto text-center ">
-						<div className="py-4 my-4 bg-white-opacity ">
+						<div className="py-4 my-4  rounded-pill p-3 bg-white-opacity ">
 							<h4 className="display-4">{props.pageTitle}</h4>
 							<ul className="d-inline-flex">
 								<li>

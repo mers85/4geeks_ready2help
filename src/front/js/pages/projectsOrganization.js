@@ -53,23 +53,20 @@ export const ProjectsOrganization = props => {
 
 	return (
 		<div>
-			<div className="col-12 mb-2">
-				<div className="card border-0 shadow">
-					<h6 className="card-header bg-white text-center">Crea un proyecto</h6>
-					<div className="card-body text-center">
-						<Link className="bg-green rounded-pill p-3 text-white" to="/create_project">
-							<i className="fas fa-plus-circle fa-2x text-white p-2 px-4 align-middle"></i>
-						</Link>
+			<div className="col-12 mb-4">
+				<Link to="/create_project">
+					<div className="card-body rounded-pill p-3 bg-list-org text-center border-0 shadow">
+						<h5 className="text-center ">Crea un proyecto</h5>
 					</div>
-				</div>
+				</Link>
 			</div>
-			<div className="col-12 mt-2">
+			<div className="col-12 mt-5">
 				<div className="card border-0 shadow">
 					{projects && projects.length > 0 ? (
 						<ul className="list-group">
-							<li className="list-group-item d-flex justify-content-between align-items-center font-weight-bold">
-								Nombre del proyecto
-								<span className="">Acciones</span>
+							<li className="list-group-item border-0 bg-list-org d-flex justify-content-between align-items-center font-weight-bold">
+								<h5>Nombre del proyecto</h5>
+								<h5>Acciones</h5>
 							</li>
 
 							{projects.map(project => {
@@ -79,7 +76,7 @@ export const ProjectsOrganization = props => {
 										className="list-group-item d-flex justify-content-between align-items-center">
 										{truncateString(project.title, 40)}
 										<Link
-											className="btn btn-light rounded-pill p-2 my-2 text-muted rounded"
+											className="btn btn-light rounded-pill py-2 my-2 px-3 text-muted rounded"
 											to={"organizations/" + props.organization.id + "/projects/" + project.id}>
 											editar
 										</Link>
