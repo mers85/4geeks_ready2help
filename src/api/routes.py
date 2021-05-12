@@ -1,6 +1,7 @@
 """
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
+
 import os
 import sys
 from flask import Flask, request, jsonify, make_response, url_for, Blueprint
@@ -8,16 +9,18 @@ from api.models import db, User, Organization, Person, Project, Role, Donation
 from api.utils import generate_sitemap, APIException
 from api.forms import ProjectForm
 
-import stripe 
+#Para pagos con stripe
+import stripe
 
 #Para imprimir errores
 import sys
 
 # library for Simple Mail Transfer Protocol# library for Simple Mail Transfer Protocol
-from email.mime.multipart import MIMEMultipart
-from email.mime.text import MIMEText
 import smtplib
 import email.message
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+from email.header import Header
 
 #import for authentication
 from  werkzeug.security import generate_password_hash, check_password_hash
@@ -342,29 +345,37 @@ def request_reset_pass():
     body = request.get_json()
     user_email = body["email"]
     frontend_URL = os.environ.get('FRONTEND_URL')
-
+    print("Entro a la API", user_email)
     user = User.find_by_email(user_email)
-
+    print("Consigo el user", user, datetime.utcnow())
     if user:
         try:
+            print("entro al try", user.id)
             token = jwt.encode({
             'id': user.id,
             'exp' : datetime.utcnow() + timedelta(minutes = 30)
             }, app.config['SECRET_KEY'])
 
+            print("Token",token)
             short_token = token.decode("utf-8").split(".")[0]
 
+            print("ShortToken",short_token)
             result_upadte = user.update_user(token=short_token)
+            print("result_upadte",result_upadte)
 
             url_reset_email = frontend_URL + "/reset_pass?token=" + short_token
+            
+            print("url_reset_pass", url_reset_email)
 
             url_reset_app = "/reset_pass?token=" + short_token
 
         except:
             print("Unexpected error:", sys.exc_info())
             raise APIException("Something went wrong. Your password could not be changed.", 401)
-
+        
+        print("Preparo el mensaje", url_reset_email)
         message_email=f"Hi {user.email}! As requested, here is your link to reset your password: {url_reset_email}"
+        print("Voy a enviar e-mail", message_email)
         email = send_email(receiver=user.email, subject="Reset Password", message=message_email)
 
         return jsonify({'token' : user.token, 'url_reset':url_reset_app}), 201
@@ -408,14 +419,14 @@ def send_email(sender="ready2helpemail@gmail.com", receiver=None, subject="", me
             msg['Subject'] = f"Ready2Help - {subject}"
             # add in the message body
             msg.add_header('Content-Type', 'text/html')
-            msg.set_payload(message)
+            msg.set_payload(message)            
             #create server
             server = smtplib.SMTP('smtp.gmail.com: 587')
             server.starttls()
             # Login Credentials for sending the mail
             server.login(msg['From'], password)
             # send the message via the server.
-            server.sendmail(msg['From'], msg['To'], msg.as_string())
+            server.sendmail(msg['From'], msg['To'], msg.as_string().encode('utf-8'))
             server.quit()
             print("successfully sent email to: %s" % (msg['To']))
         except:
@@ -568,9 +579,7 @@ def create_donation(current_user, id):
 
         project_donate.update_project(total_donated = project_donate.total_donated + amount)
 
-        # message_donation = f"¡Hola {person_donate.name}! Muchas gracias por tu donación al proyecto {project_donate.title}"
-
-        message_donation=f"Hola {person_donate.name}! Muchas gracias por tu aporte al proyecto {project_donate.title}"
+        message_donation = f"¡Hola {person_donate.name}! Muchas gracias por tu donación al proyecto {project_donate.title}"
 
         send_email(receiver=person_donate.email, subject="Donation Confirmated", message=message_donation)
     except:
