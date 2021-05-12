@@ -25,7 +25,7 @@ export const VolunteerActivities = props => {
 	return (
 		<div>
 			<div className="card border-0 shadow">
-				<h6 className="card-header bg-white text-center">Proyectos en los que participas como voluntario</h6>
+				<h6 className="card-header bg-list-org text-center">Proyectos en los que participas como voluntario</h6>
 				<div className="card-body">
 					<ul className="list-group">
 						{props.projects.map(project => {
@@ -34,7 +34,9 @@ export const VolunteerActivities = props => {
 									key={project.id}
 									className="list-group-item d-flex justify-content-between align-items-center">
 									{truncateString(project.title, 45)}
-									<Link className="badge badge-pill cBtnTheme p-2" to={"/projects/" + project.id}>
+									<Link
+										className="badge badge-pill bg-light px-3 py-2"
+										to={"/projects/" + project.id}>
 										ver detalles
 									</Link>
 								</li>

@@ -150,8 +150,9 @@ const DonateForm = props => {
 								})
 								.then(responseJson => {
 									if (responseOk) {
-										history.push("/projects/" + id);
-										window.location.reload();
+										setTimeout(function() {
+											window.location.reload();
+										}, 2000);
 									}
 								})
 								.catch(error => {
