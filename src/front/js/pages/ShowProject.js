@@ -214,7 +214,11 @@ export const ShowProject = props => {
 											</TabPane>
 										</TabContent>
 									) : (
-										<Spinner />
+										<div className="row ">
+											<div className="col-12 d-flex justify-content-center">
+												<Spinner />
+											</div>
+										</div>
 									)}
 								</div>
 							</div>
