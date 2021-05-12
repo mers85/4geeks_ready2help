@@ -21,6 +21,7 @@ const DonateForm = props => {
 	const history = useHistory();
 	const [disableButton, setDisableButton] = useState(false);
 	const [notificacionPayment, setNotificacionPayment] = useState(false);
+	const [detailsProject, setDetailsProject] = useState({});
 	const [value, setValue] = useState({
 		amount: "",
 		person: ""
@@ -37,7 +38,33 @@ const DonateForm = props => {
 		})
 	);
 
+	function getProjectDetails(id) {
+		let responseOk = false;
+		fetch(process.env.BACKEND_URL + "/api/v1/projects/" + id, {
+			method: "GET",
+			headers: {
+				"Content-Type": "application/json"
+			}
+		})
+			.then(response => {
+				responseOk = response.ok;
+				return response.json();
+			})
+			.then(responseJson => {
+				if (responseOk) {
+					setDetailsProject(responseJson.project);
+				} else {
+					toast.error(responseJson.message);
+				}
+			})
+			.catch(error => {
+				toast.error(error.message);
+			});
+	}
+
 	useEffect(() => {
+		getProjectDetails(id);
+
 		let userDetailsId = actions.getUserDetails().id;
 
 		let responsePersonOk = false;
@@ -174,6 +201,10 @@ const DonateForm = props => {
 					<div className="col-lg-8 offset-lg-2">
 						<div className="wpo-donate-header">
 							<h2>Haz una donación</h2>
+							<p className="text-center">
+								Estás realizando una donación para{" "}
+								<strong>{detailsProject ? detailsProject.title : "No hay titulo"}</strong>
+							</p>
 						</div>
 						<form onSubmit={SubmitHandler}>
 							<div className="wpo-donations-amount">
