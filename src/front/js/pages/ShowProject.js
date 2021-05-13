@@ -35,8 +35,6 @@ export const ShowProject = props => {
 		if (project && project.volunteers) {
 			let volunteers = project.volunteers;
 			for (let i = 0; i < volunteers.length; i++) {
-				console.log("user flux proyecto:", actions.getUserId());
-				console.log("volunteer id:", volunteers[i]["id"]);
 				if (volunteers[i]["id"] == actions.getUserId()) {
 					setIsVolunteer(true);
 					break;
@@ -95,6 +93,7 @@ export const ShowProject = props => {
 												className={classnames({ active: activeTab === "1" })}
 												onClick={() => {
 													toggle("1");
+													window.location.reload();
 												}}>
 												Descripción
 											</NavLink>

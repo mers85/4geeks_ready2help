@@ -47,8 +47,6 @@ export const Volunteer = props => {
 		<div className="volunteer">
 			<div className="row">
 				<div className="col-12 bg-white">
-					{console.log("volunteer:", props.isVolunteer)}
-					{console.log("became:", becameVolunteer)}
 					{props.isVolunteer || becameVolunteer ? (
 						<div className="card">
 							<div className="card-body">
