@@ -107,7 +107,11 @@ export const LogIn = props => {
 		<Grid className="loginWrapper">
 			<Grid className="loginForm">
 				<h2>Log In</h2>
-				<p>Inicia sesión en tu cuenta</p>
+				<p>
+					Inicia sesión en tu cuenta
+					<br />
+					Impulsa, Únete, Contribuye económicamente en nuestros proyectos
+				</p>
 				<form onSubmit={submitForm}>
 					<Grid container spacing={3}>
 						<Grid item xs={12}>

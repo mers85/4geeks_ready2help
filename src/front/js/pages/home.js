@@ -56,7 +56,7 @@ export const Home = () => {
 		<div className="home">
 			<div className="jumbotron bg-img bg-white text-center border border-light">
 				<div className="row">
-					<div className="col-sm-8 col-md-6 col-lg-4 mx-auto bg-white-opacity p-3">
+					<div className="col-sm-8 col-md-6 col-lg-4 mx-auto bg-white-opacity p-3 text-dark">
 						<h2 className="">Red de proyectos sociales</h2>
 						<div className="row ">
 							<div className="col-sm-12 col-md-6 mx-auto">
@@ -78,7 +78,7 @@ export const Home = () => {
 						</div>
 					</div>
 					<div className="row  d-flex justify-content-between">
-						<div className="col-sm-12 col-md-12 col-lg-4 mb-2">
+						<div className="col-sm-12 col-md-12 col-lg-4 mb-5">
 							<div className="card border-0 shadow">
 								<div className="mt-4 avatar mx-auto image img-thumbnail rounded-circle text-center">
 									<i className="text-muted fas fa-hands-helping p-3 fa-3x"></i>
@@ -99,7 +99,7 @@ export const Home = () => {
 								</div>
 							</div>
 						</div>
-						<div className="col-sm-12 col-md-12 col-lg-4 mb-2">
+						<div className="col-sm-12 col-md-12 col-lg-4 mb-5">
 							<div className="card border-0 shadow">
 								<div className="mt-4 avatar mx-auto image img-thumbnail rounded-circle text-center">
 									<i className="fas fa-hand-holding-usd text-muted p-3 fa-3x"></i>
@@ -121,7 +121,7 @@ export const Home = () => {
 								</div>
 							</div>
 						</div>
-						<div className="col-sm-12 col-md-12 col-lg-4 mb-2">
+						<div className="col-sm-12 col-md-12 col-lg-4 mb-5">
 							<div className="card border-0 shadow">
 								<div className="mt-4 avatar mx-auto image img-thumbnail rounded-circle text-center">
 									<i className="fas fa-hands text-muted p-3 fa-3x"></i>

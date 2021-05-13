@@ -93,7 +93,7 @@ export const SignUp = props => {
 		<Grid className="loginWrapper">
 			<Grid className="loginForm">
 				<h2>Signup</h2>
-				<p>Signup your account</p>
+				<p>Impulsa, Únete, Contribuye económicamente en nuestros proyectos</p>
 				<form onSubmit={submitForm}>
 					<Grid container spacing={3}>
 						<Grid item xs={12}>

@@ -15,7 +15,7 @@ export const Volunteer = props => {
 	const history = useHistory();
 	const { actions } = useContext(Context);
 	let { id } = useParams();
-	const [becameVolunteer, setBecameVolunteer] = useState("");
+	const [becameVolunteer, setBecameVolunteer] = useState(false);
 
 	function addVolunteer() {
 		let responseOk = false;
@@ -33,8 +33,7 @@ export const Volunteer = props => {
 			.then(responseJson => {
 				if (responseOk) {
 					setBecameVolunteer(true);
-					toast.success("¡Gracias por unirte!");
-					window.location.reload();
+					history.push("/projects/" + id);
 				} else {
 					toast.error(responseJson.message);
 				}
@@ -51,7 +50,7 @@ export const Volunteer = props => {
 					{props.isVolunteer || becameVolunteer ? (
 						<div className="card">
 							<div className="card-body">
-								<h3 className="card-title">¡ Gracias por formar parte!</h3>
+								<h3 className="card-title">¡ Gracias por formar parte de nuestros voluntarios!</h3>
 								<small className="card-title">¡ Gracias por ser Ubuntu!</small>
 								<blockquote className="blockquote p-2 m-2">
 									<p className="mb-0 mx-2 text-justify">
