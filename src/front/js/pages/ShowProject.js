@@ -37,6 +37,7 @@ export const ShowProject = props => {
 			for (let i = 0; i < volunteers.length; i++) {
 				if (volunteers[i]["id"] == actions.getUserId()) {
 					setIsVolunteer(true);
+					break;
 				} else {
 					setIsVolunteer(false);
 				}
@@ -78,11 +79,12 @@ export const ShowProject = props => {
 							<div className="wpo-case-details-wrap">
 								<div className="wpo-case-details-img">
 									<img
-										className="img-fluid img-thumbnail"
+										className="img-fluid img-thumbnail mb-2"
 										src={imgPrincipal}
 										style={{ width: "100" }}
 										alt=""
 									/>
+									<h2 className="text-justify mb-2">{project.title}</h2>
 								</div>
 								<div className="wpo-case-details-tab">
 									<Nav tabs>
@@ -91,6 +93,7 @@ export const ShowProject = props => {
 												className={classnames({ active: activeTab === "1" })}
 												onClick={() => {
 													toggle("1");
+													window.location.reload();
 												}}>
 												Descripción
 											</NavLink>
@@ -132,7 +135,9 @@ export const ShowProject = props => {
 													<div className="col-12">
 														<div className="wpo-case-content">
 															<div className="wpo-case-text-top">
-																<h2>{project.title}</h2>
+																<h4 className="">{project.subtitle}</h4>
+															</div>
+															<div className="wpo-case-text-top">
 																<ProgressBar
 																	total_donated={project.total_donated}
 																	money_needed={project.money_needed}
@@ -174,7 +179,7 @@ export const ShowProject = props => {
 																	""
 																)}
 																<div className="case-bb-text py-3 mt-3 text-justify">
-																	<h5>{project.subtitle}</h5>
+																	<h5>Nuestra causa</h5>
 																	<p>{project.description}</p>
 																</div>
 															</div>
@@ -187,7 +192,7 @@ export const ShowProject = props => {
 													{actions.isLogIn() ? (
 														<WizardCreateDonation />
 													) : (
-														<button className="btn my-2 btn-rounded cBtnTheme btn-lg btn-floating">
+														<button className="btn my-2 rounded-pill p-3 cBtnTheme btn-lg btn-floating shadow-sm">
 															<Link
 																className="text-white"
 																to={"/login?successpath=/projects/" + project.id}>
@@ -202,7 +207,7 @@ export const ShowProject = props => {
 													{actions.isLogIn() ? (
 														<Volunteer project={project} isVolunteer={isVolunteer} />
 													) : (
-														<button className="btn my-2 btn-rounded cBtnTheme btn-lg btn-floating">
+														<button className="btn my-2 rounded-pill p-3 cBtnTheme btn-lg btn-floating shadow">
 															<Link
 																className="text-white"
 																to={"/login?successpath=/projects/" + project.id}>

@@ -104,6 +104,12 @@ const getState = ({ getStore, getActions, setStore }) => {
 				} else {
 					return false;
 				}
+			},
+			getProjectDetails: idProject => {
+				let projectDetails = getStore().projects;
+				if (projectDetails) {
+					return projectDetails[idProject];
+				}
 			}
 		}
 	};
