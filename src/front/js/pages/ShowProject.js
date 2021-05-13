@@ -35,8 +35,11 @@ export const ShowProject = props => {
 		if (project && project.volunteers) {
 			let volunteers = project.volunteers;
 			for (let i = 0; i < volunteers.length; i++) {
+				console.log("user flux proyecto:", actions.getUserId());
+				console.log("volunteer id:", volunteers[i]["id"]);
 				if (volunteers[i]["id"] == actions.getUserId()) {
 					setIsVolunteer(true);
+					break;
 				} else {
 					setIsVolunteer(false);
 				}
@@ -142,7 +145,6 @@ export const ShowProject = props => {
 																/>
 																{project.people_needed > 0 ? (
 																	<div className="volunteer row d-flex justify-content-between py-4">
-																		{console.log("es volunteer:", isVolunteer)}
 																		{isVolunteer ? (
 																			<div className="col-sm-12 col-md my-3">
 																				<div className="card py-4">
