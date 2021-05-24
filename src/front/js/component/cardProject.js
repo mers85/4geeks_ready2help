@@ -25,7 +25,7 @@ export const CardProject = props => {
 	}
 
 	return (
-		<div className="col-xs-12 col-sm-12 col-md-6 col-lg-5 col-xl-4 mt-3">
+		<div className="col-xs-12 col-sm-12 col-md-6 col-lg-5 col-xl-4 mt-3 mb-4">
 			<div className="card projects border-0 shadow">
 				<img className="img-fluid" src={image_projects} alt="" />
 				<div className="card-body ">

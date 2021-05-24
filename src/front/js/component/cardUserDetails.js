@@ -13,23 +13,24 @@ export const CardUserDetails = props => {
 			<img src={props.image} className="avatar mx-auto image img-fluid img-thumbnail rounded-circle" alt="..." />
 
 			{props.userDetails ? (
-				<div className="card-body">
+				<div className="card-body  text-center">
 					<h6 className="card-title text-center">Datos de perfil</h6>
-					<p className="card-text">
+					<small className="card-text">Actualiza tus datos</small>
+					<p className="card-text text-justify">
 						<i className="fas fa-user text-muted fa-1x mr-2"></i>{" "}
 						{props.userDetails.name + " " + props.userDetails.lastname}
 					</p>
-					<p className="card-text">
+					<p className="card-text text-justify">
 						<i className="fas fa-map-marked-alt text-muted fa-1x mr-2"></i> {props.userDetails.address}
 					</p>
-					<p className="card-text">
+					<p className="card-text text-justify">
 						<i className="fas fa-phone-volume text-muted fa-1x mr-2"></i> {props.userDetails.phone}
 					</p>
 				</div>
 			) : (
 				<div className="card-body text-center">
 					<h6 className="card-title text-center">Datos de perfil</h6>
-					<small className="card-text text-justify text-center">Completa tus datos</small>
+					<small className="card-text">Completa tus datos</small>
 					<p className="card-text text-justify py-3">
 						La información de este apartado es necesaria para contactarte en caso de que quieras participar
 						como voluntario y realizar donaciones

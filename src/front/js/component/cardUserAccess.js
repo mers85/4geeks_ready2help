@@ -20,10 +20,13 @@ export const CardUserAccess = props => {
 				<i className="fas fa-user-secret fa-5x text-muted p-3"></i>
 			</div>
 
-			<div className="card-body">
+			<div className="card-body text-center">
 				<h6 className="card-title text-center">Datos de acceso</h6>
-				<p className="card-text text-justify py-1">Desde aquí puedes recuperar tu contraseña Ready2Help</p>
-				<p className="card-text py-1">
+				<small className="card-text">¿Cambiar contraseña?</small>
+				<p className="card-text text-justify pt-2">
+					Desde aquí puedes acceder para cambiar tu contraseña Ready2Help
+				</p>
+				<p className="card-text text-justify pb-2">
 					<i className="fas fa-envelope fa-1x mr-2"></i> {props.userEmail}
 				</p>
 			</div>
@@ -31,7 +34,7 @@ export const CardUserAccess = props => {
 			<Link
 				className="col-12 px-0 border border-light py-2 footer bg-white btn btn-outline-lg-light rounded-0 text-muted text-center"
 				to={props.recuperarPasswordPath}>
-				Modificar contraseña
+				Cambiar contraseña
 			</Link>
 		</div>
 	);
