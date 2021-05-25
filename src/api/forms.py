@@ -1,4 +1,5 @@
 from wtforms import Form, BooleanField, StringField, PasswordField, TextField, FloatField, IntegerField, validators
+#from werkzeug.datastructures import ImmutableMultiDict
 import wtforms_json
 wtforms_json.init()
 
@@ -9,4 +10,5 @@ class ProjectForm(Form):
     money_needed = FloatField('Money needed')
     people_needed = IntegerField('People needed')
     status = StringField('Status')
+    categories = JSONFieldList(StringField('Categories'))
 

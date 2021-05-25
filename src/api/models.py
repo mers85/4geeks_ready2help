@@ -301,6 +301,10 @@ class Project(db.Model):
 
     volunteers = db.relationship("User", secondary="project_volunteers", back_populates="volunteering_projects")
 
+    categories = db.relationship("Category", secondary="project_categories", back_populates="projects")
+
+    
+
     def __repr__(self):
         return '<Project %r>' % self.title
 
@@ -316,7 +320,8 @@ class Project(db.Model):
             "status": self.status.value,
             "total_donated": self.total_donated,
             "volunteers": [volunteer.serialize_user() for volunteer in self.volunteers],
-            "volunteers_stats": self.serialize_stats_volunteers()
+            "volunteers_stats": self.serialize_stats_volunteers(),
+            "categories": [category.serialize() for category in self.categories],
         }
 
 
@@ -380,15 +385,16 @@ class Project(db.Model):
         return cls.query.order_by(cls.id).all()
         
     @classmethod
-    def create(cls, title, subtitle, description, money_needed, people_needed, status, organization_id):
+    def create(cls, title, subtitle, description, money_needed, people_needed, status, categories, organization_id):
         project = cls()
-
+        print(type(categories) )
         project.title = title 
         project.subtitle = subtitle
         project.description = description
         project.money_needed = money_needed
         project.people_needed = people_needed
         project.status = status
+        project.categories = categories.append(categories)
         project.organization_id = organization_id
         project.total_donated = 0
 
@@ -443,5 +449,48 @@ class Donation(db.Model):
 #ASOCIACIONES 
 project_volunteers = db.Table('project_volunteers', db.Model.metadata,
     db.Column('user_id', db.Integer, db.ForeignKey('users.id')),
+    db.Column('project_id', db.Integer, db.ForeignKey('projects.id'))
+)
+
+#CATEGORIA
+class Category(db.Model):
+    __tablename__ = "categories"
+    id = db.Column(db.Integer(), primary_key=True)
+    name = db.Column(db.String(100), unique=True)
+
+    projects = db.relationship("Project", secondary="project_categories", back_populates="categories" )
+
+    def __init__(self, name, id=None):
+        self.name = name
+
+    def serialize(self):
+        return {
+            "id": self.id,
+            "name": self.name
+        }
+
+    def __repr__(self):
+        return '<Category %r>' % self.name
+
+    @classmethod
+    def create_category(cls, name):
+        category = cls(name)
+
+        db.session.add(category)
+        db.session.commit()
+
+        return category
+
+    @classmethod
+    def get_all(cls):
+        return cls.query.all()
+
+    @classmethod
+    def find_by_name(cls, name):
+        return cls.query.filter_by(name= name).first()
+
+#ASOCIACIONES 
+project_categories = db.Table('project_categories', db.Model.metadata,
+    db.Column('category_id', db.Integer, db.ForeignKey('categories.id')),
     db.Column('project_id', db.Integer, db.ForeignKey('projects.id'))
 )

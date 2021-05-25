@@ -449,7 +449,7 @@ def create_project(current_user, organization_id):
     if not form.validate():
         return jsonify(errors=form.errors), 400
 
-
+    print(form.categories)
     try:
         project = Project.create(
             form.title.data,
@@ -458,6 +458,7 @@ def create_project(current_user, organization_id):
             form.money_needed.data,
             form.people_needed.data,
             form.status.data,
+            form.categories.data,
             organization_id
         )
     except:

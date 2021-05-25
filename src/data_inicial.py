@@ -46,6 +46,33 @@ data = {
             "role_id": 3
         }
     ],
+
+    "Category": [
+        {
+            "id": 1,
+            "name": "Salud"
+        },
+        {
+            "id": 2,
+            "name": "Educación"
+        },
+        {
+            "id": 3,
+            "name": "Animales"
+        },
+        {
+            "id": 4,
+            "name": "Igualdad de género"
+        },
+        {
+            "id": 5,
+            "name": "Tecnología"
+        },
+        {
+            "id": 6,
+            "name": "Alimentación"
+        }
+    ],
     
     "Project": [
         {
