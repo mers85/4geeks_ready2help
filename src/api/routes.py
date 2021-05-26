@@ -5,7 +5,7 @@ This module takes care of starting the API Server, Loading the DB and Adding the
 import os
 import sys
 from flask import Flask, request, jsonify, make_response, url_for, Blueprint
-from api.models import db, User, Organization, Person, Project, Role, Donation
+from api.models import db, User, Organization, Person, Project, Role, Donation, Category
 from api.utils import generate_sitemap, APIException
 from api.forms import ProjectForm
 
@@ -446,10 +446,11 @@ def create_project(current_user, organization_id):
         raise APIException("User not allowed to administrate this organization", 401)
 
     form = ProjectForm.from_json(request.get_json())
+
     if not form.validate():
         return jsonify(errors=form.errors), 400
 
-    print(form.categories)
+    
     try:
         project = Project.create(
             form.title.data,
@@ -458,12 +459,12 @@ def create_project(current_user, organization_id):
             form.money_needed.data,
             form.people_needed.data,
             form.status.data,
-            form.categories.data,
             organization_id
         )
+        project.add_categories(form.categories.data)
     except:
         print("Unexpected error:", sys.exc_info())
-        raise APIException("Something went wrong during project creation", 401)
+        #craise APIException("Something went wrong during project creation", 401)
 
     return jsonify({"message" : "Project created", "project" : project.serialize()}), 201
 
@@ -700,3 +701,13 @@ def contact():
         raise APIException("Please, Try again to send your comments", 401)
 
     return jsonify({"message" : "Thanks for your comments! We try to answer you soon."}), 201
+
+@api.route('/categories', methods =['GET'])
+def get_all_categories():
+    categories = Category.get_all()
+
+    all_categories = []
+    for category in categories:
+        all_categories.append(category.serialize())
+
+    return jsonify({'categories': all_categories}), 200

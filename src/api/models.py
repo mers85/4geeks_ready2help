@@ -385,16 +385,15 @@ class Project(db.Model):
         return cls.query.order_by(cls.id).all()
         
     @classmethod
-    def create(cls, title, subtitle, description, money_needed, people_needed, status, categories, organization_id):
+    def create(cls, title, subtitle, description, money_needed, people_needed, status, organization_id):
         project = cls()
-        print(type(categories) )
+        
         project.title = title 
         project.subtitle = subtitle
         project.description = description
         project.money_needed = money_needed
         project.people_needed = people_needed
         project.status = status
-        project.categories = categories.append(categories)
         project.organization_id = organization_id
         project.total_donated = 0
 
@@ -402,6 +401,15 @@ class Project(db.Model):
         db.session.commit()
 
         return project
+
+    def add_categories(self, category_ids):
+        for category_id in category_ids:
+            category = Category.find_by_id(category_id)
+            if category:
+                self.categories.append(category)
+
+        db.session.commit()
+
 
 #DONACIONES
 class Donation(db.Model):
@@ -480,6 +488,10 @@ class Category(db.Model):
         db.session.commit()
 
         return category
+
+    @classmethod
+    def find_by_id(cls, id):
+        return cls.query.get(id)
 
     @classmethod
     def get_all(cls):

@@ -1,7 +1,11 @@
-from wtforms import Form, BooleanField, StringField, PasswordField, TextField, FloatField, IntegerField, validators
+from wtforms import Form, BooleanField, StringField, PasswordField, TextField, FloatField, IntegerField, validators, SelectMultipleField
 #from werkzeug.datastructures import ImmutableMultiDict
 import wtforms_json
 wtforms_json.init()
+
+class NoValidationSelectMultipleField(SelectMultipleField):
+    def pre_validate(self, form):
+        """per_validation is disabled"""
 
 class ProjectForm(Form):
     title = StringField('Title', [validators.DataRequired()])
@@ -10,5 +14,4 @@ class ProjectForm(Form):
     money_needed = FloatField('Money needed')
     people_needed = IntegerField('People needed')
     status = StringField('Status')
-    categories = JSONFieldList(StringField('Categories'))
-
+    categories = NoValidationSelectMultipleField('Categories', coerce=int, choices=[], validate_choice=False)

@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { Context } from "../store/appContext";
 import { Link, useHistory, useParams } from "react-router-dom";
 
@@ -17,6 +17,7 @@ export const CreateProject = props => {
 	const history = useHistory();
 	let { id } = useParams();
 	const { actions } = useContext(Context);
+	const [myCategories, setMyCategories] = useState([]);
 
 	const [value, setValue] = useState({
 		title: "",
@@ -25,6 +26,7 @@ export const CreateProject = props => {
 		money_needed: "",
 		people_needed: "",
 		status: "",
+		categories: [],
 		organization_id: ""
 	});
 
@@ -38,6 +40,29 @@ export const CreateProject = props => {
 			className: "errorMessage"
 		})
 	);
+
+	useEffect(() => {
+		let responseOk = false;
+		fetch(process.env.BACKEND_URL + "/api/v1/categories", {
+			method: "GET",
+			headers: {
+				"Content-Type": "application/json"
+			}
+		})
+			.then(response => {
+				responseOk = response.ok;
+				return response.json();
+			})
+			.then(responseJson => {
+				if (responseOk) {
+					console.log("response categories", responseJson.categories);
+					setMyCategories([...myCategories, ...responseJson.categories]);
+				}
+			})
+			.catch(error => {
+				toast.error(error.message);
+			});
+	}, []);
 
 	const submitForm = e => {
 		e.preventDefault();
@@ -137,7 +162,7 @@ export const CreateProject = props => {
 									</div>
 								</div>
 								<div className="form-row ">
-									<div className="form-group col-sm-12 col-md-6 textOnInput pb-3">
+									<div className="form-group col-sm-12 col-md-4 textOnInput pb-3">
 										<label className="textLabel">Dinero</label>
 										<input
 											type="text"
@@ -149,7 +174,7 @@ export const CreateProject = props => {
 											onChange={e => changeHandler(e)}
 										/>
 									</div>
-									<div className="form-group col-sm-12 col-md-6 textOnInput pb-3">
+									<div className="form-group col-sm-12 col-md-4 textOnInput pb-3">
 										<label className="textLabel">Voluntarios</label>
 										<input
 											type="text"
@@ -160,6 +185,21 @@ export const CreateProject = props => {
 											onBlur={e => changeHandler(e)}
 											onChange={e => changeHandler(e)}
 										/>
+									</div>
+									<div className="form-group col-sm-12 col-md-4 textOnInput pb-3">
+										<label className="textLabel">Selecciona tu compromiso social</label>
+										<select
+											className="form-control"
+											placeholder="Categorias"
+											name="categories"
+											onBlur={e => changeHandler(e)}
+											onChange={e => changeHandler(e)}>
+											{myCategories.map(category => (
+												<option key={category.id} value={category.id}>
+													{category.name}
+												</option>
+											))}
+										</select>
 									</div>
 								</div>
 								<div className="form-row pb-2">
