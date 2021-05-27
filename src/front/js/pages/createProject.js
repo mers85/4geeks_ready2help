@@ -7,6 +7,7 @@ import { toast } from "react-toastify";
 import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
 import TextareaAutosize from "@material-ui/core/TextareaAutosize";
+import Select from "react-select";
 import Button from "@material-ui/core/Button";
 import PropTypes from "prop-types";
 
@@ -34,6 +35,15 @@ export const CreateProject = props => {
 		setValue({ ...value, [e.target.name]: e.target.value });
 		validator.showMessages();
 	};
+	const changeHandlerSelect = e => {
+		let selectCategory = [];
+		let allCategories = e;
+
+		for (let i = 0; i < allCategories.length; i++) {
+			selectCategory.push(allCategories[i].value);
+		}
+		setValue({ ...value, categories: [...value.categories, ...selectCategory] });
+	};
 
 	const [validator] = React.useState(
 		new SimpleReactValidator({
@@ -55,8 +65,12 @@ export const CreateProject = props => {
 			})
 			.then(responseJson => {
 				if (responseOk) {
-					console.log("response categories", responseJson.categories);
-					setMyCategories([...myCategories, ...responseJson.categories]);
+					let allCategories = [];
+					for (let i = 0; i < responseJson.categories.length; i++) {
+						let result = { label: responseJson.categories[i].name, value: responseJson.categories[i].id };
+						allCategories.push(result);
+					}
+					setMyCategories([...myCategories, ...allCategories]);
 				}
 			})
 			.catch(error => {
@@ -74,6 +88,7 @@ export const CreateProject = props => {
 				money_needed: "",
 				people_needed: "",
 				status: "",
+				categories: [],
 				organization_id: ""
 			});
 			validator.hideMessages();
@@ -94,6 +109,7 @@ export const CreateProject = props => {
 						money_needed: parseFloat(value.money_needed),
 						people_needed: parseInt(value.people_needed),
 						status: value.status,
+						categories: value.categories,
 						organization_id: id ? id : props.wizardId
 					})
 				})
@@ -147,6 +163,24 @@ export const CreateProject = props => {
 										{validator.message("title", value.title, "required:title")}
 									</div>
 								</div>
+								<div className="form-group col-sm-12 col-md-12 py-3 px-0">
+									<div className="textOnInput px-0">
+										<label className="textLabel">
+											Elige las categorias relacionadas con tu proyecto..
+										</label>
+
+										<Select
+											defaultValue={value.categories}
+											isMulti
+											name="categories"
+											options={myCategories}
+											onBlur={e => changeHandlerSelect(e)}
+											onChange={e => changeHandlerSelect(e)}
+											className="basic-multi-select"
+											classNamePrefix="select"
+										/>
+									</div>
+								</div>
 								<div className="form-row pb-3">
 									<div className="form-group col-12 textOnInput">
 										<label className="textLabel">Subtítulo</label>
@@ -162,7 +196,7 @@ export const CreateProject = props => {
 									</div>
 								</div>
 								<div className="form-row ">
-									<div className="form-group col-sm-12 col-md-4 textOnInput pb-3">
+									<div className="form-group col-sm-12 col-md-6 textOnInput pb-3">
 										<label className="textLabel">Dinero</label>
 										<input
 											type="text"
@@ -174,7 +208,7 @@ export const CreateProject = props => {
 											onChange={e => changeHandler(e)}
 										/>
 									</div>
-									<div className="form-group col-sm-12 col-md-4 textOnInput pb-3">
+									<div className="form-group col-sm-12 col-md-6 textOnInput pb-3">
 										<label className="textLabel">Voluntarios</label>
 										<input
 											type="text"
@@ -186,7 +220,7 @@ export const CreateProject = props => {
 											onChange={e => changeHandler(e)}
 										/>
 									</div>
-									<div className="form-group col-sm-12 col-md-4 textOnInput pb-3">
+									{/* <div className="form-group col-sm-12 col-md-4 textOnInput pb-3">
 										<label className="textLabel">Selecciona tu compromiso social</label>
 										<select
 											className="form-control"
@@ -200,7 +234,7 @@ export const CreateProject = props => {
 												</option>
 											))}
 										</select>
-									</div>
+									</div> */}
 								</div>
 								<div className="form-row pb-2">
 									<div className="form-group col-12 textOnInput">
