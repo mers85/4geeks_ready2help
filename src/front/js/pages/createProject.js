@@ -164,9 +164,9 @@ export const CreateProject = props => {
 									</div>
 								</div>
 								<div className="form-group col-sm-12 col-md-12 py-3 px-0">
-									<div className="textOnInput px-0">
-										<label className="textLabel">
-											Elige las categorias relacionadas con tu proyecto..
+									<div className="px-0 textSelectonInput">
+										<label className="select-label py-1 ">
+											Elige las categorias relacionadas con tu proyecto...
 										</label>
 
 										<Select
@@ -176,7 +176,7 @@ export const CreateProject = props => {
 											options={myCategories}
 											onBlur={e => changeHandlerSelect(e)}
 											onChange={e => changeHandlerSelect(e)}
-											className="basic-multi-select"
+											className="ZIndex2 basic-multi-select"
 											classNamePrefix="select"
 										/>
 									</div>
