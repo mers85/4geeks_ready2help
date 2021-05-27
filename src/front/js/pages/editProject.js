@@ -4,6 +4,7 @@ import { Link, useHistory, useParams } from "react-router-dom";
 
 import SimpleReactValidator from "simple-react-validator";
 import { toast } from "react-toastify";
+import Select from "react-select";
 import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
 import TextareaAutosize from "@material-ui/core/TextareaAutosize";
@@ -19,9 +20,21 @@ export const EditProject = props => {
 	const { actions } = useContext(Context);
 
 	const [value, setValue] = useState({});
+	const [categoriesList, setCategoriesList] = useState([]);
+	const [selectedCategories, setSelectedCategories] = useState([]);
 
 	const changeHandler = e => {
 		setValue({ ...value, [e.target.name]: e.target.value });
+	};
+
+	const changeHandlerSelect = e => {
+		let selectCategory = [];
+		let allCategories = e;
+
+		for (let i = 0; i < allCategories.length; i++) {
+			selectCategory.push(allCategories[i].value);
+		}
+		setValue({ ...value, categories: [...value.categories, ...selectCategory] });
 	};
 
 	useEffect(() => {
@@ -38,10 +51,17 @@ export const EditProject = props => {
 				return response.json();
 			})
 			.then(responseJson => {
-				console.log("project show:", responseJson.project);
 				if (responseOk) {
-					console.log(responseJson.person);
 					setValue({ ...value, ...responseJson.project });
+					let categoriesSelected = [];
+					for (let i = 0; i < responseJson.project.categories.length; i++) {
+						let result = {
+							label: responseJson.project.categories[i].name,
+							value: responseJson.project.categories[i].id
+						};
+						categoriesSelected.push(result);
+					}
+					setSelectedCategories([...selectedCategories, ...categoriesSelected]);
 				} else {
 					toast.error(responseJson.message);
 				}
@@ -49,7 +69,36 @@ export const EditProject = props => {
 			.catch(error => {
 				toast.error(error.message);
 			});
+		updateAllCategories();
 	}, []);
+
+	function updateAllCategories() {
+		let responseOk = false;
+		fetch(process.env.BACKEND_URL + "/api/v1/categories", {
+			method: "GET",
+			headers: {
+				"Content-Type": "application/json"
+			}
+		})
+			.then(response => {
+				responseOk = response.ok;
+				return response.json();
+			})
+			.then(responseJson => {
+				if (responseOk) {
+					let allCategories = [];
+					for (let i = 0; i < responseJson.categories.length; i++) {
+						let result = { label: responseJson.categories[i].name, value: responseJson.categories[i].id };
+						allCategories.push(result);
+					}
+
+					setCategoriesList([...categoriesList, ...allCategories]);
+				}
+			})
+			.catch(error => {
+				toast.error(error.message);
+			});
+	}
 
 	const submitForm = e => {
 		e.preventDefault();
@@ -67,6 +116,7 @@ export const EditProject = props => {
 				description: value.description,
 				money_needed: parseFloat(value.money_needed),
 				people_needed: parseInt(value.people_needed),
+				categories: value.categories,
 				status: value.status
 			})
 		})
@@ -108,6 +158,24 @@ export const EditProject = props => {
 											defaultValue={value.title}
 											onBlur={e => changeHandler(e)}
 											onChange={e => changeHandler(e)}
+										/>
+									</div>
+								</div>
+								<div className="form-group col-sm-12 col-md-12 py-3 px-0">
+									<div className="px-0 textSelectonInput">
+										<label className="select-label py-1 ">
+											Elige las categorias relacionadas con tu proyecto...
+										</label>
+										{console.log("lo que llega de categorias:")}
+										<Select
+											defaultValue={selectedCategories}
+											isMulti
+											name="categories"
+											options={categoriesList}
+											onBlur={e => changeHandlerSelect(e)}
+											onChange={e => changeHandlerSelect(e)}
+											className="ZIndex2 basic-multi-select"
+											classNamePrefix="select"
 										/>
 									</div>
 								</div>

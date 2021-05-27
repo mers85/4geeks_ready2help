@@ -220,21 +220,6 @@ export const CreateProject = props => {
 											onChange={e => changeHandler(e)}
 										/>
 									</div>
-									{/* <div className="form-group col-sm-12 col-md-4 textOnInput pb-3">
-										<label className="textLabel">Selecciona tu compromiso social</label>
-										<select
-											className="form-control"
-											placeholder="Categorias"
-											name="categories"
-											onBlur={e => changeHandler(e)}
-											onChange={e => changeHandler(e)}>
-											{myCategories.map(category => (
-												<option key={category.id} value={category.id}>
-													{category.name}
-												</option>
-											))}
-										</select>
-									</div> */}
 								</div>
 								<div className="form-row pb-2">
 									<div className="form-group col-12 textOnInput">

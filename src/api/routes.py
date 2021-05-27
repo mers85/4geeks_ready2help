@@ -489,7 +489,7 @@ def get_all_projects_organization(current_user, organization_id):
 
 @api.route('/organizations/<int:organization_id>/projects/<int:project_id>', methods =['PUT'])
 @authentication_required
-def edit_organizatio_project(current_user, organization_id, project_id):
+def edit_organization_project(current_user, organization_id, project_id):
     #import pdb; pdb.set_trace()
     organization = Organization.find_by_id(organization_id)
     organization_user_ids = [user.id for user in organization.users]
@@ -526,14 +526,21 @@ def edit_organizatio_project(current_user, organization_id, project_id):
     else:
         status = None
 
+    if "categories" in request_json:
+        categories = request_json["categories"]
+    else:
+        categories = None
+
     if project:
         try: 
             project.update_project(title=title, subtitle=subtitle,
                                      money_needed=money_needed, people_needed=people_needed,
                                       status=None)
+            import pdb; pdb.set_trace()
+            project.add_categories(categories)
         except:
             print("Unexpected error:", sys.exc_info())
-            raise APIException("Ha ocurrido un error, no se ha editado el proyecto", 401)
+            #raise APIException("Ha ocurrido un error, no se ha editado el proyecto", 401)
         
         return jsonify({"message" : "Proyecto editado correctamente", "project": project.serialize()}), 200
 

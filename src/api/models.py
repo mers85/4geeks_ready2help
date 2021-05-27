@@ -331,7 +331,7 @@ class Project(db.Model):
             "title": self.title,
         }
 
-    def update_project(self, title=None, subtitle=None, money_needed=None, people_needed=None, status=None, organization_id=None, total_donated=None ):
+    def update_project(self, title=None, subtitle=None, money_needed=None, people_needed=None, status=None, organization_id=None, total_donated=None):
         self.title = title if title is not None else self.title
         self.subtitle = subtitle if subtitle is not None else self.subtitle
         self.money_needed = money_needed if money_needed is not None else self.money_needed
