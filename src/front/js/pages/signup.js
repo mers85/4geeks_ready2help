@@ -155,7 +155,10 @@ export const SignUp = props => {
 							</Grid>
 
 							<p className="noteHelp">
-								Already have an account? <Link to="/login">Return to Login In</Link>
+								Ya soy usuario Ready2help{" "}
+								<Link to="/login">
+									<i className="fas fa-hand-point-right fa-1x"></i> Login In
+								</Link>
 							</p>
 							<p className="noteHelp">
 								<Link to="/">ir a la página principal</Link>

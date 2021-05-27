@@ -1,8 +1,9 @@
 .home {
   .bg-img {
-      opacity: 0.6;
+    //opacity: 0.6;
     background: url('../img/red_social.png') no-repeat center top / cover;
-    z-index: 1;
+    z-index: -1;
+    height: 400px;
   }
     .scrolling-wrapper-flexbox {
     display: flex;
@@ -16,10 +17,33 @@
         
     }
 
-    .bg-white-opacity {
-        background-color:white;
-        z-index:0;
+    
+
+    .bg-green {
+        color: #ffffff;
+        background-color: #08cc7f;
     }
+
+    .card{
+        transition: .3s transform cubic-bezier(.155,1.105,.295,1.12),.3s box-shadow,.3s -webkit-transform cubic-bezier(.155,1.105,.295,1.12);
+        cursor: pointer;
+    }
+
+    .card:hover{
+        transform: scale(1.05);
+        box-shadow: 0 10px 20px rgba(0,0,0,.12), 0 4px 8px rgba(0,0,0,.06);
+    }
+
+    .zindex4{
+        background-color: rgba(255,255,255,0.8);
+    }
+
+
+    .btn:hover{
+        transform: scale(1.05);
+        box-shadow: 0 10px 20px rgba(0,0,0,.12), 0 4px 8px rgba(0,0,0,.06);
+    }
+
         
     
 }

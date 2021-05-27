@@ -9,6 +9,7 @@ import rigoImageUrl from "../../img/rigo-baby.jpg";
 import image_projects from "../../img/hands_01.jpg";
 
 import "../../styles/home.scss";
+import SliderProjects from "../component/sliderProjects";
 
 export const Home = () => {
 	const [error, setError] = useState("");
@@ -54,10 +55,10 @@ export const Home = () => {
 
 	return (
 		<div className="home">
-			<div className="jumbotron bg-img bg-white text-center border border-light">
+			<div className="jumbotron bg-img text-center border border-light py-5">
 				<div className="row">
-					<div className="col-sm-8 col-md-6 col-lg-4 mx-auto bg-white-opacity p-3 text-dark">
-						<h2 className="">Red de proyectos sociales</h2>
+					<div className="col-sm-10 col-md-8 col-lg-10 mx-auto zindex4 py-5 text-dark zindex2">
+						<h6 className="display-4">Red de proyectos sociales</h6>
 						<div className="row ">
 							<div className="col-sm-12 col-md-6 mx-auto">
 								{
@@ -65,8 +66,10 @@ export const Home = () => {
 								}
 							</div>
 						</div>
-						<hr className="my-2" />
-						<p>Impulsa, Únete, Contribuye económicamente</p>
+
+						<Link to="/signup" className="btn btn-lg bg-green">
+							Impulsa, Únete, Contribuye económicamente
+						</Link>
 					</div>
 				</div>
 			</div>
@@ -79,7 +82,7 @@ export const Home = () => {
 					</div>
 					<div className="row  d-flex justify-content-between">
 						<div className="col-sm-12 col-md-12 col-lg-4 mb-5">
-							<div className="card border-0 shadow">
+							<div className="card border-0">
 								<div className="mt-4 avatar mx-auto image img-thumbnail rounded-circle text-center">
 									<i className="text-muted fas fa-hands-helping p-3 fa-3x"></i>
 								</div>
@@ -100,7 +103,7 @@ export const Home = () => {
 							</div>
 						</div>
 						<div className="col-sm-12 col-md-12 col-lg-4 mb-5">
-							<div className="card border-0 shadow">
+							<div className="card border-0">
 								<div className="mt-4 avatar mx-auto image img-thumbnail rounded-circle text-center">
 									<i className="fas fa-hand-holding-usd text-muted p-3 fa-3x"></i>
 								</div>
@@ -122,7 +125,7 @@ export const Home = () => {
 							</div>
 						</div>
 						<div className="col-sm-12 col-md-12 col-lg-4 mb-5">
-							<div className="card border-0 shadow">
+							<div className="card border-0">
 								<div className="mt-4 avatar mx-auto image img-thumbnail rounded-circle text-center">
 									<i className="fas fa-hands text-muted p-3 fa-3x"></i>
 								</div>
@@ -181,6 +184,23 @@ export const Home = () => {
 						) : (
 							<Spinner />
 						)}
+					</div>
+				</div>
+			</div>
+			<div className="row mt-3">
+				<div className="container-fluid bg-light py-5">
+					<div className="col-12 text-center py-5">
+						<h6 className="py-2 text-muted">¿Listo para darle un impulso a tu proyecto?</h6>
+						<Link to="/create_project" className="btn btn-lg bg-green">
+							Crear proyecto
+						</Link>
+					</div>
+				</div>
+			</div>
+			<div className="row mt-3">
+				<div className="container-fluid bg-light py-5">
+					<div className="col-12 text-center py-5">
+						<SliderProjects />
 					</div>
 				</div>
 			</div>
