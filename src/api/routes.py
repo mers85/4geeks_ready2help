@@ -718,3 +718,15 @@ def get_all_categories():
         all_categories.append(category.serialize())
 
     return jsonify({'categories': all_categories}), 200
+
+
+@api.route('/projects/categorie/<int:id_categorie>', methods =['GET'])
+def get_projects_by_categorie(id_categorie):
+    category = Category.find_by_id(id_categorie)
+    projects = Project.get_by_categorie(category)
+
+    list_projects = []
+    for project in projects:
+        list_projects.append(project.serialize())
+
+    return jsonify(list_projects), 200

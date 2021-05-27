@@ -383,6 +383,18 @@ class Project(db.Model):
     @classmethod
     def get_all(cls):
         return cls.query.order_by(cls.id).all()
+    
+    @classmethod
+    def get_by_categorie(cls, categorie_param):
+        projects = cls.get_all()
+        
+        projects_searched = []
+        for project in projects:
+            for project_category in project.categories:
+                if project_category == categorie_param:
+                    projects_searched.append(project)
+
+        return projects_searched
         
     @classmethod
     def create(cls, title, subtitle, description, money_needed, people_needed, status, organization_id):
