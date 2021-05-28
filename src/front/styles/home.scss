@@ -1,24 +1,12 @@
 .home {
   .bg-img {
-    //opacity: 0.6;
-    background: url('../img/red_social.png') no-repeat center top / cover;
-    z-index: -1;
-    height: 400px;
-  }
-    .scrolling-wrapper-flexbox {
-    display: flex;
-    flex-wrap: nowrap;
-    overflow-x: auto;
-
-    .card {
-        flex: 0 0 auto;
+        //opacity: 0.6;
+        background: url('../img/red_social.png') no-repeat center top / cover;
+        z-index: -1;
+        //height: 400px;
     }
-
-        
-    }
-
+   
     
-
     .bg-green {
         color: #ffffff;
         background-color: #08cc7f;
@@ -43,6 +31,12 @@
         transform: scale(1.05);
         box-shadow: 0 10px 20px rgba(0,0,0,.12), 0 4px 8px rgba(0,0,0,.06);
     }
+
+    .list-home-projects{
+     background-color: rgba(0,0,0,0.5);
+     color: #ffffff;
+    }
+   
 
         
     

@@ -60,6 +60,7 @@ export const Home = () => {
 					<div className="row">
 						<div className="col-sm-10 col-md-8 col-lg-10 mx-auto zindex4 py-5 text-dark zindex2">
 							<h6 className="display-4">Red de proyectos sociales</h6>
+							<hr />
 							<div className="row ">
 								<div className="col-sm-12 col-md-6 mx-auto">
 									{
@@ -76,7 +77,7 @@ export const Home = () => {
 				</div>
 
 				<div className="row">
-					<div className="container py-5 my-5">
+					<div className="container py-3 my-2">
 						<div className="row">
 							<div className="col-sm-12 col-md-6 mx-auto my-2">
 								<h3 className="text-center my-3">{"¿Cómo participar en ready2Help?"}</h3>
@@ -158,58 +159,21 @@ export const Home = () => {
 				</div>
 
 				<div className="row">
-					<div className="col-sm-12 col-md-6 mx-auto d-none d-sm-none d-md-none d-xl-block">
-						<h3 className="text-center">Algunos de nuestros proyectos</h3>
-					</div>
-					<div className="container d-flex justify-content-center py-1 my-1">
-						<div className="row m-2 scrolling-wrapper-flexbox">
-							{store.projects ? (
-								store.projects.map(project => {
-									return (
-										<div
-											key={project.id}
-											className="col-sm-12 col-md-12 col-lg-4 d-none d-sm-none d-md-none d-xl-block">
-											<div className="card projects border-0 shadow my-3">
-												<img className="card-img-top" src={image_projects} alt="" />
-												<div className="card-body ">
-													<h4 className="card-title">{project.title}</h4>
-													<p className="card-subtitle mb-1">
-														{truncateString(project.subtitle, 58)}
-													</p>
-												</div>
-												<div className="card-footer bg-white btn-group btn-group-lg d-inline-flex p-0">
-													<Link
-														className="btn bg-blue-light-gradient rounded-0"
-														to={"/projects/" + project.id}>
-														Detalle
-													</Link>
-												</div>
-											</div>
-										</div>
-									);
-								})
-							) : (
-								<Spinner />
-							)}
+					<div className="container-fluid bg-light py-5 my-2">
+						<div className="col-sm-12 col-md-12 col-lg-10 py-5 mx-auto">
+							<h3 className="text-center">Algunos de nuestros proyectos</h3>
+							<SliderProjects projects={store.projects} />
 						</div>
 					</div>
 				</div>
 
 				<div className="row mt-3">
-					<div className="container-fluid bg-light py-5">
+					<div className="container-fluid  py-5 my-2">
 						<div className="col-12 text-center py-5">
 							<h6 className="py-2 text-muted">¿Listo para darle un impulso a tu proyecto?</h6>
 							<Link to="/create_project" className="btn btn-lg bg-green">
 								Crear proyecto
 							</Link>
-						</div>
-					</div>
-				</div>
-
-				<div className="row mt-3">
-					<div className="container-fluid  py-5">
-						<div className="col-12 text-center py-5">
-							<SliderProjects />
 						</div>
 					</div>
 				</div>
