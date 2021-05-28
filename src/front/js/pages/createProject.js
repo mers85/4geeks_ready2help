@@ -17,6 +17,7 @@ export const CreateProject = props => {
 	const history = useHistory();
 	let { id } = useParams();
 	const { actions } = useContext(Context);
+	const [files, setFiles] = useState(null);
 
 	const [value, setValue] = useState({
 		title: "",
@@ -39,8 +40,22 @@ export const CreateProject = props => {
 		})
 	);
 
+	const handlerFile = e => {};
+
 	const submitForm = e => {
 		e.preventDefault();
+		// if (files.length > 0) {
+		// 	const formData = new FormData();
+
+		// 	for (let i = 0; i < files.length; i++) {
+		// 		formData.append("img-project" + i, files[i]);
+
+		// 		fetch(process.env.BACKEND_URL + "/api/v1/upload-image", {
+		// 			method: "POST",
+		// 			body: formData
+		// 		}).then();
+		// 	}
+		// }
 		if (validator.allValid()) {
 			setValue({
 				title: "",
@@ -54,23 +69,31 @@ export const CreateProject = props => {
 			validator.hideMessages();
 
 			if (value.title) {
+				const formData = new FormData();
+				if (files && files.length > 0) {
+					for (let i = 0; i < files.length; i++) {
+						formData.append("img-project" + i, files[i]);
+					}
+				}
+
 				let responseOk = false;
 				id ? id : (id = props.wizardId);
+
+				formData.append("title", value.title);
+				formData.append("subtitle", value.subtitle);
+				formData.append("description", value.description);
+				formData.append("money_needed", parseFloat(value.money_needed));
+				formData.append("people_needed", parseInt(value.people_needed));
+				formData.append("status", value.status);
+				formData.append("organization_id", id ? id : props.wizardId);
+
 				fetch(process.env.BACKEND_URL + "/api/v1/organizations/" + id + "/projects", {
 					method: "POST",
 					headers: {
-						"Content-Type": "application/json",
+						"Content-Type": "multipart/form-data",
 						Authorization: "Bearer " + actions.getAccessToken()
 					},
-					body: JSON.stringify({
-						title: value.title,
-						subtitle: value.subtitle,
-						description: value.description,
-						money_needed: parseFloat(value.money_needed),
-						people_needed: parseInt(value.people_needed),
-						status: value.status,
-						organization_id: id ? id : props.wizardId
-					})
+					body: formData
 				})
 					.then(response => {
 						responseOk = response.ok;
@@ -162,6 +185,7 @@ export const CreateProject = props => {
 										/>
 									</div>
 								</div>
+
 								<div className="form-row pb-2">
 									<div className="form-group col-12 textOnInput">
 										<label className="textLabel">Descripción</label>
@@ -174,6 +198,21 @@ export const CreateProject = props => {
 											onBlur={e => changeHandler(e)}
 											onChange={e => changeHandler(e)}
 											rows="4"></textarea>
+									</div>
+								</div>
+
+								<div className="form-row pb-2 my-2">
+									<p>Añade las imágenes de tu proyecto</p>
+									<div className="form-group">
+										<label htmlFor="exampleFormControlFile1">Example file input</label>
+										<input
+											type="file"
+											name="img-project"
+											className="form-control-file"
+											id="exampleFormControlFile1"
+											multiple
+											onChange={e => setFiles(e.currentTarget.files)}
+										/>
 									</div>
 								</div>
 

@@ -80,11 +80,13 @@ export const SliderProjects = props => {
 	};
 
 	function truncateString(str, num) {
-		if (str.length <= num) {
-			return str;
-		}
+		if (str) {
+			if (str.length <= num) {
+				return str;
+			}
 
-		return str.slice(0, num) + "...";
+			return str.slice(0, num) + "...";
+		}
 	}
 
 	return (
@@ -117,5 +119,5 @@ export const SliderProjects = props => {
 	);
 };
 SliderProjects.propTypes = {
-	projects: PropTypes.object
+	projects: PropTypes.array
 };

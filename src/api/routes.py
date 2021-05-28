@@ -9,6 +9,9 @@ from api.models import db, User, Organization, Person, Project, Role, Donation
 from api.utils import generate_sitemap, APIException
 from api.forms import ProjectForm
 
+#aws
+from aws import upload_file_to_s3
+
 #Para pagos con stripe
 import stripe
 
@@ -439,6 +442,7 @@ def send_email(sender="ready2helpemail@gmail.com", receiver=None, subject="", me
 @api.route('/organizations/<int:organization_id>/projects', methods =['POST'])
 @authentication_required
 def create_project(current_user, organization_id):
+   # import pdb; pdb.set_trace()
     organization = Organization.find_by_id(organization_id)
     organization_user_ids = [user.id for user in organization.users]
 
@@ -699,3 +703,21 @@ def contact():
         raise APIException("Please, Try again to send your comments", 401)
 
     return jsonify({"message" : "Thanks for your comments! We try to answer you soon."}), 201
+
+
+@api.route('/upload-image', methods =['POST'])
+def upload_images():
+    files = request.files
+    #project_id= request.form.get("project_id")
+
+    print(files)
+    for key in files:
+        file = files[key]
+        print(file)
+        try:
+            url_image = upload_file_to_s3(file, os.environ.get('S3_BUCKET_NAME'))
+        except Exception as e:
+            print("Ha fallado la subida de la imagen", e)
+            return e
+
+    return jsonify({}), 200
