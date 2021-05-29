@@ -44,18 +44,6 @@ export const CreateProject = props => {
 
 	const submitForm = e => {
 		e.preventDefault();
-		// if (files.length > 0) {
-		// 	const formData = new FormData();
-
-		// 	for (let i = 0; i < files.length; i++) {
-		// 		formData.append("img-project" + i, files[i]);
-
-		// 		fetch(process.env.BACKEND_URL + "/api/v1/upload-image", {
-		// 			method: "POST",
-		// 			body: formData
-		// 		}).then();
-		// 	}
-		// }
 		if (validator.allValid()) {
 			setValue({
 				title: "",
@@ -69,7 +57,8 @@ export const CreateProject = props => {
 			validator.hideMessages();
 
 			if (value.title) {
-				const formData = new FormData();
+				let formData = new FormData();
+
 				if (files && files.length > 0) {
 					for (let i = 0; i < files.length; i++) {
 						formData.append("img-project" + i, files[i]);
@@ -90,7 +79,6 @@ export const CreateProject = props => {
 				fetch(process.env.BACKEND_URL + "/api/v1/organizations/" + id + "/projects", {
 					method: "POST",
 					headers: {
-						"Content-Type": "multipart/form-data",
 						Authorization: "Bearer " + actions.getAccessToken()
 					},
 					body: formData
@@ -202,17 +190,31 @@ export const CreateProject = props => {
 								</div>
 
 								<div className="form-row pb-2 my-2">
-									<p>Añade las imágenes de tu proyecto</p>
-									<div className="form-group">
-										<label htmlFor="exampleFormControlFile1">Example file input</label>
-										<input
-											type="file"
-											name="img-project"
-											className="form-control-file"
-											id="exampleFormControlFile1"
-											multiple
-											onChange={e => setFiles(e.currentTarget.files)}
-										/>
+									{files && files.length > 0 ? (
+										<div className="row mb-3">
+											<div className="col-12 mx-auto">
+												<p>Imagen seleccionada</p>
+												<img src={URL.createObjectURL(files[0])} style={{ width: "35%" }} />
+											</div>
+										</div>
+									) : (
+										<p>Añade la imagen principal de tu proyecto</p>
+									)}
+									<div className="input-group mb-3">
+										<div className="custom-file">
+											<input
+												type="file"
+												name="img-project"
+												className="custom-file-input"
+												id="customFileLang"
+												multiple
+												lang="es"
+												onChange={e => setFiles(e.currentTarget.files)}
+											/>
+											<label className="custom-file-label" i="labelId" htmlFor="customFileLang">
+												Subir imagen
+											</label>
+										</div>
 									</div>
 								</div>
 

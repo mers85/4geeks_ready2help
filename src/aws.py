@@ -8,7 +8,7 @@ s3 = boto3.client(
 
 
 def upload_file_to_s3(file, bucket_name, acl="public-read"):
-    s3_location = 'http://{}.s3.amazonaws.com/'.format(bucket_name)
+    s3_location = 'https://{}.s3.amazonaws.com/'.format(bucket_name)
     """
     Docs: http://boto3.readthedocs.io/en/latest/guide/s3.html
     """

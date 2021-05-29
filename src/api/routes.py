@@ -442,14 +442,14 @@ def send_email(sender="ready2helpemail@gmail.com", receiver=None, subject="", me
 @api.route('/organizations/<int:organization_id>/projects', methods =['POST'])
 @authentication_required
 def create_project(current_user, organization_id):
-   # import pdb; pdb.set_trace()
+    #import pdb; pdb.set_trace()
     organization = Organization.find_by_id(organization_id)
     organization_user_ids = [user.id for user in organization.users]
 
     if current_user.id not in organization_user_ids:
         raise APIException("User not allowed to administrate this organization", 401)
 
-    form = ProjectForm.from_json(request.get_json())
+    form = ProjectForm(request.form)
     if not form.validate():
         return jsonify(errors=form.errors), 400
 
@@ -464,6 +464,8 @@ def create_project(current_user, organization_id):
             form.status.data,
             organization_id
         )
+
+        project.attach_featured_image_url(request.files)
     except:
         print("Unexpected error:", sys.exc_info())
         raise APIException("Something went wrong during project creation", 401)
@@ -491,7 +493,7 @@ def get_all_projects_organization(current_user, organization_id):
 
 @api.route('/organizations/<int:organization_id>/projects/<int:project_id>', methods =['PUT'])
 @authentication_required
-def edit_organizatio_project(current_user, organization_id, project_id):
+def edit_organization_project(current_user, organization_id, project_id):
     #import pdb; pdb.set_trace()
     organization = Organization.find_by_id(organization_id)
     organization_user_ids = [user.id for user in organization.users]
@@ -501,30 +503,30 @@ def edit_organizatio_project(current_user, organization_id, project_id):
 
     project = Project.find_by_id(project_id)
 
-    request_json = request.get_json()
+    request_form = request.form
 
-    if "title" in request_json:
-        title = request_json["title"]
+    if "title" in request_form:
+        title = request_form["title"]
     else:
         name = None
 
-    if "subtitle" in request_json:
-        subtitle = request_json["subtitle"]
+    if "subtitle" in request_form:
+        subtitle = request_form["subtitle"]
     else:
         subtitle = None
 
-    if "money_needed" in request_json:
-        money_needed = request_json["money_needed"]
+    if "money_needed" in request_form:
+        money_needed = request_form["money_needed"]
     else:
         money_needed = None
 
-    if "people_needed" in request_json:
-        people_needed = request_json["people_needed"]
+    if "people_needed" in request_form:
+        people_needed = request_form["people_needed"]
     else:
         people_needed = None
     
-    if "status" in request_json:
-        status = request_json["status"]
+    if "status" in request_form:
+        status = request_form["status"]
     else:
         status = None
 
@@ -533,6 +535,7 @@ def edit_organizatio_project(current_user, organization_id, project_id):
             project.update_project(title=title, subtitle=subtitle,
                                      money_needed=money_needed, people_needed=people_needed,
                                       status=None)
+            project.attach_featured_image_url(request.files)
         except:
             print("Unexpected error:", sys.exc_info())
             raise APIException("Ha ocurrido un error, no se ha editado el proyecto", 401)
