@@ -97,7 +97,7 @@ export const SliderProjects = props => {
 						return (
 							<div key={project.id}>
 								<Link to={"/projects/" + project.id}>
-									<div className="card projects mx-2">
+									<div className="card carrousel projects mx-2">
 										<img className="card-img-top" src={project.featured_image_url} alt="" />
 										<div className="list-home-projects card-img-overlay">
 											<h5 className="card-subtitle text-white mt-2">{project.title}</h5>
