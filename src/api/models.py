@@ -2,6 +2,9 @@ from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.dialects.postgresql import ENUM as pgEnum
 from enum import Enum, unique
 
+import os
+from aws import upload_file_to_s3
+
 # Libreria para obtener la fecha de hoy
 from datetime import datetime
 
@@ -300,11 +303,17 @@ class Project(db.Model):
     donations = db.relationship("Donation", back_populates="project")
 
     volunteers = db.relationship("User", secondary="project_volunteers", back_populates="volunteering_projects")
+    featured_image_aws_url = db.Column(db.String(), unique=False, nullable=True)
 
     def __repr__(self):
         return '<Project %r>' % self.title
 
     def serialize(self):
+        if self.featured_image_aws_url:
+            featured_image_url = self.featured_image_aws_url
+        else:
+            featured_image_url = "https://ready2help.s3.eu-west-3.amazonaws.com/default_ready2help.jpg"
+        
         return {
             "id": self.id,
             "title": self.title,
@@ -316,7 +325,8 @@ class Project(db.Model):
             "status": self.status.value,
             "total_donated": self.total_donated,
             "volunteers": [volunteer.serialize_user() for volunteer in self.volunteers],
-            "volunteers_stats": self.serialize_stats_volunteers()
+            "volunteers_stats": self.serialize_stats_volunteers(),
+            "featured_image_url": featured_image_url
         }
 
 
@@ -396,6 +406,26 @@ class Project(db.Model):
         db.session.commit()
 
         return project
+
+    def attach_featured_image_url(self, files):
+        for key in files:
+            file = files[key]
+
+            try:
+                url_image = upload_file_to_s3(file, os.environ.get('S3_BUCKET_NAME'))
+                self.featured_image_aws_url = url_image
+            except Exception as e:
+                return e
+
+        db.session.commit()
+        return self
+
+    # def featured_image_url(self):
+    #     if self.featured_image_aws_url:
+    #         return self.featured_image_aws_url
+    #     else:
+    #         return "https://ready2help.s3.eu-west-3.amazonaws.com/default_ready2help.jpg"
+    
 
 #DONACIONES
 class Donation(db.Model):
