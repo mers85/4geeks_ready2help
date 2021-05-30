@@ -2,6 +2,9 @@ from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.dialects.postgresql import ENUM as pgEnum
 from enum import Enum, unique
 
+import os
+from aws import upload_file_to_s3
+
 # Libreria para obtener la fecha de hoy
 from datetime import datetime
 
@@ -300,6 +303,7 @@ class Project(db.Model):
     donations = db.relationship("Donation", back_populates="project")
 
     volunteers = db.relationship("User", secondary="project_volunteers", back_populates="volunteering_projects")
+    featured_image_aws_url = db.Column(db.String(), unique=False, nullable=True)
 
     categories = db.relationship("Category", secondary="project_categories", back_populates="projects")
 
@@ -309,6 +313,11 @@ class Project(db.Model):
         return '<Project %r>' % self.title
 
     def serialize(self):
+        if self.featured_image_aws_url:
+            featured_image_url = self.featured_image_aws_url
+        else:
+            featured_image_url = "https://ready2help.s3.eu-west-3.amazonaws.com/default_ready2help.jpg"
+        
         return {
             "id": self.id,
             "title": self.title,
@@ -322,6 +331,7 @@ class Project(db.Model):
             "volunteers": [volunteer.serialize_user() for volunteer in self.volunteers],
             "volunteers_stats": self.serialize_stats_volunteers(),
             "categories": [category.serialize() for category in self.categories],
+            "featured_image_url": featured_image_url
         }
 
 
@@ -414,6 +424,7 @@ class Project(db.Model):
 
         return project
 
+
     def add_categories(self, category_ids):
         for category_id in category_ids:
             category = Category.find_by_id(category_id)
@@ -421,6 +432,26 @@ class Project(db.Model):
                 self.categories.append(category)
 
         db.session.commit()
+
+
+    def attach_featured_image_url(self, files):
+        for key in files:
+            file = files[key]
+
+            try:
+                url_image = upload_file_to_s3(file, os.environ.get('S3_BUCKET_NAME'))
+                self.featured_image_aws_url = url_image
+            except Exception as e:
+                return e
+
+        db.session.commit()
+        return self
+
+    # def featured_image_url(self):
+    #     if self.featured_image_aws_url:
+    #         return self.featured_image_aws_url
+    #     else:
+    #         return "https://ready2help.s3.eu-west-3.amazonaws.com/default_ready2help.jpg"
 
 
 #DONACIONES

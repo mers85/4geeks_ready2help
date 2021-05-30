@@ -18,6 +18,7 @@ export const EditProject = props => {
 	const history = useHistory();
 	let { id } = useParams();
 	const { actions } = useContext(Context);
+	const [files, setFiles] = useState(null);
 
 	const [value, setValue] = useState({});
 	const [categoriesList, setCategoriesList] = useState([]);
@@ -104,21 +105,28 @@ export const EditProject = props => {
 		e.preventDefault();
 
 		let responseOk = false;
+		let formData = new FormData();
+
+		if (files && files.length > 0) {
+			for (let i = 0; i < files.length; i++) {
+				formData.append("img-project" + i, files[i]);
+			}
+		}
+
+		formData.append("title", value.title);
+		formData.append("subtitle", value.subtitle);
+		formData.append("description", value.description);
+		formData.append("money_needed", parseFloat(value.money_needed));
+		formData.append("people_needed", parseInt(value.people_needed));
+    formData.append("categories", value.categories);
+		formData.append("status", value.status);
+
 		fetch(process.env.BACKEND_URL + "/api/v1/organizations/" + value.organization_id + "/projects/" + id, {
 			method: "PUT",
 			headers: {
-				"Content-Type": "application/json",
 				Authorization: "Bearer " + actions.getAccessToken()
 			},
-			body: JSON.stringify({
-				title: value.title,
-				subtitle: value.subtitle,
-				description: value.description,
-				money_needed: parseFloat(value.money_needed),
-				people_needed: parseInt(value.people_needed),
-				categories: value.categories,
-				status: value.status
-			})
+			body: formData
 		})
 			.then(response => {
 				responseOk = response.ok;
@@ -234,8 +242,42 @@ export const EditProject = props => {
 									</div>
 								</div>
 
+								<div className="form-row pb-2 my-2">
+									{files && files.length > 0 ? (
+										<div className="row mb-3">
+											<div className="col-12 mx-auto">
+												<p>Imagen seleccionada</p>
+												<img src={URL.createObjectURL(files[0])} style={{ width: "35%" }} />
+											</div>
+										</div>
+									) : (
+										<div className="row mb-3">
+											<div className="col-12 mx-auto">
+												<p>Imagen actual del proyecto</p>
+												<img src={value.featured_image_url} style={{ width: "35%" }} />
+											</div>
+										</div>
+									)}
+									<div className="input-group mb-3">
+										<div className="custom-file">
+											<input
+												type="file"
+												name="img-project"
+												className="custom-file-input"
+												id="customFileLang"
+												multiple
+												lang="es"
+												onChange={e => setFiles(e.currentTarget.files)}
+											/>
+											<label className="custom-file-label" i="labelId" htmlFor="customFileLang">
+												seleccionar archivo
+											</label>
+										</div>
+									</div>
+								</div>
+
 								<button type="submit" className="btn button-green btn-md btn-block">
-									CREAR PROYECTO
+									GUARDAR CAMBIOS
 								</button>
 							</form>
 						</div>

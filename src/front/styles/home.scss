@@ -1,25 +1,57 @@
 .home {
   .bg-img {
-      opacity: 0.6;
-    background: url('../img/red_social.png') no-repeat center top / cover;
-    z-index: 1;
-  }
-    .scrolling-wrapper-flexbox {
-    display: flex;
-    flex-wrap: nowrap;
-    overflow-x: auto;
-
-    .card {
-        flex: 0 0 auto;
+        //opacity: 0.6;
+        background: url('../img/red_social.png') no-repeat center top / cover;
+        z-index: -1;
+        //height: 400px;
+    }
+   
+    
+    .bg-green {
+        color: #ffffff;
+        background-color: #08cc7f;
     }
 
+    .card{
+        transition: .3s transform cubic-bezier(.155,1.105,.295,1.12),.3s box-shadow,.3s -webkit-transform cubic-bezier(.155,1.105,.295,1.12);
+        cursor: pointer;
         
     }
 
-    .bg-white-opacity {
-        background-color:white;
-        z-index:0;
+    .card:hover{
+        transform: scale(1.05);
+        box-shadow: 0 10px 20px rgba(0,0,0,.12), 0 4px 8px rgba(0,0,0,.06);
     }
+
+    .card .carrousel{
+        
+        width: 100%;
+        height: 100%;
+    }
+
+    .card .card-img-top{
+        
+        max-width: 100%;
+        height: 15vw;
+        object-fit: cover;
+    }
+
+    .zindex4{
+        background-color: rgba(255,255,255,0.9);
+    }
+
+
+    .btn:hover{
+        transform: scale(1.05);
+        box-shadow: 0 10px 20px rgba(0,0,0,.12), 0 4px 8px rgba(0,0,0,.06);
+    }
+
+    .list-home-projects{
+     background-color: rgba(0,0,0,0.7);
+     color: #ffffff;
+    }
+   
+
         
     
 }

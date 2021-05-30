@@ -122,6 +122,7 @@ export const Projects = () => {
 								<CardProject
 									key={project.id}
 									title={project.title}
+									featured_image_url={project.featured_image_url}
 									subtitle={project.subtitle}
 									money_needed={project.money_needed}
 									total_donated={project.total_donated}

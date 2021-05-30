@@ -19,6 +19,8 @@ export const CreateProject = props => {
 	let { id } = useParams();
 	const { actions } = useContext(Context);
 	const [myCategories, setMyCategories] = useState([]);
+	const [files, setFiles] = useState(null);
+
 
 	const [value, setValue] = useState({
 		title: "",
@@ -51,6 +53,7 @@ export const CreateProject = props => {
 		})
 	);
 
+
 	useEffect(() => {
 		let responseOk = false;
 		fetch(process.env.BACKEND_URL + "/api/v1/categories", {
@@ -78,6 +81,8 @@ export const CreateProject = props => {
 			});
 	}, []);
 
+	const handlerFile = e => {};
+
 	const submitForm = e => {
 		e.preventDefault();
 		if (validator.allValid()) {
@@ -94,24 +99,33 @@ export const CreateProject = props => {
 			validator.hideMessages();
 
 			if (value.title) {
+				let formData = new FormData();
+
+				if (files && files.length > 0) {
+					for (let i = 0; i < files.length; i++) {
+						formData.append("img-project" + i, files[i]);
+					}
+				}
+
 				let responseOk = false;
 				id ? id : (id = props.wizardId);
+
+				formData.append("title", value.title);
+				formData.append("subtitle", value.subtitle);
+				formData.append("description", value.description);
+				formData.append("money_needed", parseFloat(value.money_needed));
+				formData.append("people_needed", parseInt(value.people_needed));
+				formData.append("status", value.status);
+        formData.append("categories", value.categories);
+				formData.append("organization_id", id ? id : props.wizardId);
+
 				fetch(process.env.BACKEND_URL + "/api/v1/organizations/" + id + "/projects", {
 					method: "POST",
 					headers: {
-						"Content-Type": "application/json",
 						Authorization: "Bearer " + actions.getAccessToken()
 					},
-					body: JSON.stringify({
-						title: value.title,
-						subtitle: value.subtitle,
-						description: value.description,
-						money_needed: parseFloat(value.money_needed),
-						people_needed: parseInt(value.people_needed),
-						status: value.status,
-						categories: value.categories,
-						organization_id: id ? id : props.wizardId
-					})
+
+					body: formData
 				})
 					.then(response => {
 						responseOk = response.ok;
@@ -221,6 +235,7 @@ export const CreateProject = props => {
 										/>
 									</div>
 								</div>
+
 								<div className="form-row pb-2">
 									<div className="form-group col-12 textOnInput">
 										<label className="textLabel">Descripción</label>
@@ -233,6 +248,35 @@ export const CreateProject = props => {
 											onBlur={e => changeHandler(e)}
 											onChange={e => changeHandler(e)}
 											rows="4"></textarea>
+									</div>
+								</div>
+
+								<div className="form-row pb-2 my-2">
+									{files && files.length > 0 ? (
+										<div className="row mb-3">
+											<div className="col-12 mx-auto">
+												<p>Imagen seleccionada</p>
+												<img src={URL.createObjectURL(files[0])} style={{ width: "35%" }} />
+											</div>
+										</div>
+									) : (
+										<p>Añade la imagen principal de tu proyecto</p>
+									)}
+									<div className="input-group mb-3">
+										<div className="custom-file">
+											<input
+												type="file"
+												name="img-project"
+												className="custom-file-input"
+												id="customFileLang"
+												multiple
+												lang="es"
+												onChange={e => setFiles(e.currentTarget.files)}
+											/>
+											<label className="custom-file-label" i="labelId" htmlFor="customFileLang">
+												Subir imagen
+											</label>
+										</div>
 									</div>
 								</div>
 

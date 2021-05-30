@@ -8,6 +8,7 @@
         background-image: linear-gradient(to right, #00a7d5, #27cdca);
         color: #fff;
     }
+
     button.btn-outline-pill {
         border: 2px solid #e9ecef;
         background-color: white;
@@ -26,7 +27,80 @@
         box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px rgba(126, 239, 104, 0.6);
         outline: 0 none;
     }
+
+
+    .card {
+        width: 100%;
+        height: 100%;
+    }
+
+    .card .card-img-top{
+        
+        max-width: 100%;
+        height: 15vw;
+        object-fit: cover;
+    }
+
+    @media (max-width: 640px) {
+        .card {
+            width: 100%;
+            height: 100%;
+        }
+        .card .card-img-top{
+            
+            max-width: 100%;
+            height: 50vw;
+            object-fit: cover;
+        }
+    }
+
+    // @media (max-width: 768px) {
+    //     .card {
+    //         width: 100%;
+    //         height: 100%;
+    //     }
+    //     .card .card-img-top{
+            
+    //         max-width: 100%;
+    //         height: 20vw;
+    //         object-fit: cover;
+    //     }
+    // }
+
+    // @media (max-width: 1024px) {
+    //     .projects{
+    //         margin: auto;
+    //     }
+    //     .card {
+    //         width: 100%;
+    //         height: 100%;
+    //     }
+    //     .card .card-img-top{
+            
+    //         max-width: 100%;
+    //         height: 20vw;
+    //         object-fit: cover;
+    //     }
+    // }
+
+    //  @media (max-width: 1366px) {
+    //     .card {
+    //         width: 100%;
+    //         height: 100%;
+    //     }
+    //     .card .card-img-top{
+            
+    //         max-width: 100%;
+    //         height: 20vw;
+    //         object-fit: cover;
+    //     }
+    // }
+
+    
+
 }
+
+
 
 .bar-progress-green{
     .progress-section {
