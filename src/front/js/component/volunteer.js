@@ -51,7 +51,11 @@ export const Volunteer = props => {
 						<div className="card">
 							<div className="card-body">
 								<h3 className="card-title">¡ Gracias por formar parte de nuestros voluntarios!</h3>
-								<small className="card-title">¡ Gracias por ser Ubuntu!</small>
+								<h5 className="card-text">
+									¡ Nos pondremos en contacto contigo a través de tu correo electrónico para
+									informarte sobre el lugar y la fecha!
+								</h5>
+								<small>¡ Gracias por ser Ubuntu!</small>
 								<blockquote className="blockquote p-2 m-2">
 									<p className="mb-0 mx-2 text-justify">
 										Una persona con ubuntu es abierta y está disponible para las demás, respalda a
