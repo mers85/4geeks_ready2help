@@ -8,6 +8,24 @@
         background-image: linear-gradient(to right, #00a7d5, #27cdca);
         color: #fff;
     }
+    button.btn-outline-pill {
+        border: 2px solid #e9ecef;
+        background-color: white;
+        color: #686868;
+        padding: 14px 28px;
+        font-size: 16px;
+        cursor: pointer;
+    }
+    button.btn-outline-pill:hover {
+        background-color: #e9ecef;
+        color: #686868;
+    }
+    
+    button.btn-outline-pill:focus {   
+        border-color: rgba(126, 239, 104, 0.8);
+        box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px rgba(126, 239, 104, 0.6);
+        outline: 0 none;
+    }
 }
 
 .bar-progress-green{

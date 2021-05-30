@@ -5,15 +5,15 @@ import { CardProject } from "../component/cardProject";
 import Spinner from "../component/spinner";
 import PageTitle from "../component/pageTitle";
 import { func } from "prop-types";
+import "../../styles/projects.scss";
 
 export const Projects = () => {
 	const [error, setError] = useState("");
 	const { store, actions } = useContext(Context);
 	const [categories, setCategories] = useState([]);
-	const [categorieChoosen, setCategorieChoosen] = useState("");
 
 	useEffect(() => {
-		projects();
+		projects(0);
 		getCategories();
 	}, []);
 
@@ -31,7 +31,6 @@ export const Projects = () => {
 			})
 			.then(responseCatego => {
 				if (responseOkCat) {
-					console.log("response", responseCatego.categories);
 					let allCategories = [];
 					for (let i = 0; i < responseCatego.categories.length; i++) {
 						let result = {
@@ -40,7 +39,6 @@ export const Projects = () => {
 						};
 						allCategories.push(result);
 					}
-					console.log(allCategories);
 					setCategories(allCategories);
 				} else {
 					toast.error(responseCatego.message);
@@ -51,14 +49,16 @@ export const Projects = () => {
 			});
 	}
 
-	function projects() {
+	function projects(category) {
+		console.log("Entro a la funcion projects con category: ", category);
 		setError("");
 
 		let responseOk = false;
 		let ruta = process.env.BACKEND_URL + "/api/v1/projects";
 
-		if (categorieChoosen) {
-			ruta = process.env.BACKEND_URL + "/api/v1/projects/" + categorieChoosen.id;
+		if (category > 0) {
+			console.log("Por categoria", category);
+			ruta = process.env.BACKEND_URL + "/api/v1/projects/categorie/" + category;
 		}
 
 		fetch(ruta, {
@@ -73,6 +73,7 @@ export const Projects = () => {
 			})
 			.then(responseProjects => {
 				if (responseOk) {
+					console.log(responseProjects);
 					actions.addProjects(responseProjects);
 				}
 			})
@@ -81,20 +82,30 @@ export const Projects = () => {
 			});
 	}
 
-	function filtrar(catego_id) {
-		console.log(catego_id);
+	function filtrar(catego) {
+		console.log("valor", catego.value);
+		projects(catego.value);
 	}
 
 	return (
 		<div>
 			<PageTitle pageTitle="Proyectos" myPath="/projects" />
-			<div className="mt-2 mx-align-self-center text-center">
+			<div className="projects mt-2 mx-align-self-center text-center">
+				<button
+					key="todos"
+					type="button"
+					className="btn btn-outline-pill mx-1 mb-1 rounded-pill p-2 px-3"
+					onClick={() => {
+						filtrar(0);
+					}}>
+					Todos
+				</button>
 				{categories.map(catego => {
 					return (
 						<button
 							key={catego.id}
 							type="button"
-							className="btn btn-outline-primary"
+							className="btn btn-outline-pill mx-1 mb-1 rounded-pill p-2 px-3"
 							onClick={() => {
 								filtrar(catego);
 							}}>
