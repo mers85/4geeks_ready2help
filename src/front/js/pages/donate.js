@@ -177,6 +177,7 @@ const DonateForm = props => {
 									if (responseOk) {
 										toast.success("Tu donación se ha realizado correctamente, Gracias!");
 										history.push("/projects/" + id);
+										actions.EditProjectTotalDonated(id, amount);
 										setPayment(true);
 									}
 								})

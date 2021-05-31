@@ -72,20 +72,46 @@ export const ShowProject = props => {
 
 	return (
 		<div className="show-project">
-			<div className="wpo-case-details-area section-padding">
+			<div className="wpo-case-details-area ">
 				<div className="container mx-auto">
 					<div className="row">
-						<div className="col col-lg-10 mx-auto">
+						<div className="col col-lg-10 mx-auto pt-3 my-3">
 							<div className="wpo-case-details-wrap">
 								<div className="wpo-case-details-img">
-									<img
-										className="img-fluid img-thumbnail mb-2"
-										src={imgPrincipal}
-										style={{ width: "100" }}
-										alt=""
-									/>
-									<h2 className="text-justify mb-2">{project.title}</h2>
+									<div className="row">
+										<div className="col-sm-12 col-md-7">
+											<img
+												className="img-fluid img-thumbnail mb-2"
+												src={project.featured_image_url}
+												alt=""
+											/>
+										</div>
+										<div className="col-sm-12 col-md-5">
+											<div className="card-block tex-center">
+												<h3 className="card-title mb-3">{project.title}</h3>
+
+												{project.money_needed > 0 ? (
+													<div>
+														<p className="card-text mb-4 pb-2">
+															Necesitamos financiación ¿Nos ayudas a hacerlo posible?
+														</p>
+														{console.log(
+															"desde la pagina de show:",
+															actions.getProject(project.id).total_donated
+														)}
+														<ProgressBar
+															total_donated={actions.getProject(project.id).total_donated}
+															money_needed={project.money_needed}
+														/>
+													</div>
+												) : (
+													""
+												)}
+											</div>
+										</div>
+									</div>
 								</div>
+
 								<div className="wpo-case-details-tab">
 									<Nav tabs>
 										<NavItem>
@@ -138,10 +164,6 @@ export const ShowProject = props => {
 																<h4 className="">{project.subtitle}</h4>
 															</div>
 															<div className="wpo-case-text-top">
-																<ProgressBar
-																	total_donated={project.total_donated}
-																	money_needed={project.money_needed}
-																/>
 																{project.people_needed > 0 ? (
 																	<div className="volunteer row d-flex justify-content-between py-4">
 																		{isVolunteer ? (

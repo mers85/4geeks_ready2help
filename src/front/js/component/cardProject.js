@@ -26,7 +26,7 @@ export const CardProject = props => {
 
 	return (
 		<div className="col-xs-12 col-sm-12 col-md-6 col-lg-5 col-xl-4  mt-3 mb-4 projects">
-			<div className="card border-0 shadow">
+			<div className="card">
 				<img className="card-img-top" src={props.featured_image_url} alt="" />
 				<div className="card-body ">
 					<h4 className="card-title">{props.title}</h4>
@@ -50,7 +50,7 @@ export const CardProject = props => {
 				</div>
 				<div className="card-footer bg-white btn-group btn-group-lg d-inline-flex p-0">
 					<Link className="btn rounded-0 text-muted" to={"/projects/" + props.id}>
-						Detalle
+						Leer más...
 					</Link>
 					<Link className="btn bg-blue-light-gradient rounded-0" to={"/projects/" + props.id + "/donate"}>
 						Donar
