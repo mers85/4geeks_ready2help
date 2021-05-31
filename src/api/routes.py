@@ -443,7 +443,7 @@ def send_email(sender="ready2helpemail@gmail.com", receiver=None, subject="", me
 @api.route('/organizations/<int:organization_id>/projects', methods =['POST'])
 @authentication_required
 def create_project(current_user, organization_id):
-    import pdb; pdb.set_trace()
+    #import pdb; pdb.set_trace()
     organization = Organization.find_by_id(organization_id)
     organization_user_ids = [user.id for user in organization.users]
 
@@ -455,7 +455,6 @@ def create_project(current_user, organization_id):
     if not form.validate():
         return jsonify(errors=form.errors), 400
 
-    
     try:
         project = Project.create(
             form.title.data,
