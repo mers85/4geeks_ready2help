@@ -14,4 +14,4 @@ class ProjectForm(Form):
     money_needed = FloatField('Money needed')
     people_needed = IntegerField('People needed')
     status = StringField('Status')
-    categories = NoValidationSelectMultipleField('Categories', coerce=int, choices=[], validate_choice=False)
+    categories = NoValidationSelectMultipleField('Categories', choices=[], validate_choice=False)

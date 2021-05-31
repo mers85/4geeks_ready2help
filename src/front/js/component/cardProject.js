@@ -15,13 +15,13 @@ import "../../styles/circleProgressBar.scss";
 
 export const CardProject = props => {
 	function truncateString(str, num) {
-		// If the length of str is less than or equal to num
-		// just return str--don't truncate it.
-		if (str.length <= num) {
-			return str;
+		if (str) {
+			if (str.length <= num) {
+				return str;
+			}
+
+			return str.slice(0, num) + "...";
 		}
-		// Return str truncated with '...' concatenated to the end of str.
-		return str.slice(0, num) + "...";
 	}
 
 	return (

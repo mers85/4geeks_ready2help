@@ -21,7 +21,6 @@ export const CreateProject = props => {
 	const [myCategories, setMyCategories] = useState([]);
 	const [files, setFiles] = useState(null);
 
-
 	const [value, setValue] = useState({
 		title: "",
 		subtitle: "",
@@ -38,13 +37,11 @@ export const CreateProject = props => {
 		validator.showMessages();
 	};
 	const changeHandlerSelect = e => {
-		let selectCategory = [];
 		let allCategories = e;
 
 		for (let i = 0; i < allCategories.length; i++) {
-			selectCategory.push(allCategories[i].value);
+			setValue({ ...value, categories: [...value.categories, allCategories[i].value] });
 		}
-		setValue({ ...value, categories: [...value.categories, ...selectCategory] });
 	};
 
 	const [validator] = React.useState(
@@ -52,7 +49,6 @@ export const CreateProject = props => {
 			className: "errorMessage"
 		})
 	);
-
 
 	useEffect(() => {
 		let responseOk = false;
@@ -113,10 +109,12 @@ export const CreateProject = props => {
 				formData.append("title", value.title);
 				formData.append("subtitle", value.subtitle);
 				formData.append("description", value.description);
-				formData.append("money_needed", parseFloat(value.money_needed));
-				formData.append("people_needed", parseInt(value.people_needed));
+				formData.append("money_needed", value.money_needed ? parseFloat(value.money_needed) : 0);
+				formData.append("people_needed", value.people_needed ? parseInt(value.people_needed) : 0);
 				formData.append("status", value.status);
-        formData.append("categories", value.categories);
+
+				formData.append("categories", value.categories);
+
 				formData.append("organization_id", id ? id : props.wizardId);
 
 				fetch(process.env.BACKEND_URL + "/api/v1/organizations/" + id + "/projects", {
@@ -184,7 +182,6 @@ export const CreateProject = props => {
 										</label>
 
 										<Select
-											defaultValue={value.categories}
 											isMulti
 											name="categories"
 											options={myCategories}

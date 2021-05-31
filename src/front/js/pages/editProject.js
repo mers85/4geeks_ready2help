@@ -118,7 +118,7 @@ export const EditProject = props => {
 		formData.append("description", value.description);
 		formData.append("money_needed", parseFloat(value.money_needed));
 		formData.append("people_needed", parseInt(value.people_needed));
-    formData.append("categories", value.categories);
+		formData.append("categories", value.categories);
 		formData.append("status", value.status);
 
 		fetch(process.env.BACKEND_URL + "/api/v1/organizations/" + value.organization_id + "/projects/" + id, {

@@ -8,6 +8,7 @@ from flask import Flask, request, jsonify, make_response, url_for, Blueprint
 from api.models import db, User, Organization, Person, Project, Role, Donation, Category
 from api.utils import generate_sitemap, APIException
 from api.forms import ProjectForm
+import json
 
 #aws
 from aws import upload_file_to_s3
@@ -442,7 +443,7 @@ def send_email(sender="ready2helpemail@gmail.com", receiver=None, subject="", me
 @api.route('/organizations/<int:organization_id>/projects', methods =['POST'])
 @authentication_required
 def create_project(current_user, organization_id):
-    #import pdb; pdb.set_trace()
+    import pdb; pdb.set_trace()
     organization = Organization.find_by_id(organization_id)
     organization_user_ids = [user.id for user in organization.users]
 
@@ -466,7 +467,7 @@ def create_project(current_user, organization_id):
             organization_id
         )
 
-        project.add_categories(form.categories.data)
+        project.add_categories(request.form.get("categories").split(','))
 
         project.attach_featured_image_url(request.files)
     except:
