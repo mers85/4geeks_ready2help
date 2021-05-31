@@ -5,9 +5,10 @@ This module takes care of starting the API Server, Loading the DB and Adding the
 import os
 import sys
 from flask import Flask, request, jsonify, make_response, url_for, Blueprint
-from api.models import db, User, Organization, Person, Project, Role, Donation
+from api.models import db, User, Organization, Person, Project, Role, Donation, Category
 from api.utils import generate_sitemap, APIException
 from api.forms import ProjectForm
+import json
 
 #aws
 from aws import upload_file_to_s3
@@ -450,9 +451,9 @@ def create_project(current_user, organization_id):
         raise APIException("User not allowed to administrate this organization", 401)
 
     form = ProjectForm(request.form)
+
     if not form.validate():
         return jsonify(errors=form.errors), 400
-
 
     try:
         project = Project.create(
@@ -465,10 +466,12 @@ def create_project(current_user, organization_id):
             organization_id
         )
 
+        project.add_categories(request.form.get("categories").split(','))
+
         project.attach_featured_image_url(request.files)
     except:
         print("Unexpected error:", sys.exc_info())
-        raise APIException("Something went wrong during project creation", 401)
+        #craise APIException("Something went wrong during project creation", 401)
 
     return jsonify({"message" : "Project created", "project" : project.serialize()}), 201
 
@@ -530,15 +533,24 @@ def edit_organization_project(current_user, organization_id, project_id):
     else:
         status = None
 
+    if "categories" in request_json:
+        categories = request_json["categories"]
+    else:
+        categories = None
+
     if project:
         try: 
             project.update_project(title=title, subtitle=subtitle,
                                      money_needed=money_needed, people_needed=people_needed,
                                       status=None)
+
+            project.add_categories(categories)
+
             project.attach_featured_image_url(request.files)
+
         except:
             print("Unexpected error:", sys.exc_info())
-            raise APIException("Ha ocurrido un error, no se ha editado el proyecto", 401)
+            #raise APIException("Ha ocurrido un error, no se ha editado el proyecto", 401)
         
         return jsonify({"message" : "Proyecto editado correctamente", "project": project.serialize()}), 200
 
@@ -707,6 +719,29 @@ def contact():
 
     return jsonify({"message" : "Thanks for your comments! We try to answer you soon."}), 201
 
+  
+@api.route('/categories', methods =['GET'])
+def get_all_categories():
+    categories = Category.get_all()
+
+    all_categories = []
+    for category in categories:
+        all_categories.append(category.serialize())
+
+    return jsonify({'categories': all_categories}), 200
+
+
+@api.route('/projects/categorie/<int:id_categorie>', methods =['GET'])
+def get_projects_by_categorie(id_categorie):
+    category = Category.find_by_id(id_categorie)
+    projects = Project.get_by_categorie(category)
+
+    list_projects = []
+    for project in projects:
+        list_projects.append(project.serialize())
+
+    return jsonify(list_projects), 200
+
 
 @api.route('/upload-image', methods =['POST'])
 def upload_images():
@@ -724,3 +759,4 @@ def upload_images():
             return e
 
     return jsonify({}), 200
+

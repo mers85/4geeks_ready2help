@@ -4,20 +4,64 @@ import { Context } from "../store/appContext";
 import { CardProject } from "../component/cardProject";
 import Spinner from "../component/spinner";
 import PageTitle from "../component/pageTitle";
+import { func } from "prop-types";
+import "../../styles/projects.scss";
 
 export const Projects = () => {
 	const [error, setError] = useState("");
 	const { store, actions } = useContext(Context);
+	const [categories, setCategories] = useState([]);
 
 	useEffect(() => {
-		projects();
+		projects(0);
+		getCategories();
 	}, []);
 
-	function projects() {
+	function getCategories() {
+		let responseOkCat = false;
+		fetch(process.env.BACKEND_URL + "/api/v1/categories", {
+			method: "GET",
+			headers: {
+				"Content-Type": "application/json"
+			}
+		})
+			.then(response => {
+				responseOkCat = response.ok;
+				return response.json();
+			})
+			.then(responseCatego => {
+				if (responseOkCat) {
+					let allCategories = [];
+					for (let i = 0; i < responseCatego.categories.length; i++) {
+						let result = {
+							label: responseCatego.categories[i].name,
+							value: responseCatego.categories[i].id
+						};
+						allCategories.push(result);
+					}
+					setCategories(allCategories);
+				} else {
+					toast.error(responseCatego.message);
+				}
+			})
+			.catch(error => {
+				setError(error.message);
+			});
+	}
+
+	function projects(category) {
+		console.log("Entro a la funcion projects con category: ", category);
 		setError("");
 
 		let responseOk = false;
-		fetch(process.env.BACKEND_URL + "/api/v1/projects", {
+		let ruta = process.env.BACKEND_URL + "/api/v1/projects";
+
+		if (category > 0) {
+			console.log("Por categoria", category);
+			ruta = process.env.BACKEND_URL + "/api/v1/projects/categorie/" + category;
+		}
+
+		fetch(ruta, {
 			method: "GET",
 			headers: {
 				"Content-Type": "application/json"
@@ -29,6 +73,7 @@ export const Projects = () => {
 			})
 			.then(responseProjects => {
 				if (responseOk) {
+					console.log(responseProjects);
 					actions.addProjects(responseProjects);
 				}
 			})
@@ -37,9 +82,38 @@ export const Projects = () => {
 			});
 	}
 
+	function filtrar(catego) {
+		console.log("valor", catego.value);
+		projects(catego.value);
+	}
+
 	return (
 		<div>
 			<PageTitle pageTitle="Proyectos" myPath="/projects" />
+			<div className="projects mt-2 mx-align-self-center text-center">
+				<button
+					key="todos"
+					type="button"
+					className="btn btn-outline-pill mx-1 mb-1 rounded-pill p-2 px-3"
+					onClick={() => {
+						filtrar(0);
+					}}>
+					Todos
+				</button>
+				{categories.map(catego => {
+					return (
+						<button
+							key={catego.id}
+							type="button"
+							className="btn btn-outline-pill mx-1 mb-1 rounded-pill p-2 px-3"
+							onClick={() => {
+								filtrar(catego);
+							}}>
+							{catego.label}
+						</button>
+					);
+				})}
+			</div>
 			<div className="container-fluid d-flex justify-content-center px-sm-2 px-md-4 px-lg-5 py-3 my-3">
 				<div className="row d-flex flex-wrap pb-md-3 mb-md-3">
 					{store.projects ? (

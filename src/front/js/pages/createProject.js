@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { Context } from "../store/appContext";
 import { Link, useHistory, useParams } from "react-router-dom";
 
@@ -7,6 +7,7 @@ import { toast } from "react-toastify";
 import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
 import TextareaAutosize from "@material-ui/core/TextareaAutosize";
+import Select from "react-select";
 import Button from "@material-ui/core/Button";
 import PropTypes from "prop-types";
 
@@ -17,6 +18,7 @@ export const CreateProject = props => {
 	const history = useHistory();
 	let { id } = useParams();
 	const { actions } = useContext(Context);
+	const [myCategories, setMyCategories] = useState([]);
 	const [files, setFiles] = useState(null);
 
 	const [value, setValue] = useState({
@@ -26,6 +28,7 @@ export const CreateProject = props => {
 		money_needed: "",
 		people_needed: "",
 		status: "",
+		categories: [],
 		organization_id: ""
 	});
 
@@ -33,12 +36,46 @@ export const CreateProject = props => {
 		setValue({ ...value, [e.target.name]: e.target.value });
 		validator.showMessages();
 	};
+	const changeHandlerSelect = e => {
+		let allCategories = e;
+
+		for (let i = 0; i < allCategories.length; i++) {
+			setValue({ ...value, categories: [...value.categories, allCategories[i].value] });
+		}
+	};
 
 	const [validator] = React.useState(
 		new SimpleReactValidator({
 			className: "errorMessage"
 		})
 	);
+
+	useEffect(() => {
+		let responseOk = false;
+		fetch(process.env.BACKEND_URL + "/api/v1/categories", {
+			method: "GET",
+			headers: {
+				"Content-Type": "application/json"
+			}
+		})
+			.then(response => {
+				responseOk = response.ok;
+				return response.json();
+			})
+			.then(responseJson => {
+				if (responseOk) {
+					let allCategories = [];
+					for (let i = 0; i < responseJson.categories.length; i++) {
+						let result = { label: responseJson.categories[i].name, value: responseJson.categories[i].id };
+						allCategories.push(result);
+					}
+					setMyCategories([...myCategories, ...allCategories]);
+				}
+			})
+			.catch(error => {
+				toast.error(error.message);
+			});
+	}, []);
 
 	const handlerFile = e => {};
 
@@ -52,6 +89,7 @@ export const CreateProject = props => {
 				money_needed: "",
 				people_needed: "",
 				status: "",
+				categories: [],
 				organization_id: ""
 			});
 			validator.hideMessages();
@@ -71,9 +109,12 @@ export const CreateProject = props => {
 				formData.append("title", value.title);
 				formData.append("subtitle", value.subtitle);
 				formData.append("description", value.description);
-				formData.append("money_needed", parseFloat(value.money_needed));
-				formData.append("people_needed", parseInt(value.people_needed));
+				formData.append("money_needed", value.money_needed ? parseFloat(value.money_needed) : 0);
+				formData.append("people_needed", value.people_needed ? parseInt(value.people_needed) : 0);
 				formData.append("status", value.status);
+
+				formData.append("categories", value.categories);
+
 				formData.append("organization_id", id ? id : props.wizardId);
 
 				fetch(process.env.BACKEND_URL + "/api/v1/organizations/" + id + "/projects", {
@@ -81,6 +122,7 @@ export const CreateProject = props => {
 					headers: {
 						Authorization: "Bearer " + actions.getAccessToken()
 					},
+
 					body: formData
 				})
 					.then(response => {
@@ -131,6 +173,23 @@ export const CreateProject = props => {
 											onChange={e => changeHandler(e)}
 										/>
 										{validator.message("title", value.title, "required:title")}
+									</div>
+								</div>
+								<div className="form-group col-sm-12 col-md-12 py-3 px-0">
+									<div className="px-0 textSelectonInput">
+										<label className="select-label py-1 ">
+											Elige las categorias relacionadas con tu proyecto...
+										</label>
+
+										<Select
+											isMulti
+											name="categories"
+											options={myCategories}
+											onBlur={e => changeHandlerSelect(e)}
+											onChange={e => changeHandlerSelect(e)}
+											className="ZIndex2 basic-multi-select"
+											classNamePrefix="select"
+										/>
 									</div>
 								</div>
 								<div className="form-row pb-3">

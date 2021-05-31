@@ -305,6 +305,10 @@ class Project(db.Model):
     volunteers = db.relationship("User", secondary="project_volunteers", back_populates="volunteering_projects")
     featured_image_aws_url = db.Column(db.String(), unique=False, nullable=True)
 
+    categories = db.relationship("Category", secondary="project_categories", back_populates="projects")
+
+    
+
     def __repr__(self):
         return '<Project %r>' % self.title
 
@@ -326,6 +330,7 @@ class Project(db.Model):
             "total_donated": self.total_donated,
             "volunteers": [volunteer.serialize_user() for volunteer in self.volunteers],
             "volunteers_stats": self.serialize_stats_volunteers(),
+            "categories": [category.serialize() for category in self.categories],
             "featured_image_url": featured_image_url
         }
 
@@ -336,7 +341,7 @@ class Project(db.Model):
             "title": self.title,
         }
 
-    def update_project(self, title=None, subtitle=None, money_needed=None, people_needed=None, status=None, organization_id=None, total_donated=None ):
+    def update_project(self, title=None, subtitle=None, money_needed=None, people_needed=None, status=None, organization_id=None, total_donated=None):
         self.title = title if title is not None else self.title
         self.subtitle = subtitle if subtitle is not None else self.subtitle
         self.money_needed = money_needed if money_needed is not None else self.money_needed
@@ -388,11 +393,23 @@ class Project(db.Model):
     @classmethod
     def get_all(cls):
         return cls.query.order_by(cls.id).all()
+    
+    @classmethod
+    def get_by_categorie(cls, categorie_param):
+        projects = cls.get_all()
+        
+        projects_searched = []
+        for project in projects:
+            for project_category in project.categories:
+                if project_category == categorie_param:
+                    projects_searched.append(project)
+
+        return projects_searched
         
     @classmethod
     def create(cls, title, subtitle, description, money_needed, people_needed, status, organization_id):
         project = cls()
-
+        
         project.title = title 
         project.subtitle = subtitle
         project.description = description
@@ -406,6 +423,16 @@ class Project(db.Model):
         db.session.commit()
 
         return project
+
+
+    def add_categories(self, category_ids):
+        for category_id in category_ids:
+            category = Category.find_by_id(category_id)
+            if category:
+                self.categories.append(category)
+
+        db.session.commit()
+
 
     def attach_featured_image_url(self, files):
         for key in files:
@@ -425,7 +452,7 @@ class Project(db.Model):
     #         return self.featured_image_aws_url
     #     else:
     #         return "https://ready2help.s3.eu-west-3.amazonaws.com/default_ready2help.jpg"
-    
+
 
 #DONACIONES
 class Donation(db.Model):
@@ -473,5 +500,52 @@ class Donation(db.Model):
 #ASOCIACIONES 
 project_volunteers = db.Table('project_volunteers', db.Model.metadata,
     db.Column('user_id', db.Integer, db.ForeignKey('users.id')),
+    db.Column('project_id', db.Integer, db.ForeignKey('projects.id'))
+)
+
+#CATEGORIA
+class Category(db.Model):
+    __tablename__ = "categories"
+    id = db.Column(db.Integer(), primary_key=True)
+    name = db.Column(db.String(100), unique=True)
+
+    projects = db.relationship("Project", secondary="project_categories", back_populates="categories" )
+
+    def __init__(self, name, id=None):
+        self.name = name
+
+    def serialize(self):
+        return {
+            "id": self.id,
+            "name": self.name
+        }
+
+    def __repr__(self):
+        return '<Category %r>' % self.name
+
+    @classmethod
+    def create_category(cls, name):
+        category = cls(name)
+
+        db.session.add(category)
+        db.session.commit()
+
+        return category
+
+    @classmethod
+    def find_by_id(cls, id):
+        return cls.query.get(id)
+
+    @classmethod
+    def get_all(cls):
+        return cls.query.all()
+
+    @classmethod
+    def find_by_name(cls, name):
+        return cls.query.filter_by(name= name).first()
+
+#ASOCIACIONES 
+project_categories = db.Table('project_categories', db.Model.metadata,
+    db.Column('category_id', db.Integer, db.ForeignKey('categories.id')),
     db.Column('project_id', db.Integer, db.ForeignKey('projects.id'))
 )
