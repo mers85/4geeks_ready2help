@@ -29,13 +29,11 @@ export const EditProject = props => {
 	};
 
 	const changeHandlerSelect = e => {
-		let selectCategory = [];
 		let allCategories = e;
 
 		for (let i = 0; i < allCategories.length; i++) {
-			selectCategory.push(allCategories[i].value);
+			setValue({ ...value, categories: [...value.categories, allCategories[i].value] });
 		}
-		setValue({ ...value, categories: [...value.categories, ...selectCategory] });
 	};
 
 	useEffect(() => {
@@ -169,14 +167,13 @@ export const EditProject = props => {
 										/>
 									</div>
 								</div>
-								<div className="form-group col-sm-12 col-md-12 py-3 px-0">
+								{/* <div className="form-group col-sm-12 col-md-12 py-3 px-0">
 									<div className="px-0 textSelectonInput">
 										<label className="select-label py-1 ">
 											Elige las categorias relacionadas con tu proyecto...
 										</label>
-										{console.log("lo que llega de categorias:")}
 										<Select
-											defaultValue={selectedCategories}
+											defaultValue={value.categories}
 											isMulti
 											name="categories"
 											options={categoriesList}
@@ -186,7 +183,7 @@ export const EditProject = props => {
 											classNamePrefix="select"
 										/>
 									</div>
-								</div>
+								</div> */}
 								<div className="form-row pb-3">
 									<div className="form-group col-12 textOnInput">
 										<label className="textLabel">Subtítulo</label>

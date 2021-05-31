@@ -533,10 +533,10 @@ def edit_organization_project(current_user, organization_id, project_id):
     else:
         status = None
 
-    if "categories" in request_json:
-        categories = request_json["categories"]
-    else:
-        categories = None
+    # if "categories" in request_form:
+    #     categories = request.form.get("categories").split(',')
+    # else:
+    #     categories = None
 
     if project:
         try: 
@@ -544,7 +544,7 @@ def edit_organization_project(current_user, organization_id, project_id):
                                      money_needed=money_needed, people_needed=people_needed,
                                       status=None)
 
-            project.add_categories(categories)
+            # project.add_categories(categories)
 
             project.attach_featured_image_url(request.files)
 

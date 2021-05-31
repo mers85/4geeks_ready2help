@@ -50,14 +50,12 @@ export const Projects = () => {
 	}
 
 	function projects(category) {
-		console.log("Entro a la funcion projects con category: ", category);
 		setError("");
 
 		let responseOk = false;
 		let ruta = process.env.BACKEND_URL + "/api/v1/projects";
 
 		if (category > 0) {
-			console.log("Por categoria", category);
 			ruta = process.env.BACKEND_URL + "/api/v1/projects/categorie/" + category;
 		}
 
@@ -73,7 +71,6 @@ export const Projects = () => {
 			})
 			.then(responseProjects => {
 				if (responseOk) {
-					console.log(responseProjects);
 					actions.addProjects(responseProjects);
 				}
 			})
@@ -83,7 +80,6 @@ export const Projects = () => {
 	}
 
 	function filtrar(catego) {
-		console.log("valor", catego.value);
 		projects(catego.value);
 	}
 
@@ -100,10 +96,10 @@ export const Projects = () => {
 					}}>
 					Todos
 				</button>
-				{categories.map(catego => {
+				{categories.map((catego, index) => {
 					return (
 						<button
-							key={catego.id}
+							key={index}
 							type="button"
 							className="btn btn-outline-pill mx-1 mb-1 rounded-pill p-2 px-3"
 							onClick={() => {
