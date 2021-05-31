@@ -117,6 +117,15 @@ export function Header() {
 									Contacto
 								</NavLink>
 							</li>
+							<li className="nav-item">
+								<NavLink
+									className="nav-link"
+									to="/create_project"
+									title="contacto"
+									activeClassName="active">
+									Crear proyecto
+								</NavLink>
+							</li>
 							{actions.isLogIn() ? (
 								<li className="nav-item">
 									<NavLink

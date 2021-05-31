@@ -57,7 +57,7 @@ export const ProgressBar = props => {
 			<ul className="d-flex justify-content-between list-unstyled">
 				<li className="mr-2">
 					<span>Recaudado:</span>
-					<br />${number_format(props.total_donated, 2)}
+					<br />${number_format(parseInt(props.total_donated), 2)}
 				</li>
 
 				<li className="ml-2">

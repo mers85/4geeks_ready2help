@@ -55,7 +55,8 @@ data = {
             "people_needed": 4,
             "status": "draft",
             "subtitle": "Ayudanos a continuar con nuestro proyecto de defensa animal",
-            "title": "Asociación Arca de Noé: colabora con nuestroas animales",
+            "featured_image_aws_url": "https://ready2help.s3.eu-west-3.amazonaws.com/dog-1563896_1920.jpg",
+            "title": "Asociación Arca de Noé: colabora con nuestros animales",
             "total_donated":0
         },
         {
