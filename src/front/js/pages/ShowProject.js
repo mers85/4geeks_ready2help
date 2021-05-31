@@ -95,8 +95,12 @@ export const ShowProject = props => {
 														<p className="card-text mb-4 pb-2">
 															Necesitamos financiación ¿Nos ayudas a hacerlo posible?
 														</p>
+														{console.log(
+															"desde la pagina de show:",
+															actions.getProject(project.id).total_donated
+														)}
 														<ProgressBar
-															total_donated={project.total_donated}
+															total_donated={actions.getProject(project.id).total_donated}
 															money_needed={project.money_needed}
 														/>
 													</div>
