@@ -93,6 +93,7 @@ data = {
             "people_needed": 2,
             "status": "draft",
             "subtitle": "Por mundo más justo e inclusivo para las personas con diversidad funcional intelectual.",
+            "featured_image_aws_url": "https://ready2help.s3.eu-west-3.amazonaws.com/girl-6203126_1920.jpg",
             "title": "Asociación Holanda: Ayúdanos a conseguir un local",
             "total_donated":0
         },
