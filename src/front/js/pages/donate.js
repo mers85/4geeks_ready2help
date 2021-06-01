@@ -354,7 +354,7 @@ DonateForm.propTypes = {
 	stripe: PropTypes.object
 };
 
-const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLIC_KEY);
+const stripePromise = loadStripe(`${process.env.REACT_APP_STRIPE_PUBLIC_KEY}`);
 
 const Donate = () => {
 	return (
