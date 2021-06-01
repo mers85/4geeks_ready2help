@@ -46,8 +46,8 @@ export const SliderProjects = props => {
 		dots: true,
 		infinite: false,
 		speed: 500,
-		slidesToShow: 4,
-		slidesToScroll: 4,
+		slidesToShow: 3,
+		slidesToScroll: 3,
 		initialSlide: 0,
 		nextArrow: <SampleNextArrow />,
 		prevArrow: <SamplePrevArrow />,
@@ -90,18 +90,23 @@ export const SliderProjects = props => {
 	}
 
 	return (
-		<div className="text-center mt-5">
+		<div className="text-center mt-5 home">
 			<Slider {...settings}>
 				{props.projects ? (
 					props.projects.map(project => {
 						return (
 							<div key={project.id}>
 								<Link to={"/projects/" + project.id}>
-									<div className="card carrousel projects mx-2">
+									<div className="card carrousel carrousel-projects  mx-2">
 										<img className="card-img-top" src={project.featured_image_url} alt="" />
 										<div className="list-home-projects card-img-overlay">
-											<h5 className="card-subtitle text-white mt-2">{project.title}</h5>
-											<hr className="text-white" />
+											<h6 className="card-text py-2 text-white d-node d-sm-block d-md-block d-lg-block d-xl-none">
+												{project.title}
+											</h6>
+											<h5 className="card-text py-3 text-white d-node d-sm-none d-md-none d-lg-none d-xl-block">
+												{project.title}
+											</h5>
+											<hr />
 											<p className="card-text mb-1 text-white  mb-3">
 												{truncateString(project.subtitle, 60)}
 											</p>
