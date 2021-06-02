@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 
 import { CardProject } from "../component/cardProject";
 import Spinner from "../component/spinner";
+import "bootstrap/js/src/carousel.js";
 
 import rigoImageUrl from "../../img/rigo-baby.jpg";
 import image_projects from "../../img/hands_01.jpg";
