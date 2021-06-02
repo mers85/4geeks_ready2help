@@ -8,6 +8,9 @@ import "bootstrap/js/src/carousel.js";
 
 import rigoImageUrl from "../../img/rigo-baby.jpg";
 import image_projects from "../../img/hands_01.jpg";
+import IMGhome1 from "../../img/ready2help_home1.jpg";
+import IMGhome2 from "../../img/ready2help_home2.jpg";
+import IMGhome3 from "../../img/ready2help_home3.jpg";
 
 import "../../styles/home.scss";
 import { SliderProjects } from "../component/sliderProjects";
@@ -56,8 +59,57 @@ export const Home = () => {
 
 	return (
 		<div className="home">
+			<div id="myCarousel" className="carousel slide" data-ride="carousel">
+				<ol className="carousel-indicators">
+					<li data-target="#myCarousel" data-slide-to="0" className="active"></li>
+					<li data-target="#myCarousel" data-slide-to="1"></li>
+				</ol>
+				<div className="carousel-inner">
+					<div className="carousel-item active  bg-text-carrousel">
+						<img className="first-slide" src={IMGhome2} alt="First slide" />
+						<div className="container">
+							<div className="carousel-caption text-center  bg-text-carrousel">
+								<h2 className="text-white">Pequeñas acciones para grandes cambios</h2>
+								<p className="font-size-css">
+									Empieza Ahora, encuentra proyectos increíbles y colabora...
+								</p>
+								<p>
+									<Link to="/signup" className="btn btn-lg bg-green font-weight-bold ">
+										Únete
+									</Link>
+								</p>
+							</div>
+						</div>
+					</div>
+					<div className="carousel-item ">
+						<img className="second-slide" src={IMGhome3} alt="Second slide" />
+						<div className="container ">
+							<div className="carousel-caption text-center bg-text-carrousel ">
+								<h2 className="text-white">Red de proyectos sociales</h2>
+								<p className="font-size-css">
+									Crea proyectos y conecta con personas increíbles para llevarlos a cabo...
+								</p>
+								<p>
+									<Link to="/create_project" className="btn btn-lg bg-green font-weight-bold ">
+										crear proyecto
+									</Link>
+								</p>
+							</div>
+						</div>
+					</div>
+				</div>
+				<a className="carousel-control-prev" href="#myCarousel" role="button" data-slide="prev">
+					<span className="carousel-control-prev-icon" aria-hidden="true"></span>
+					<span className="sr-only">Previous</span>
+				</a>
+				<a className="carousel-control-next" href="#myCarousel" role="button" data-slide="next">
+					<span className="carousel-control-next-icon" aria-hidden="true"></span>
+					<span className="sr-only">Next</span>
+				</a>
+			</div>
+
 			<div className="container-fluid">
-				<div className="jumbotron bg-img text-center border border-light py-5">
+				{/* <div className="jumbotron bg-img text-center border border-light py-5">
 					<div className="row">
 						<div className="col-sm-10 col-md-8 col-lg-10 mx-auto zindex4 py-5 text-dark zindex2">
 							<h6 className="display-4">Red de proyectos sociales</h6>
@@ -75,7 +127,7 @@ export const Home = () => {
 							</Link>
 						</div>
 					</div>
-				</div>
+				</div> */}
 
 				<div className="row">
 					<div className="container py-3 my-2">
