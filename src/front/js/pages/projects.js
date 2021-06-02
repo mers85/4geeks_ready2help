@@ -110,7 +110,7 @@ export const Projects = () => {
 					);
 				})}
 			</div>
-			<div className="container-fluid d-flex justify-content-center px-sm-2 px-md-4 px-lg-5 py-3 my-3">
+			<div className="container-fluid px-sm-2 px-md-4 px-lg-5 py-3 my-3">
 				<div className="row d-flex flex-wrap pb-md-3 mb-md-3">
 					{store.projects ? (
 						store.projects.map(project => {
