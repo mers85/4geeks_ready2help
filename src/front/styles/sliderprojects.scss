@@ -1,8 +1,13 @@
     
-    .carrousel-projects{
-        .list-home-projects{
-            background-color: rgba(0,0,0,0.5);
-            color: #ffffff;
-        }
+.carrousel-projects{
+    .list-home-projects{
+        background-color: rgba(0,0,0,0.5);
+        color: #ffffff;
+    }
 
-    }    
+} 
+
+.slick-prev:before,
+.slick-next:before {
+    color: #08cc7f;
+}
