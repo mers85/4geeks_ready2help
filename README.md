@@ -1,3 +1,6 @@
+# Ready2help
+<img src="./src/img/logo-ready2help.png"/>
+
 # WebApp boilerplate with React JS
 [![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io#https://github.com/4GeeksAcademy/react-flask-hello.git)
 
@@ -66,4 +69,3 @@ This boilerplate it's 100% integrate with Herkou, just by pushing your changes t
 ## Recomendaciones para la instalación
 
 Para trabajar con JWT el .encode no funciona con versiones superiores a pyjwt = "==1.7.1"
-
