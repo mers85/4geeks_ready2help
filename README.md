@@ -1,6 +1,36 @@
 # Ready2help
 <img src="https://ready2help.s3.eu-west-3.amazonaws.com/Original.png"/>
 
+#### Historia de Usuario V1
+
+**Como visitante puedo:**
+* ver los proyectos sociales
+* registrarme como usuario con email y contraseña
+* registrarme como organización con email y contraseña
+
+**Como usuario puedo:**
+* ver los proyectos sociales
+* realizar donaciones o participar como voluntario en un proyecto después de completar los datos de perfil
+* tener acceso al menú principal para editar/completar los datos de perfil y revisar las actividades(donaciones realizadas y/o participaciones como voluntario)
+
+**Como usuario organización puedo:**
+* ver los proyectos sociales
+* crear, editar, eliminar proyectos
+* tener acceso al menú principal para:
+    - editar/completar los datos de perfil/organización
+    - editar proyectos
+    - revisar las actividades en la plataforma
+
+#### Tecnologías utilizadas
++ **Backend:** Flask-Python
++ **Frontend:** React.js, Bootstrap, HTML5, CSS3, SASS
++ **Base de datos:** SQLAlquemy/PostgreSQL
+
+#### Integraciones en ready2help
+
+*git 
+
+
 # WebApp boilerplate with React JS
 [![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io#https://github.com/4GeeksAcademy/react-flask-hello.git)
 
