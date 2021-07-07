@@ -1,5 +1,5 @@
 # Ready2help
-<img src="./src/img/logo-ready2help.png"/>
+<img src="https://ready2help.s3.eu-west-3.amazonaws.com/Original.png"/>
 
 # WebApp boilerplate with React JS
 [![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io#https://github.com/4GeeksAcademy/react-flask-hello.git)
