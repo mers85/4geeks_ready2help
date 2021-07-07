@@ -66,4 +66,4 @@ Una plataforma diseñada para ayudar:
 <img src="https://ready2help.s3.eu-west-3.amazonaws.com/QuickDBD-Ready2help_diagram.png" width="450" height="450"/>
 
 ### Wireframe
-[Creado en digrams.net](https://app.diagrams.net/?src=about#G1y8E6a6jTmrCkxzuG6xiizyCf8OOSyMbD)
+[Creado en digrams.net](https://viewer.diagrams.net/?highlight=0000ff&edit=_blank&layers=1&nav=1&title=Untitled%20Diagram.drawio#Uhttps%3A%2F%2Fdrive.google.com%2Fuc%3Fid%3D1y8E6a6jTmrCkxzuG6xiizyCf8OOSyMbD%26export%3Ddownload)
