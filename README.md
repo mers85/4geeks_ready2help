@@ -29,8 +29,8 @@ Una plataforma diseñada para ayudar:
     - revisar las actividades en la plataforma
 
 ### Tecnologías utilizadas
-+ **Backend:** Flask-Python
-+ **Frontend:** React.js, Bootstrap, HTML5, CSS3, SASS
++ **Back-end:** Flask-Python
++ **Front-end:** React.js, Bootstrap, HTML5, CSS3, SASS
 + **Base de datos:** SQLAlquemy/PostgreSQL
 
 ### Integraciones en ready2help
@@ -39,6 +39,29 @@ Una plataforma diseñada para ayudar:
 + Pasarela de pago para las donaciones: [stripe (Payment Intents API)](https://stripe.com/docs/payments/payment-intents)
 + Notificaciones customizadas: [React-Toastify](https://fkhadra.github.io/react-toastify/installation/)
 + Web desplegada en  Heroku: [Ready2help](https://ready2help.herokuapp.com/)
+
+### Variables Globales del proyecto
+* **Back-end Variables:**
+    - DATABASE_URL=postgresql://gitpod@localhost:5432/example
+    - FLASK_APP_KEY="your-app-key"
+    - FLASK_APP=src/app.py
+    - FLASK_ENV=development
+
+* **Front-end Variables:**
+    - BASENAME=/
+    - PASS_EMAIL="contraseña-del-email-a-utilizar-para-envios-de-correo"
+    - FRONTEND_URL="local url"
+    - BACKEND_URL="local url"
+
+* **Stripe keys:**
+    - REACT_APP_STRIPE_PUBLIC_KEY="your-stripe-public-key"
+    - STRIPE_SECRET_KEY="your-stripe-secret-key"
+    - STRIPE_API_VERSION="2020-08-27"
+
+* **Amazon keys:**
+    - S3_ID="your-id-aws"
+    - S3_SECRET="your-secret-key-aws"
+    - S3_BUCKET_NAME="your-bucket-name-aws"
 
 
 
