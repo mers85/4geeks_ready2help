@@ -1,9 +1,9 @@
 # Ready2help
 <img src="https://ready2help.s3.eu-west-3.amazonaws.com/Original.png"/>
 
-#### Historia de Usuario V1
+### Historia de Usuario V1
 
-**Como visitante puedo:**
+##### Como visitante puedo:
 * ver los proyectos sociales
 * registrarme como usuario con email y contraseña
 * registrarme como organización con email y contraseña
@@ -21,14 +21,14 @@
     - editar proyectos
     - revisar las actividades en la plataforma
 
-#### Tecnologías utilizadas
+### Tecnologías utilizadas
 + **Backend:** Flask-Python
 + **Frontend:** React.js, Bootstrap, HTML5, CSS3, SASS
 + **Base de datos:** SQLAlquemy/PostgreSQL
 
-#### Integraciones en ready2help
+### Integraciones en ready2help
 
-*git 
+
 
 
 # WebApp boilerplate with React JS
