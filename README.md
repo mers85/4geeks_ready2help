@@ -1,7 +1,7 @@
 # Ready2help
-<img src="https://ready2help.s3.eu-west-3.amazonaws.com/Original.png" width="450" height="450" />
+<img src="https://ready2help.s3.eu-west-3.amazonaws.com/Original.png" width="450" height="450"  align="center" />
 
-Ready2help es un kickstarter social...
+Es un kickstarter social...
 
 Una plataforma diseñada para ayudar:
 * A las pequeñas organizaciones a difundir, encontrar financiación y/o voluntarios para sus proyectos.
