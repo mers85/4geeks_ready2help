@@ -63,8 +63,7 @@ Una plataforma diseñada para ayudar:
     - revisar las actividades en la plataforma
 
 ### Diagrama Base de Datos
-
-(https://ready2help.s3.eu-west-3.amazonaws.com/QuickDBD-Ready2help_diagram.png)
+<img src="https://ready2help.s3.eu-west-3.amazonaws.com/QuickDBD-Ready2help_diagram.png" width="450" height="450"/>
 
 ### Wireframe
-(https://app.diagrams.net/?src=about#G1y8E6a6jTmrCkxzuG6xiizyCf8OOSyMbD)
+[Creado en digrams.net](https://app.diagrams.net/?src=about#G1y8E6a6jTmrCkxzuG6xiizyCf8OOSyMbD)
