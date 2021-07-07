@@ -8,12 +8,12 @@
 * registrarme como usuario con email y contraseña
 * registrarme como organización con email y contraseña
 
-**Como usuario puedo:**
+##### Como usuario puedo:
 * ver los proyectos sociales
 * realizar donaciones o participar como voluntario en un proyecto después de completar los datos de perfil
 * tener acceso al menú principal para editar/completar los datos de perfil y revisar las actividades(donaciones realizadas y/o participaciones como voluntario)
 
-**Como usuario organización puedo:**
+##### Como usuario organización puedo:
 * ver los proyectos sociales
 * crear, editar, eliminar proyectos
 * tener acceso al menú principal para:
@@ -27,7 +27,11 @@
 + **Base de datos:** SQLAlquemy/PostgreSQL
 
 ### Integraciones en ready2help
-
++ Envío de notificaciones al correo electrónico al realizar una donación: [SMTP](https://www.tutorialspoint.com/python/python_sending_email.htm)
++ Imágenes asociadas a los proyectos: [Amazon S3](https://boto3.amazonaws.com/v1/documentation/api/latest/guide/s3-uploading-files.html)
++ Pasarela de pago para las donaciones: [stripe (Payment Intents API)](https://stripe.com/docs/payments/payment-intents)
++ Notificaciones customizadas: [React-Toastify](https://fkhadra.github.io/react-toastify/installation/)
++ Web desplegada en  Heroku: [Ready2help](https://ready2help.herokuapp.com/)
 
 
 
